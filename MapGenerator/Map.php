@@ -7,7 +7,7 @@ use MapGenerator\MapElement;
  * Generate the Map
  *
  */
-class Map extends MapElement implements MapGenerator
+class Map implements MapGenerator
 {
     /**
      * Notre map
