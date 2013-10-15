@@ -1,5 +1,7 @@
 <?php
 
+namespace MapGenerator;
+
 /**
  *
  * Genere les attributs de la carte
@@ -9,15 +11,26 @@
 class MapElement
 {
 
+    /**
+     * Tous les attributs(% roche, % glace... ##TODO)
+     *
+     * @var array
+     */
     protected $aAttributes;
 
+    /**
+     * Une cellule
+     *
+     * @var array
+     */
     private $_aCell = array();
 
     /**
+     * 'Dessine' une cellule
      *
-     * @param type $iLine
-     * @param type $iColumn
-     * @return type
+     * @param integer $iLine
+     * @param integer $iColumn
+     * @return array
      */
     public function drawCell( $iLine, $iColumn)
     {
@@ -32,10 +45,13 @@ class MapElement
 
     /**
      * Algo z index
+     *
+     * @return string
      */
     public function elevation()
     {
         $sElevation = rand(0, 100);
+
         return $sElevation;
     }
 

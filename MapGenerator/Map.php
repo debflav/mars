@@ -2,20 +2,19 @@
 
 namespace MapGenerator;
 
-use \MapElement;
-
+use MapGenerator\MapElement;
 /**
  * Generate the Map
  *
  */
-class Map implements MapGenerator
+class Map extends MapElement implements MapGenerator
 {
     /**
      * Notre map
      *
      * @var array
      */
-    private static $_aMatrice;
+    protected static $_aMatrice;
 
 
     /**
@@ -47,6 +46,16 @@ class Map implements MapGenerator
     public function getMap()
     {
         return self::$_aMatrice;
+    }
+
+    /**
+     * To json
+     *
+     * @return JSON
+     */
+    public function mapToJson()
+    {
+        return json_encode( self::$_aMatrice);
     }
 
     public function current( $iLine, $iColumn)

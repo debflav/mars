@@ -7,6 +7,8 @@ interface MapGenerator
 
     public function generate( $iNbLine, $iNbColumn);
 
+    public function mapToJson();
+
     public function current( $iLine, $iColumn);
 
     public function prev( $iLine, $iColumn);
@@ -16,7 +18,7 @@ interface MapGenerator
     public function topLeft( $iLine, $iColumn);
 
     public function topRight( $iLine, $iColumn);
-    
+
     public function bottomLeft( $iLine, $iColumn);
 
     public function bottomRight( $iLine, $iColumn);

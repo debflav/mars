@@ -20,9 +20,3 @@ if( !empty($aMap)) {
         }
     }
 }
-
-
-//var_dump($oMap->next(3 , 1));
-
-/*var_dump($oMap->current(3 , 1));
-var_dump($oMap->bottomLeft(3 , 1));*/
