@@ -4,11 +4,12 @@ namespace MapGenerator;
 
 /**
  *
- * Genere les attributs de la carte
+ * Genere une cellule de la map:
+ * ses attributs...
  * Algo de l'élévation du terrain, la roche...
  *
  */
-class MapElement
+class MapElement extends Map
 {
 
     /**
@@ -51,7 +52,10 @@ class MapElement
     public function elevation()
     {
         $sElevation = rand(0, 100);
-
+        $aCoordinates = explode('-', $this->_aCell[0]);
+        // Avec les coordonnées de la case on peut regarder autour pour la gestion des probas
+        // ##TODO
+        //var_dump($this->prev($aCoordinates[0], $aCoordinates[1]));
         return $sElevation;
     }
 

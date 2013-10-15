@@ -3,7 +3,7 @@
 spl_autoload_register();
 
 $oMap = new MapGenerator\Map();
-$oMap->generate(5, 5);
+$oMap->generate(4, 6);
 $aMap = $oMap->getMap();
 
 if( !empty($aMap)) {
