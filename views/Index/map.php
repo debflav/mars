@@ -1,11 +1,5 @@
 <?php
 
-spl_autoload_register();
-
-$oMap = new MapGenerator\Map();
-$oMap->generate(4, 6);
-$aMap = $oMap->getMap();
-
 if( !empty($aMap)) {
     foreach ( $aMap as $aValue) {
         foreach ($aValue as $sKey => $aInformationCell) {
