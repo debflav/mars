@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4905EE38-C7F8-4D16-A29A-4DCD0E0FA923}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Gladiator</RootNamespace>
+    <AssemblyName>Gladiator</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Gladiator.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="Fight.cs" />
+    <Compile Include="Duel.cs" />
+    <Compile Include="Equipments\Interfaces\IAttack.cs" />
+    <Compile Include="Equipments\Interfaces\IDefend.cs" />
+    <Compile Include="Equipments\LargeShield.cs" />
+    <Compile Include="Equipments\SmallShield.cs" />
+    <Compile Include="Equipments\Equipment.cs" />
+    <Compile Include="Equipments\Trident.cs" />
+    <Compile Include="Equipments\Spear.cs" />
+    <Compile Include="Equipments\Sword.cs" />
+    <Compile Include="Equipments\Dagger.cs" />
+    <Compile Include="Equipments\Helmet.cs" />
+    <Compile Include="Equipments\Net.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Equipments\" />
+    <Folder Include="Equipments\Interfaces\" />
+  </ItemGroup>
+</Project>
