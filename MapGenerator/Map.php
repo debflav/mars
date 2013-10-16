@@ -16,23 +16,36 @@ class Map implements MapGenerator
      *
      * @var array
      */
-    protected static $_aMatrice;
+    protected static $_aMatrice = array();
 
+    
+    /**
+     * Tous les attributs(% roche, % glace... ##TODO)
+     *
+     * @var array
+     */
+    protected $_aAttributes = array( );
 
+    
     use Singleton;
 
 
     /**
      * Generation de la carte
-     *
+     * Nombre de lignes, colonnes et les attributs
+     * exemple(10, 10, array(rock => 60, sand => 30))
+     * 
      * @param integer $iNbLine
      * @param integer $iNbColumn
+     * @param array   $aAttributs
      * @return array
      */
-    public function generate($iNbLine, $iNbColumn)
+    public function generate($iNbLine, $iNbColumn, $aAttributes)
     {
+        $this->_aAttributes = $aAttributes;
+        var_dump($this->_aAttributes);
         self::$_aMatrice = array($iNbLine);
-
+        
         for ($i = 0; $i < $iNbLine; $i++) {
         self::$_aMatrice[$i] = array($iNbColumn);
             for ($j = 0; $j <$iNbColumn; $j++) {
