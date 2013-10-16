@@ -2,7 +2,8 @@
 
 namespace MapGenerator;
 
-use MapGenerator\MapElement;
+use MapGenerator\MapElement,
+    Utils\Singleton;
 
 /**
  * Generation de la carte
@@ -16,6 +17,9 @@ class Map implements MapGenerator
      * @var array
      */
     protected static $_aMatrice;
+
+
+    use Singleton;
 
 
     /**
@@ -32,14 +36,14 @@ class Map implements MapGenerator
         for ($i = 0; $i < $iNbLine; $i++) {
         self::$_aMatrice[$i] = array($iNbColumn);
             for ($j = 0; $j <$iNbColumn; $j++) {
-            //     $oMapElement = new MapElement();
-            //     $aCell = $oMapElement->drawCell( $i, $j);
-            //     self::$_aMatrice[$i][$j] = $aCell;
-            // 
+                 $oMapElement = new MapElement();
+                 $aCell = $oMapElement->drawCell( $i, $j);
+                 self::$_aMatrice[$i][$j] = $aCell;
 
-                $natureTemp[5]; // tableau de 5 cases vides
 
-                $natureCellule[$i][$j]; // tableau de la taille de la map comportant 
+                /*$natureTemp[5]; // tableau de 5 cases vides
+
+                $natureCellule[$i][$j]; // tableau de la taille de la map comportant
                 //la nature de chaque cellule remplie au fur et à mesure de la génération.
 
                 $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
@@ -104,7 +108,7 @@ class Map implements MapGenerator
                    }
 
                    $compteur = $compteur + $natureTemp[$l];
-               }
+               }*/
 
             }
         }
