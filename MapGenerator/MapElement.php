@@ -44,12 +44,8 @@ class MapElement extends Map
     public function cellAttributes()
     {
         $aCellAttributes = rand(0, 100);
-        $aCoordinates = explode('-', $this->_aCell[0]);
         // Avec les coordonnées de la case on peut regarder autour pour la gestion des probas
-        // Attention on est dans la génération du tableau de gauche vers la droite
-        // ligne par ligne...
-        // Tableau actuellement completé : var_dump( static::$_aMatrice);
-        // ##TODO
+        //var_dump( $this->next($aCoordinates[0], $aCoordinates[1]));
         //echo $aCoordinates[0] . ' ' . $aCoordinates[1] . '<br/>';
         return $aCellAttributes;
     }
