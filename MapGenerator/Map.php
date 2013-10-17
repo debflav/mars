@@ -26,6 +26,21 @@ class Map implements MapGenerator
 
     ##TODO voir pour créer des attributs _sAxeX et _sAxeY
 
+
+    /**
+     * Taille axe des X
+     * @var string
+     */
+    private $_sAxeX;
+
+
+    /**
+     * Taille axe des Y
+     * @var string
+     */
+    private $_sAxeY;
+
+
     use Singleton;
 
 
@@ -41,13 +56,17 @@ class Map implements MapGenerator
      */
     public function generate($iNbLine, $iNbColumn, $aAttributes)
     {
+        // Setters
         $this->_aAttributes = $aAttributes;
-        self::$_aMatrice = array($iNbLine);
+        $this->_sAxeX       = $iNbLine;
+        $this->_sAxeY       = $iNbColumn;
+
+        self::$_aMatrice = array($this->_sAxeX);
 
         // Création de la map vide
-        for ($i = 0; $i < $iNbLine; $i++) {
-        self::$_aMatrice[$i] = array($iNbColumn);
-            for ($j = 0; $j <$iNbColumn; $j++) {
+        for ($i = 0; $i < $this->_sAxeX; $i++) {
+        self::$_aMatrice[$i] = array( $this->_sAxeY);
+            for ($j = 0; $j < $this->_sAxeY; $j++) {
                 // Séparateur coordonnées matrice
                 $aCell[0] = $i . '-' . $j;
                 self::$_aMatrice[$i][$j] = $aCell;
@@ -64,6 +83,7 @@ class Map implements MapGenerator
                     $oMapElement = new MapElement();
                     $aCell = $oMapElement->drawCell( $aCoordinates[0], $aCoordinates[1]);
                     self::$_aMatrice[$aCoordinates[0]][$aCoordinates[1]] = $aCell;
+                    var_dump( $this->bottomRight($aCoordinates[0],$aCoordinates[1]));
                 }
             }
         }
@@ -194,7 +214,7 @@ class Map implements MapGenerator
      */
     public function next( $iLine, $iColumn)
     {
-        if( $iColumn < count(self::$_aMatrice[0]) - 1 )
+        if( $iColumn < ($this->_sAxeY - 1))
             return self::$_aMatrice[$iLine][$iColumn+1];
     }
 
@@ -220,7 +240,7 @@ class Map implements MapGenerator
      */
     public function topRight( $iLine, $iColumn)
     {
-        if ( $iColumn < count(self::$_aMatrice[0]) - 1 )
+        if ( $iColumn < ($this->_sAxeY - 1) &&  $iLine > 0)
             return self::$_aMatrice[$iLine-1][$iColumn+1];
     }
 
@@ -233,7 +253,7 @@ class Map implements MapGenerator
      */
     public function bottomLeft( $iLine, $iColumn)
     {
-        if( $iLine < count(self::$_aMatrice) - 1 && $iColumn < count(self::$_aMatrice) - 1)
+        if( $iLine < $this->_sAxeY - 1 && $iColumn > 0)
             return self::$_aMatrice[$iLine+1][$iColumn-1];
     }
 
@@ -246,7 +266,7 @@ class Map implements MapGenerator
      */
     public function bottomRight( $iLine, $iColumn)
     {
-        if( $iLine < count(self::$_aMatrice) - 1 && $iColumn < count(self::$_aMatrice) - 1)
+        if( $iLine < $this->_sAxeX - 1 && $iColumn < $this->_sAxeY - 1)
             return self::$_aMatrice[$iLine+1][$iColumn+1];
     }
 }
