@@ -9,7 +9,7 @@ use MapGenerator\MapElement,
  * Generation de la carte
  * Méthodes pour parcourir la carte
  */
-class Map implements MapGenerator
+class Map implements MapInterface
 {
     /**
      * Notre map
@@ -19,10 +19,10 @@ class Map implements MapGenerator
 
 
     /**
-     * Tous les attributs(% roche, % glace...)
+     * Attributs de la map(%roche,% glace...)
      * @var array
      */
-    protected $_aAttributes = array( );
+    protected static $_aGlobalAttributes = array( );
 
     ##TODO voir pour créer des attributs _sAxeX et _sAxeY
 
@@ -52,12 +52,12 @@ class Map implements MapGenerator
      * @param integer $iNbLine
      * @param integer $iNbColumn
      * @param array   $aAttributs
-     * @return array
+     * @return void
      */
     public function generate($iNbLine, $iNbColumn, $aAttributes)
     {
         // Setters
-        $this->_aAttributes = $aAttributes;
+        self::$_aGlobalAttributes = $aAttributes;
         $this->_sAxeX       = $iNbLine;
         $this->_sAxeY       = $iNbColumn;
 
@@ -78,12 +78,12 @@ class Map implements MapGenerator
             foreach( $aInformationCell as $sKey => $aValue) {
                 foreach( $aValue as $sValue) {
                     // On retrouve les coordonnées de la map par le biais du explode
-                    // On ajoute avec les caracteristique de la case
                     $aCoordinates = explode('-', $sValue);
-                    $oMapElement = new MapElement();
+                    // On crée la case de la map à l'aide d'un algo
+                    $oMapElement = new CellDrawing();
                     $aCell = $oMapElement->drawCell( $aCoordinates[0], $aCoordinates[1]);
+                    
                     self::$_aMatrice[$aCoordinates[0]][$aCoordinates[1]] = $aCell;
-                    var_dump( $this->bottomRight($aCoordinates[0],$aCoordinates[1]));
                 }
             }
         }
@@ -161,8 +161,8 @@ class Map implements MapGenerator
 
     /**
      * Retourne la carte
-     *
-     * @return Map
+     * 
+     * @return array
      */
     public function getMap()
     {
@@ -170,9 +170,9 @@ class Map implements MapGenerator
     }
 
     /**
-     * To json
+     * Encode la map en Json
      *
-     * @return JSON
+     * @return string JSON
      */
     public function mapToJson()
     {
