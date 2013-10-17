@@ -57,8 +57,8 @@ class Map implements MapInterface
     {
         // Setters
         self::$_aGlobalAttributes = $aAttributes;
-        $this->_iAxeX       = $iNbLine;
-        $this->_iAxeY       = $iNbColumn;
+        $this->_iAxeX             = $iNbLine;
+        $this->_iAxeY             = $iNbColumn;
 
         self::$_aMatrice = array($this->_iAxeX);
 
