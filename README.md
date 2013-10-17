@@ -61,5 +61,6 @@ Format de sortie du fichier Json donné par Guillaume:
 ## System requirements
 
 Version PHP >= 5.4
-Lib javascript ?
+
+Lib javascript: ?
 
