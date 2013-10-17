@@ -11,12 +11,12 @@ use MapGenerator\MapElement,
  */
 class Map implements MapInterface
 {
+    
     /**
      * Notre map
      * @var array
      */
     protected static $_aMatrice = array();
-
 
     /**
      * Attributs de la map(%roche,% glace...)
@@ -24,21 +24,18 @@ class Map implements MapInterface
      */
     protected static $_aGlobalAttributes = array( );
 
-    ##TODO voir pour créer des attributs _sAxeX et _sAxeY
-
-
     /**
      * Taille axe des X
-     * @var string
+     * @var int
      */
-    private $_sAxeX;
+    private $_iAxeX;
 
 
     /**
      * Taille axe des Y
-     * @var string
+     * @var int
      */
-    private $_sAxeY;
+    private $_iAxeY;
 
 
     use Singleton;
@@ -46,8 +43,10 @@ class Map implements MapInterface
 
     /**
      * Generation de la carte
-     * Nombre de lignes, colonnes et les attributs
-     * exemple(10, 10, array(rock => 60, sand => 30))
+     * Nombre de lignes, colonnes et les attributs de la map
+     * sous forme de pourcentage
+     * 
+     * exemple: 10, 15, array(rock => 60, sand => 30)
      *
      * @param integer $iNbLine
      * @param integer $iNbColumn
@@ -58,15 +57,15 @@ class Map implements MapInterface
     {
         // Setters
         self::$_aGlobalAttributes = $aAttributes;
-        $this->_sAxeX       = $iNbLine;
-        $this->_sAxeY       = $iNbColumn;
+        $this->_iAxeX       = $iNbLine;
+        $this->_iAxeY       = $iNbColumn;
 
-        self::$_aMatrice = array($this->_sAxeX);
+        self::$_aMatrice = array($this->_iAxeX);
 
         // Création de la map vide
-        for ($i = 0; $i < $this->_sAxeX; $i++) {
-        self::$_aMatrice[$i] = array( $this->_sAxeY);
-            for ($j = 0; $j < $this->_sAxeY; $j++) {
+        for ($i = 0; $i < $this->_iAxeX; $i++) {
+        self::$_aMatrice[$i] = array( $this->_iAxeY);
+            for ($j = 0; $j < $this->_iAxeY; $j++) {
                 // Séparateur coordonnées matrice
                 $aCell[0] = $i . '-' . $j;
                 self::$_aMatrice[$i][$j] = $aCell;
@@ -214,7 +213,7 @@ class Map implements MapInterface
      */
     public function next( $iLine, $iColumn)
     {
-        if( $iColumn < ($this->_sAxeY - 1))
+        if( $iColumn < ($this->_iAxeY - 1))
             return self::$_aMatrice[$iLine][$iColumn+1];
     }
 
@@ -240,7 +239,7 @@ class Map implements MapInterface
      */
     public function topRight( $iLine, $iColumn)
     {
-        if ( $iColumn < ($this->_sAxeY - 1) &&  $iLine > 0)
+        if ( $iColumn < ($this->_iAxeY - 1) &&  $iLine > 0)
             return self::$_aMatrice[$iLine-1][$iColumn+1];
     }
 
@@ -253,7 +252,7 @@ class Map implements MapInterface
      */
     public function bottomLeft( $iLine, $iColumn)
     {
-        if( $iLine < $this->_sAxeY - 1 && $iColumn > 0)
+        if( $iLine < $this->_iAxeY - 1 && $iColumn > 0)
             return self::$_aMatrice[$iLine+1][$iColumn-1];
     }
 
@@ -266,7 +265,7 @@ class Map implements MapInterface
      */
     public function bottomRight( $iLine, $iColumn)
     {
-        if( $iLine < $this->_sAxeX - 1 && $iColumn < $this->_sAxeY - 1)
+        if( $iLine < $this->_iAxeX - 1 && $iColumn < $this->_iAxeY - 1)
             return self::$_aMatrice[$iLine+1][$iColumn+1];
     }
 }
