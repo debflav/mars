@@ -216,6 +216,21 @@ class Map implements MapInterface
         if( $iColumn < ($this->_iAxeY - 1))
             return self::$_aMatrice[$iLine][$iColumn+1];
     }
+    
+    
+    // Definir nombre de cases adjacente suivante que l'on souhaite
+    /*public function next( $iLine, $iColumn, $iLoop = 2)
+    {
+        if( $iColumn < ($this->_iAxeY - 1)){
+            for($i = 0; $i < $iLoop; $i++) {
+                if($iColumn < $this->_iAxeY - 1) {
+                    $a[] = self::$_aMatrice[$iLine][$iColumn+1];
+                    $iColumn++;
+                }
+            }
+            return $a;
+        }
+    }*/
 
     /**
      * Cellule adjacente haut gauche
