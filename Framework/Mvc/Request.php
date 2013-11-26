@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils;
+namespace Framework\Mvc;
 
 class Request
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace Utils;
+namespace Framework\Mvc;
 
+use Framework\Mvc\Request;
 
-abstract class Controller {
+abstract class AbstractController {
 
     public abstract function index( Request $oRequest);
 
@@ -20,7 +21,7 @@ abstract class Controller {
             ${$sKey} = $sValue;
         }
 
-        include(__DIR__ . '/../views/' . $sViewName . '.php');
+        include(__DIR__ . '../../../views/' . $sViewName . '.php');
 
         // On récupère le buffer
         $oRendering = ob_get_contents();

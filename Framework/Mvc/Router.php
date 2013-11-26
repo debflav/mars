@@ -1,6 +1,8 @@
 <?php
 
-namespace Utils;
+namespace Framework\Mvc;
+
+use Framework\Singleton;
 
 class Router
 {

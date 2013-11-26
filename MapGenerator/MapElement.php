@@ -1,8 +1,6 @@
 <?php
 
-namespace MapGenerator\Element;
-
-use MapGenerator\Map;
+namespace MapGenerator;
 
 /**
  *
@@ -11,7 +9,7 @@ use MapGenerator\Map;
  * Algo de l'élévation du terrain, la roche...
  *
  */
-class Element extends Map
+class MapElement extends Map
 {
 
     /**
