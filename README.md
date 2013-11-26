@@ -62,5 +62,5 @@ Format de sortie du fichier Json donné par Guillaume:
 
 Version PHP >= 5.4
 
-Lib javascript: ?
+Lib viewer javascript: https://github.com/mrdoob/three.js
 
