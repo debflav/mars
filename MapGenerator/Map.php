@@ -2,7 +2,7 @@
 
 namespace MapGenerator;
 
-use MapGenerator\MapElement,
+use MapGenerator\CellDrawing,
     Framework\Singleton;
 
 /**
@@ -66,12 +66,12 @@ class Map implements MapInterface
 
         // Initialisation de la map
         self::$_aMatrice["scale"] = $this->_iScale;
-        self::$_aMatrice[] = array($this->_sAxeX);
+        self::$_aMatrice[] = array($this->_iAxeX);
 
         // Création de la map vide
-        for ($i = 0; $i < $this->_sAxeX; $i++) {
-        self::$_aMatrice[0][$i] = array( $this->_sAxeY);
-            for ($j = 0; $j < $this->_sAxeY; $j++) {
+        for ($i = 0; $i < $this->_iAxeX; $i++) {
+        self::$_aMatrice[0][$i] = array( $this->_iAxeY);
+            for ($j = 0; $j < $this->_iAxeY; $j++) {
                 // Séparateur coordonnées matrice
                 $aCell[0] = $i . '-' . $j;
                 self::$_aMatrice[0][$i][$j] = $aCell;
