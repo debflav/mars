@@ -61,21 +61,21 @@ class Map implements MapInterface
         self::$_iAxeY             = $iNbColumn;
 
         // Initialisation de la map
-        self::$_aMatrice["scale"] = $this->_iScale;
-        self::$_aMatrice[] = array(self::$_iAxeX);
+        self::$_aMatrice["echelle"] = $this->_iScale;
+        self::$_aMatrice["lignes"] = array(self::$_iAxeX);
 
         // Création de la map vide
         for ($i = 0; $i < self::$_iAxeX; $i++) {
-        self::$_aMatrice[0][$i] = array( self::$_iAxeY);
+        self::$_aMatrice["lignes"][$i] = array( self::$_iAxeY);
             for ($j = 0; $j < self::$_iAxeY; $j++) {
                 // Séparateur coordonnées matrice
                 $aCell[0] = $i . '-' . $j;
-                self::$_aMatrice[0][$i][$j] = $aCell;
+                self::$_aMatrice["lignes"][$i][$j] = $aCell;
             }
         }
 
         // Remplissage de la cellule courante de la map
-        foreach (self::$_aMatrice[0] as $aMapInformationCell) {
+        foreach (self::$_aMatrice["lignes"] as $aMapInformationCell) {
             foreach( $aMapInformationCell as $aValue) {
                 foreach( $aValue as $sValue) {
                     // Coordonnées de la cellule
@@ -83,7 +83,7 @@ class Map implements MapInterface
                     // Création des attributs de la cellule
                     $oCellInfo = new CellDrawing();
                     $aCell = $oCellInfo->drawCell( $aPosition[0], $aPosition[1]);
-                    self::$_aMatrice[0][$aPosition[0]][$aPosition[1]] = $aCell;
+                    self::$_aMatrice["lignes"][$aPosition[0]][$aPosition[1]] = $aCell;
                 }
             }
         }
