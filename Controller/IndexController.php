@@ -18,18 +18,19 @@ class IndexController extends AbstractController {
 
         if( $oRequest->isMethod('POST')) {
 
-            $aAttributes = array( "roche"    => $oRequest->get('pourcentage_roche')  ? $oRequest->get('pourcentage_roche')    : 0,
-                                 "sable"    => $oRequest->get('pourcentage_sable')   ? $oRequest->get('pourcentage_sable')    : 0,
-                                 "fer"      => $oRequest->get('pourcentage_fer')     ? $oRequest->get('pourcentage_fer')      : 0,
-                                 "mineraux" => $oRequest->get('pourcentage_mineraux')? $oRequest->get('pourcentage_mineraux') : 0,
-                                 "autre"    => $oRequest->get('pourcentage_autre')   ? $oRequest->get('pourcentage_autre')    : 0,
+            $aAttributes = array( "rock"     => $oRequest->get('rock')     ? (int) $oRequest->get('rock')     : 0,
+                                  "sand"     => $oRequest->get('sand')     ? (int) $oRequest->get('sand')     : 0,
+                                  "iron"     => $oRequest->get('iron')     ? (int) $oRequest->get('iron')     : 0,
+                                  "minerals" => $oRequest->get('minerals') ? (int) $oRequest->get('minerals') : 0,
+                                  "other"    => $oRequest->get('other')    ? (int) $oRequest->get('other')    : 0,
                                 );
 
-            $iNbLine   = $oRequest->get('ligne');
-            $iNbColumn = $oRequest->get('colonne');
+            $iNbLine   = (int) $oRequest->get('line');
+            $iNbColumn = (int) $oRequest->get('column');
 
             $oMap = new Map();
             $oMap->generate($iNbLine, $iNbColumn, $aAttributes);
+            // DEBUG
             /*echo '<pre>'; print_r($oMap->getMap());
             $oMap->mapToJsonDebugPrint();
             exit;*/

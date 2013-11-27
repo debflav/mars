@@ -2,6 +2,8 @@
 
 namespace MapGenerator;
 
+use MapGenerator\Element\Element;
+
 /**
  * Génère une cellule de la map:
  * Elevation du terrain, type de case.
@@ -27,32 +29,28 @@ class CellDrawing extends Map
     public function drawCell( $iLine, $iColumn)
     {
         // Cell cordonnate
-        $this->_aCell["debugXY"] = array($iLine, $iColumn);
+        $this->_aCell["debugXY"] = array( $iLine, $iColumn);
 
         // Coordonnées Z
         $this->_aCell["elevation"] = $this->elevationField();
 
         // Algo TODO;
-        $this->_aCell["nature"] = array(
-                                        "example1" => $this->cellType(),
-                                        "example2" => $this->cellType(),
-                                        );
+        $this->_aCell["nature"] = array( $this->defineCellType());
 
         return $this->_aCell;
     }
 
     /**
-     * Définit le type de la cellule ( si c'est de la roche,
-     * de la glace...)
+     * Définit le type de la cellule
      *
-     * @return array
+     * @return array. ex : ( "rock" => 35, "sand" => 25...)
      */
-    private function cellType()
+    private function defineCellType()
     {
+        // Création d'un nouvel élément
+        $aElement = new Element( self::$_aGlobalAttributes);
+
         $aCellType = rand(0, 100);
-        // Avec les coordonnées de la case on peut regarder autour pour la gestion des probas
-        //var_dump( $this->next($aCoordinates[0], $aCoordinates[1]));
-        //echo $aCoordinates[0] . ' ' . $aCoordinates[1] . '<br/>';
         return $aCellType;
     }
 

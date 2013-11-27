@@ -1,35 +1,48 @@
 <html>
   <head>
+      <script src="assets/js/jquery-2.0.3.min.js"></script>
   </head>
   <body>
-    <form method="POST">
+      <script>
+        $(function () {
+            $( "#mapgenerate" ).submit(function( event ) {
+                if($("#line").val().length === 0) {
+                    return false;
+                }
+                if($("#column").val().length === 0) {
+                    return false;
+                }
+            });
+        });
+    </script>
+    <form id="mapgenerate" method="POST">
       <p>
         <label>Dimension en X: </label>
-        <input name="ligne" type="text" placeholder="Dimension en X" />
+        <input id="line" name="line" type="text" placeholder="Dimension en X" />
       </p>
       <p>
         <label>Dimension en Y: </label>
-        <input name="colonne" type="text" placeholder="Dimension en Y" />
+        <input id="column" name="column" type="text" placeholder="Dimension en Y" />
       </p>
       <p>
         <label>Pourcentage Roche: </label>
-        <input name="pourcentage_roche" type="text" placeholder="%" />
+        <input name="rock" type="text" placeholder="%" />
       </p>
       <p>
         <label>Pourcentage Sable: </label>
-        <input name="pourcentage_sable" type="text" placeholder="%" />
+        <input name="sand" type="text" placeholder="%" />
       </p>
       <p>
         <label>Pourcentage Fer: </label>
-        <input name="pourcentage_fer" type="text" placeholder="%" />
+        <input name="iron" type="text" placeholder="%" />
       </p>
       <p>
         <label>Pourcentage Mineraux: </label>
-        <input name="pourcentage_mineraux" type="text" placeholder="%" />
+        <input name="minerals" type="text" placeholder="%" />
       </p>
       <p>
         <label>Pourcentage Autre: </label>
-        <input name="pourcentage_autre" type="text" placeholder="%" />
+        <input name="other" type="text" placeholder="%" />
       </p>
       <input type="submit" value="Generer la map" />
     </form>
