@@ -12,6 +12,16 @@
             var container, stats;
             var camera, scene, renderer;
 
+            // DEBUG //
+            console.log(map);
+            for (var l = 0; l < map.lignes.length; l++) {
+                for( var j = 0; j < map.lignes[l].length; j++ ) {
+                    console.log("line number : " + l);
+                    console.log(map.lignes[l][j]);
+                }
+            }
+            // DEBUG //
+
             init();
             animate();
 

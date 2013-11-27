@@ -5,20 +5,20 @@ namespace MapGenerator;
 use MapGenerator\CellDrawing;
 
 /**
- * Generation de la carte
- * Méthodes pour parcourir la carte
+ * Generation de notre object map retourné au javascript.
  */
 class Map implements MapInterface
 {
 
     /**
-     * Notre map
+     * La map
+     *
      * @var array
      */
     protected static $_aMatrice = array();
 
     /**
-     * Attributs de la map(%roche,% glace...)
+     * Attributs de la map(%roche, % glace...)
      * @var array
      */
     protected static $_aGlobalAttributes = array( );
@@ -27,14 +27,14 @@ class Map implements MapInterface
      * Taille axe des X
      * @var int
      */
-    protected static $_iAxeX;
+    private static $_iAxeX;
 
 
     /**
      * Taille axe des Y
      * @var int
      */
-    protected static $_iAxeY;
+    private static $_iAxeY;
 
 
     /**
@@ -45,12 +45,12 @@ class Map implements MapInterface
 
 
     /**
-     * Generation de la carte
-     * Echelle, numéro de lignes, colonnes et les attributs
+     * Initialisation des attributs de la map (echelle, taille...).
+     * Fonction générale pour la génération de la carte.
      *
      * @param integer $iNbLine
      * @param integer $iNbColumn
-     * @param array   $aAttributs
+     * @param array   $aAttributes
      * @return void
      */
     public function generate($iNbLine, $iNbColumn, $aAttributes)
@@ -119,19 +119,20 @@ class Map implements MapInterface
      */
     public function mapToJsonDebugPrint()
     {
-        echo '<pre>';
-        print_r(json_encode( self::$_aMatrice, JSON_PRETTY_PRINT));
+        echo '<pre>';print_r(json_encode( self::$_aMatrice, JSON_PRETTY_PRINT));
     }
 
 
     /**
+     * ##TODO
      * Prend un Json en paramètre
      *
      * @return string JSON
      */
-    public function loadJson( $sJson)
+    public function generateMapFromJson( $sJson)
     {
-        // test du format json... ##TODO
+        // Utilisé lors de l'envoi d'un fichier.
+        // test du format json...(extension...)
 
     }
 

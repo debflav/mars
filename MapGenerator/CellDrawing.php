@@ -6,13 +6,13 @@ use MapGenerator\Element\Element;
 
 /**
  * Génère une cellule de la map:
- * Elevation du terrain, type de case.
+ * Son elevation, le type de case.
  */
 class CellDrawing extends Map
 {
 
     /**
-     * Contient toutes les informations sur notre cellule courante
+     * Contient toutes les informations sur notre cellule courante.
      *
      * @var array
      */
@@ -20,9 +20,9 @@ class CellDrawing extends Map
 
 
     /**
-     * Dessine une cellule
-     * Z : Elevation de notre terrain
-     * nature : nombre entre 1 et 6
+     * Dessine une cellule.
+     * z      : Elevation de notre terrain.
+     * nature : nombre entre 1 et 6.
      *
      * @param integer $iLine
      * @param integer $iColumn
@@ -30,17 +30,14 @@ class CellDrawing extends Map
      */
     public function drawCell( $iLine, $iColumn)
     {
-        // Coordonnées Z
         $this->_aCell["z"] = $this->elevationField();
-
-        // Algo TODO;
         $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
 
         return $this->_aCell;
     }
 
     /**
-     * Définit le type de la cellule
+     * Définit le type de la cellule.
      *
      * @return string
      */
@@ -56,7 +53,7 @@ class CellDrawing extends Map
     }
 
     /**
-     * Algo elevation du terrain (z index)
+     * Définit l'élevation du terrain.
      *
      * @return string
      */
