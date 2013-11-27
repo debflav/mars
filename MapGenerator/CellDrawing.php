@@ -16,7 +16,15 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    private $_aCell = array();
+    private $_aCell = array( );
+
+
+    /**
+     * Position de la cellule courante
+     *
+     * @var array
+     */
+    protected static $_aCellPosition = array( );
 
 
     /**
@@ -30,6 +38,7 @@ class CellDrawing extends Map
      */
     public function drawCell( $iLine, $iColumn)
     {
+        self::$_aCellPosition = array( $iLine, $iColumn);
         $this->_aCell["z"] = $this->elevationField();
         $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
 
@@ -43,10 +52,8 @@ class CellDrawing extends Map
      */
     private function defineCellType( $iLine, $iColumn)
     {
-        $aCellPosition = array( $iLine, $iColumn);
-
         // Création d'un nouvel élément
-        $oElement = new Element( $aCellPosition);
+        $oElement = new Element( );
         $sCellType = $oElement->Algo();
 
         return $sCellType;

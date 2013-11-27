@@ -27,14 +27,14 @@ class Map implements MapInterface
      * Taille axe des X
      * @var int
      */
-    private static $_iAxeX;
+    protected static $_iAxeX;
 
 
     /**
      * Taille axe des Y
      * @var int
      */
-    private static $_iAxeY;
+    protected static $_iAxeY;
 
 
     /**

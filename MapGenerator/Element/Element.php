@@ -7,21 +7,6 @@ use MapGenerator\CellDrawing;
 
 class Element extends CellDrawing implements ElementInterface
 {
-    /**
-     *
-     * @var array
-     */
-    private $_aCellPosition;
-
-
-    /**
-     *
-     * @param array $aCellPosition
-     */
-    public function __construct( $aCellPosition)
-    {
-        $this->_aCellPosition = $aCellPosition;
-    }
 
 
     /**
@@ -29,8 +14,6 @@ class Element extends CellDrawing implements ElementInterface
      */
     public function Algo()
     {
-
-
         /*$natureTemp[5]; // tableau de 5 cases vides
 
         $natureCellule[$i][$j]; // tableau de la taille de la map comportant
@@ -85,24 +68,24 @@ class Element extends CellDrawing implements ElementInterface
         }
 
 
-       // Définir la fonction rand() entre 0 et $totalTemp
-       $jet = rand(min=0, max=$totalTemp); // a corriger !!
+        // Définir la fonction rand() entre 0 et $totalTemp
+        $jet = rand(min=0, max=$totalTemp); // a corriger !!
 
 
-       // fait un tri du résultat pout trouver la bonne nature
-       for($l=0; $l<5; $l++)
-       {
+        // fait un tri du résultat pout trouver la bonne nature
+        for($l=0; $l<5; $l++)
+        {
            if ($jet > $compteur && $jet <= ($compteur + $natureTemp[$l]))
            {
                $natureCellule[$i][$j] = $l; // on affecte à la cellule actuelle la nature tirée au dé
            }
 
            $compteur = $compteur + $natureTemp[$l];
-       }*/
+        }*/
 
         $sRand = rand(0, 100);
 
-       return $sRand;
+        return $sRand;
     }
 
     /**
