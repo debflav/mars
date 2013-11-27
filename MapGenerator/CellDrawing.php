@@ -12,7 +12,7 @@ class CellDrawing extends Map
 {
 
     /**
-     * Une cellule
+     * Contient toutes les informations sur notre cellule courante
      *
      * @var array
      */
@@ -21,6 +21,8 @@ class CellDrawing extends Map
 
     /**
      * Dessine une cellule
+     * Z : Elevation de notre terrain
+     * nature : nombre entre 1 et 6
      *
      * @param integer $iLine
      * @param integer $iColumn
@@ -28,14 +30,11 @@ class CellDrawing extends Map
      */
     public function drawCell( $iLine, $iColumn)
     {
-        // Cell cordonnate
-        $this->_aCell["debugXY"] = array( $iLine, $iColumn);
-
         // Coordonnées Z
-        $this->_aCell["elevation"] = $this->elevationField();
+        $this->_aCell["z"] = $this->elevationField();
 
         // Algo TODO;
-        $this->_aCell["nature"] = array( $this->defineCellType());
+        $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
 
         return $this->_aCell;
     }
@@ -43,15 +42,17 @@ class CellDrawing extends Map
     /**
      * Définit le type de la cellule
      *
-     * @return array. ex : ( "rock" => 35, "sand" => 25...)
+     * @return string
      */
-    private function defineCellType()
+    private function defineCellType( $iLine, $iColumn)
     {
-        // Création d'un nouvel élément
-        $aElement = new Element( self::$_aGlobalAttributes);
+        $aCellPosition = array( $iLine, $iColumn);
 
-        $aCellType = rand(0, 100);
-        return $aCellType;
+        // Création d'un nouvel élément
+        $oElement = new Element( $aCellPosition);
+        $sCellType = $oElement->Algo();
+
+        return $sCellType;
     }
 
     /**

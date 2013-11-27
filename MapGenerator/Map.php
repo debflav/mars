@@ -2,8 +2,7 @@
 
 namespace MapGenerator;
 
-use MapGenerator\CellDrawing,
-    Framework\Singleton;
+use MapGenerator\CellDrawing;
 
 /**
  * Generation de la carte
@@ -28,14 +27,14 @@ class Map implements MapInterface
      * Taille axe des X
      * @var int
      */
-    private $_iAxeX;
+    protected static $_iAxeX;
 
 
     /**
      * Taille axe des Y
      * @var int
      */
-    private $_iAxeY;
+    protected static $_iAxeY;
 
 
     /**
@@ -43,9 +42,6 @@ class Map implements MapInterface
      * @var int
      */
     private $_iScale = 100;
-
-
-    use Singleton;
 
 
     /**
@@ -61,111 +57,41 @@ class Map implements MapInterface
     {
         // Setters
         self::$_aGlobalAttributes = $aAttributes;
-        $this->_iAxeX             = $iNbLine;
-        $this->_iAxeY             = $iNbColumn;
+        self::$_iAxeX             = $iNbLine;
+        self::$_iAxeY             = $iNbColumn;
 
         // Initialisation de la map
         self::$_aMatrice["scale"] = $this->_iScale;
-        self::$_aMatrice[] = array($this->_iAxeX);
+        self::$_aMatrice[] = array(self::$_iAxeX);
 
         // Création de la map vide
-        for ($i = 0; $i < $this->_iAxeX; $i++) {
-        self::$_aMatrice[0][$i] = array( $this->_iAxeY);
-            for ($j = 0; $j < $this->_iAxeY; $j++) {
+        for ($i = 0; $i < self::$_iAxeX; $i++) {
+        self::$_aMatrice[0][$i] = array( self::$_iAxeY);
+            for ($j = 0; $j < self::$_iAxeY; $j++) {
                 // Séparateur coordonnées matrice
                 $aCell[0] = $i . '-' . $j;
                 self::$_aMatrice[0][$i][$j] = $aCell;
             }
         }
 
-        // Remplissage de la map
+        // Remplissage de la cellule courante de la map
         foreach (self::$_aMatrice[0] as $aMapInformationCell) {
             foreach( $aMapInformationCell as $aValue) {
                 foreach( $aValue as $sValue) {
-                    // On retrouve les coordonnées de la map par le biais du explode
-                    $aCoordinates = explode('-', $sValue);
-                    // On crée la case de la map à l'aide d'un algo
-                    $oMapElement = new CellDrawing();
-                    $aCell = $oMapElement->drawCell( $aCoordinates[0], $aCoordinates[1]);
-
-                    self::$_aMatrice[$aCoordinates[0]][$aCoordinates[1]] = $aCell;
+                    // Coordonnées de la cellule
+                    $aPosition = explode('-', $sValue);
+                    // Création des attributs de la cellule
+                    $oCellInfo = new CellDrawing();
+                    $aCell = $oCellInfo->drawCell( $aPosition[0], $aPosition[1]);
+                    self::$_aMatrice[0][$aPosition[0]][$aPosition[1]] = $aCell;
                 }
             }
         }
-
-        /*$natureTemp[5]; // tableau de 5 cases vides
-
-        $natureCellule[$i][$j]; // tableau de la taille de la map comportant
-        //la nature de chaque cellule remplie au fur et à mesure de la génération.
-
-        $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
-
-        $compteur = 0; // variable qui va permettre de définir
-
-        // pourcentage des natures globales de la carte
-        $nature[1]=60; //roche
-        $nature[2]=30; //sable
-        $nature[3]=5; //fer
-        $nature[4]=3; //mineral
-        $nature[5]=2; //autre
-
-        //On va chercher les natures sur la ligne
-        if(isset(case[$i-1][$j])) {
-            if(isset(case[$i-2][$j])) {
-                if(isset(case[$i-3][$j])) {
-                    $natureTemp[$natureCellule[$i-3][$j]] + 5;
-                }
-
-                $natureTemp[$natureCellule[$i-2][$j]] + 5;
-            }
-
-            $natureTemp[$natureCellule[$i-1][$j]] + 5;
-        }
-
-        //on va chercher les natures sur la colonne
-        if(isset(case[$i][$j-1])) {
-            if(isset(case[$i][$j-2])) {
-                if(isset(case[$i][$j-3])) {
-                    $natureTemp[$natureCellule[$i][$j-3]] + 5;
-                }
-
-                $natureTemp[$natureCellule[$i][$j-2]] + 5;
-            }
-
-            $natureTemp[$natureCellule[$i][$j-1]] + 5;
-        }
-
-        // on agrège le tout
-        for($k=0;$k<5;$k++)
-        {
-            //par nature
-            $natureTemp[$k] = $natureTemp[$k] + $nature[$k];
-
-            // on fait le total pour le jet de dés
-            $totalTemp = $totalTemp + $natureTemp[$k];
-
-        }
-
-
-       // Définir la fonction rand() entre 0 et $totalTemp
-       $jet = rand(min=0, max=$totalTemp); // a corriger !!
-
-
-       // fait un tri du résultat pout trouver la bonne nature
-       for($l=0; $l<5; $l++)
-       {
-           if ($jet > $compteur && $jet <= ($compteur + $natureTemp[$l]))
-           {
-               $natureCellule[$i][$j] = $l; // on affecte à la cellule actuelle la nature tirée au dé
-           }
-
-           $compteur = $compteur + $natureTemp[$l];
-       }*/
-
     }
 
+
     /**
-     * Retourne la carte
+     * Retourne la carte sous forme de tableau
      *
      * @return array
      */
@@ -176,7 +102,7 @@ class Map implements MapInterface
 
 
     /**
-     * Encode la map en Json
+     * Encode et retourne la carte au format Json
      *
      * @return string JSON
      */
@@ -187,7 +113,7 @@ class Map implements MapInterface
 
 
     /**
-     * To json
+     * Encode et retourne la carte au format Json
      *
      * @return JSON
      */
@@ -199,98 +125,14 @@ class Map implements MapInterface
 
 
     /**
-     * Attribut de la cellule courante
+     * Prend un Json en paramètre
      *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return array
+     * @return string JSON
      */
-    public function current( $iLine, $iColumn)
+    public function loadJson( $sJson)
     {
-        return self::$_aMatrice[$iLine][$iColumn];
+        // test du format json... ##TODO
+
     }
 
-
-    /**
-     * Cellule adjacente précèdente
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function prev( $iLine, $iColumn)
-    {
-        if( $iColumn > 0 )
-            return self::$_aMatrice[$iLine][$iColumn-1];
-    }
-
-
-    /**
-     * Cellule adjacente suivante
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function next( $iLine, $iColumn)
-    {
-        if( $iColumn < ($this->_iAxeY - 1))
-            return self::$_aMatrice[$iLine][$iColumn+1];
-    }
-
-
-    /**
-     * Cellule adjacente haut gauche
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function topLeft( $iLine, $iColumn)
-    {
-        if( $iLine > 0 && $iColumn > 0)
-            return self::$_aMatrice[$iLine-1][$iColumn-1];
-    }
-
-
-    /**
-     * Cellule adjacente haut droite
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function topRight( $iLine, $iColumn)
-    {
-        if ( $iColumn < ($this->_iAxeY - 1) &&  $iLine > 0)
-            return self::$_aMatrice[$iLine-1][$iColumn+1];
-    }
-
-
-
-    /**
-     * Cellule adjacente en bas à gauche
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function bottomLeft( $iLine, $iColumn)
-    {
-        if( $iLine < $this->_iAxeY - 1 && $iColumn > 0)
-            return self::$_aMatrice[$iLine+1][$iColumn-1];
-    }
-
-    /**
-     * Cellule adjacente en bas à droite
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return null|array
-     */
-    public function bottomRight( $iLine, $iColumn)
-    {
-        if( $iLine < $this->_iAxeX - 1 && $iColumn < $this->_iAxeY - 1)
-            return self::$_aMatrice[$iLine+1][$iColumn+1];
-    }
 }
