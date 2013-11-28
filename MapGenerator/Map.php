@@ -69,13 +69,14 @@ class Map implements MapInterface
         self::$_aMatrice["lignes"][$i] = array( self::$_iAxeY);
             for ($j = 0; $j < self::$_iAxeY; $j++) {
                 // Séparateur coordonnées matrice
-                $aCell[0] = $i . '-' . $j;
-                self::$_aMatrice["lignes"][$i][$j] = $aCell;
+                // $aCell[0] = $i . '-' . $j;
+                // Initialisation de notre matrice
+                self::$_aMatrice["lignes"][$i][$j] = NULL;
             }
         }
 
         // Remplissage de la cellule courante de la map
-        foreach (self::$_aMatrice["lignes"] as $aMapInformationCell) {
+        /*foreach (self::$_aMatrice["lignes"] as $aMapInformationCell) {
             foreach( $aMapInformationCell as $aValue) {
                 foreach( $aValue as $sValue) {
                     // Coordonnées de la cellule
@@ -85,6 +86,22 @@ class Map implements MapInterface
                     $aCell = $oCellInfo->drawCell( $aPosition[0], $aPosition[1]);
                     self::$_aMatrice["lignes"][$aPosition[0]][$aPosition[1]] = $aCell;
                 }
+            }
+        }*/
+
+        // Remplissage d'une cellule de notre map.
+        // Ici on applique notre remplissage trois fois pour lisser les valeurs
+        for($i=0; $i<3; $i++) {
+            // $iLine correspond à l'axe des x
+            $iLine = 0;
+            foreach (self::$_aMatrice["lignes"] as $aLine) {
+                // $sKey correspond à notre axe y
+                foreach($aLine as $sKey => $aCellValue) {
+                    $oCellInfo = new CellDrawing();
+                    $aCell = $oCellInfo->drawCell( $iLine, $sKey, $aCellValue);
+                    self::$_aMatrice["lignes"][$iLine][$sKey] = $aCell;
+                }
+                $iLine++;
             }
         }
     }

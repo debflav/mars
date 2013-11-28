@@ -36,11 +36,18 @@ class CellDrawing extends Map
      * @param integer $iColumn
      * @return array
      */
-    public function drawCell( $iLine, $iColumn)
+    public function drawCell( $iLine, $iColumn, $aCellValue)
     {
         self::$_aCellPosition = array( $iLine, $iColumn);
-        $this->_aCell["z"] = $this->elevationField();
-        $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
+
+        // Si aucune valeur on crée notre tableau pour la première fois,
+        // sinon on lisse nos premières valeurs obtenues.
+        if( empty( $aCellValue)) {
+            $this->_aCell["z"] = $this->elevationField();
+            $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
+        } else {
+
+        }
 
         return $this->_aCell;
     }
