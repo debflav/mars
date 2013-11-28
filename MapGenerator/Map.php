@@ -93,10 +93,10 @@ class Map implements MapInterface
         // Ici on applique notre remplissage trois fois pour lisser les valeurs.
         for($i=0; $i<3; $i++) {
             foreach (self::$_aMatrice["lignes"] as $iLine => $aLine) {
-                foreach($aLine as $sKey => $aCellValue) {
+                foreach($aLine as $iColumn => $aCellValue) {
                     $oCellInfo = new CellDrawing();
-                    $aCell = $oCellInfo->drawCell( $iLine, $sKey, $aCellValue);
-                    self::$_aMatrice["lignes"][$iLine][$sKey] = $aCell;
+                    $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
+                    self::$_aMatrice["lignes"][$iLine][$iColumn] = $aCell;
                 }
                 $iLine++;
             }
