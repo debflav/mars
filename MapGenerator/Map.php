@@ -90,12 +90,9 @@ class Map implements MapInterface
         }*/
 
         // Remplissage d'une cellule de notre map.
-        // Ici on applique notre remplissage trois fois pour lisser les valeurs
+        // Ici on applique notre remplissage trois fois pour lisser les valeurs.
         for($i=0; $i<3; $i++) {
-            // $iLine correspond à l'axe des x
-            $iLine = 0;
-            foreach (self::$_aMatrice["lignes"] as $aLine) {
-                // $sKey correspond à notre axe y
+            foreach (self::$_aMatrice["lignes"] as $iLine => $aLine) {
                 foreach($aLine as $sKey => $aCellValue) {
                     $oCellInfo = new CellDrawing();
                     $aCell = $oCellInfo->drawCell( $iLine, $sKey, $aCellValue);
