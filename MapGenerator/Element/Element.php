@@ -111,7 +111,7 @@ class Element extends CellDrawing implements ElementInterface
     public function prev( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return self::$_aMatrice[$iLine][$iColumn-1];
+            return self::$_aMatrice['map'][$iLine][$iColumn-1];
     }
 
 
@@ -125,7 +125,7 @@ class Element extends CellDrawing implements ElementInterface
     public function next( $iLine, $iColumn)
     {
         if( $iColumn < (self::$_iAxeY - 1))
-            return self::$_aMatrice[$iLine][$iColumn+1];
+            return self::$_aMatrice['map'][$iLine][$iColumn+1];
     }
 
 
@@ -139,7 +139,7 @@ class Element extends CellDrawing implements ElementInterface
     public function topLeft( $iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return self::$_aMatrice["lignes"][$iLine-1][$iColumn-1];
+            return self::$_aMatrice['map']["lignes"][$iLine-1][$iColumn-1];
     }
 
 
@@ -153,7 +153,7 @@ class Element extends CellDrawing implements ElementInterface
     public function topRight( $iLine, $iColumn)
     {
         if ( $iColumn < (self::$_iAxeY - 1) &&  $iLine > 0)
-            return self::$_aMatrice[$iLine-1][$iColumn+1];
+            return self::$_aMatrice['map'][$iLine-1][$iColumn+1];
     }
 
 
@@ -168,7 +168,7 @@ class Element extends CellDrawing implements ElementInterface
     public function bottomLeft( $iLine, $iColumn)
     {
         if( $iLine < self::$_iAxeY - 1 && $iColumn > 0)
-            return self::$_aMatrice[$iLine+1][$iColumn-1];
+            return self::$_aMatrice['map'][$iLine+1][$iColumn-1];
     }
 
 
@@ -182,6 +182,6 @@ class Element extends CellDrawing implements ElementInterface
     public function bottomRight( $iLine, $iColumn)
     {
         if( $iLine < self::$_iAxeX - 1 && $iColumn < $this->_iAxeY - 1)
-            return self::$_aMatrice[$iLine+1][$iColumn+1];
+            return self::$_aMatrice['map'][$iLine+1][$iColumn+1];
     }
 }

@@ -64,18 +64,18 @@ class Map implements MapInterface
         // Création de la map vide
         for ($i = 0; $i < self::$_iAxeX; $i++) {
             for ($j = 0; $j < self::$_iAxeY; $j++) {
-                self::$_aMatrice[$i][$j] = NULL;
+                self::$_aMatrice['map'][$i][$j] = NULL;
             }
         }
 
         // Remplissage d'une cellule de notre map.
         // Ici on applique notre remplissage trois fois pour lisser les valeurs.
         for($i=0; $i<3; $i++) {
-            foreach (self::$_aMatrice as $iLine => $aLine) {
+            foreach (self::$_aMatrice['map'] as $iLine => $aLine) {
                 foreach($aLine as $iColumn => $aCellValue) {
                     $oCellInfo = new CellDrawing();
                     $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
-                    self::$_aMatrice[$iLine][$iColumn] = $aCell;
+                    self::$_aMatrice['map'][$iLine][$iColumn] = $aCell;
                 }
                 $iLine++;
             }
