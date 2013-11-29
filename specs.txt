@@ -1,0 +1,55 @@
+I/ Génération de la map
+   --------------------
+
+	1/ Choix des technos
+	--------------------
+		a) Algo en PHP
+		b) Sortie en JSON
+
+	2/ Paramètres nécessaires
+	-------------------------
+
+		a) x, y
+
+			La taille de la map est définie avec 2 valeurs : la longueur et la largeur
+
+		b) zmin, zmax
+
+			On définie une hauteur minimale (pouvant être négative) et une hauteur maximale pour nos cases de la map
+
+		c) % de départ des natures
+
+			On définie le pourcentage des natures que l'on souhaite avoir sur notre map. Cela influe sur le pourcentage de chance d'avoir une case d'une nature donnée.
+
+	3/ Algo de définition des cases
+	-------------------------------
+
+		a) Algo de génération de la carte
+
+			Algorithme qui génère la carte, le plus "logiquement" possible. La nature des cases est générée aléatoirement, mais influencée par le pourcentage de départ des natures, et par la nature des cases adjacentes.
+
+		b) Algo de lissage sur le z
+
+			Algorithme permettant de lisser l'altitude des cases successives.
+
+
+		c) Algo de cohérence de nature, en fonction du z, et de la nature des cases adjacentes
+
+			Algorithme permettant de "ranger" les cases en fonction de leur nature, de la nature des cases adjacentes, de leurs hauteur, ainsi que de la hauteur de ses cases adjacentes
+
+
+II/ Viewer
+	------
+
+	1/ Choix technos
+		a) Langage : JS
+		b) Choix d'une lib JS :
+			- babylone.js
+			- three.js
+			- vanilla.js
+
+	2/ Paramètres nécessaires
+		a) JSON
+		b) Résolution
+
+	3/ Définitions visuelles
