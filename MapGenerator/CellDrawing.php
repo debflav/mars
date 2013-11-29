@@ -16,7 +16,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    private $_aCell = array( );
+    private $_aCell = [];
 
 
     /**
@@ -24,7 +24,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    protected static $_aCellPosition = array( );
+    protected $_aCellPosition = [];
 
 
     /**
@@ -38,13 +38,13 @@ class CellDrawing extends Map
      */
     public function drawCell( $iLine, $iColumn, $aCellValue)
     {
-        self::$_aCellPosition = array( $iLine, $iColumn);
+        $this->_aCellPosition = array( $iLine, $iColumn);
 
         // Si aucune valeur on crée notre tableau pour la première fois,
         // sinon on lisse nos premières valeurs obtenues.
         if( empty( $aCellValue)) {
             $this->_aCell["z"] = $this->elevationField();
-            $this->_aCell["nature"] = $this->defineCellType( $iLine, $iColumn);
+            $this->_aCell["type"] = $this->defineCellType( $iLine, $iColumn);
         } else {
 
         }

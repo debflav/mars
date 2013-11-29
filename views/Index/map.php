@@ -14,10 +14,10 @@
 
             // DEBUG //
             console.log(map);
-            for (var l = 0; l < map.lignes.length; l++) {
-                for( var j = 0; j < map.lignes[l].length; j++ ) {
+            for (var l = 0; l < map.length; l++) {
+                for( var j = 0; j < map[l].length; j++ ) {
                     console.log("line number : " + l);
-                    console.log(map.lignes[l][j]);
+                    console.log(map[l][j]);
                 }
             }
             // DEBUG //
