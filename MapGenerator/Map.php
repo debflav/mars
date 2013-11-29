@@ -59,7 +59,7 @@ class Map implements MapInterface
         self::$_aGlobalAttributes = $aAttributes;
         self::$_iAxeX             = $iNbLine;
         self::$_iAxeY             = $iNbColumn;
-
+        self::$_aMatrice = array('size' => array( 'x' => self::$_iAxeX, 'y' => self::$_iAxeY ));
 
         // Création de la map vide
         for ($i = 0; $i < self::$_iAxeX; $i++) {
