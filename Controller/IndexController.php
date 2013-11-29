@@ -22,6 +22,7 @@ class IndexController extends AbstractController {
                                   "sand"     => $oRequest->get('sand')     ? (int) $oRequest->get('sand')     : 0,
                                   "iron"     => $oRequest->get('iron')     ? (int) $oRequest->get('iron')     : 0,
                                   "minerals" => $oRequest->get('minerals') ? (int) $oRequest->get('minerals') : 0,
+                                  "ice"      => $oRequest->get('ice')      ? (int) $oRequest->get('ice')      : 0,
                                   "other"    => $oRequest->get('other')    ? (int) $oRequest->get('other')    : 0,
                                 );
 
@@ -31,9 +32,9 @@ class IndexController extends AbstractController {
             $oMap = new Map();
             $oMap->generate($iNbLine, $iNbColumn, $aAttributes);
             // DEBUG
-            /*echo '<pre>'; print_r($oMap->getMap());
+            echo '<pre>'; print_r($oMap->getMap());
             $oMap->mapToJsonDebugPrint();
-            exit;*/
+            exit;
             return $this->render('Index/map', array( 'oMap' => $oMap->mapToJson()));
         }
 

@@ -133,7 +133,8 @@ class Map implements MapInterface
      */
     public function mapToJsonDebugPrint()
     {
-        echo '<pre>';print_r(json_encode( self::$_aMatrice, JSON_PRETTY_PRINT));
+        echo '<pre>';
+        print_r(json_encode( self::$_aMatrice, JSON_PRETTY_PRINT));
     }
 
 

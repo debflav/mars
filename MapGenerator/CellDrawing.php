@@ -16,7 +16,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    private $_aCell = array( );
+    private $_aCell = [];
 
 
     /**
@@ -24,7 +24,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    protected static $_aCellPosition = array( );
+    protected static $_aCellPosition = [];
 
 
     /**
@@ -73,7 +73,7 @@ class CellDrawing extends Map
      */
     private function elevationField()
     {
-        $sElevation = rand(0, 100);
+        $sElevation = rand(-100, 100);
 
         return $sElevation;
     }

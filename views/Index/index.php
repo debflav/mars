@@ -41,10 +41,14 @@
         <input name="minerals" type="text" placeholder="%" />
       </p>
       <p>
+        <label>Pourcentage Glace: </label>
+        <input name="ice" type="text" placeholder="%" />
+      </p>
+      <p>
         <label>Pourcentage Autre: </label>
         <input name="other" type="text" placeholder="%" />
       </p>
-      <input type="submit" value="Generer la map" />
+      <input type="submit" value="Générer la map" />
     </form>
   </body>
 </html>
