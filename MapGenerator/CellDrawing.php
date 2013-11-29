@@ -16,7 +16,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    private $_aCell = [];
+    private $_aCell = array();
 
 
     /**
@@ -24,7 +24,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    protected $_aCellPosition = [];
+    protected $_aCellPosition = array();
 
 
     /**
@@ -46,7 +46,7 @@ class CellDrawing extends Map
             $this->_aCell["z"] = $this->elevationField();
             $this->_aCell["type"] = $this->defineCellType( $iLine, $iColumn);
         } else {
-
+            $this->_aCell["type"] = $this->defineCellType( $iLine, $iColumn);
         }
 
         return $this->_aCell;

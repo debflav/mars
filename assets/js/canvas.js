@@ -14,7 +14,7 @@ $(function() {
         }
 
     // Taille des block
-    var block_width = 10;
+    var block_width = 25;
 
     // Modification de la taille du canvas
     context.canvas.width = map.map.length*block_width;
@@ -24,28 +24,27 @@ $(function() {
     for (var l = 0; l < map.map.length; l++) {
         for( var j = 0; j < map.map[l].length; j++ ) {
             switch(map.map[l][j].type) {
-                case 1: // Roche
-                    context.fillStyle = '#A0A0A0';
+                case 0: // Roche
+                    context.fillStyle = '#e07327';
                     break;
-                case 2: // Sable
-                    context.fillStyle = '#FFCC66';
+                case 1: // Sable
+                    context.fillStyle = '#ffd859';
                     break;
-                case 3: // Minerai
-                    context.fillStyle = '#909090';
+                case 2: // Minerai
+                    context.fillStyle = '#952023';
                     break;
-                case 4: // Fer
-                    context.fillStyle = '#282828';
+                case 3: // Fer
+                    context.fillStyle = '#898989';
                     break;
-                case 5: // Glace
-                    context.fillStyle = '#333399';
+                case 4: // Glace
+                    context.fillStyle = '#1bbbb1';
                     break;
-                case 6: // Autre
-                    context.fillStyle = '#CC0000';
+                case 5: // Autre
+                    context.fillStyle = '#38cc2e';
                     break;
             }
             context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
         }
     }
-
 
 });
