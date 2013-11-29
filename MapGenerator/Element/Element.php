@@ -83,6 +83,7 @@ class Element extends CellDrawing implements ElementInterface
         //    $compteur = $compteur + $natureTemp[$l];
         // }
 
+
         $sRand = rand(1, 6);
 
         return $sRand;

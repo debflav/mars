@@ -61,7 +61,7 @@ class CellDrawing extends Map
     {
         // Création d'un nouvel élément
         $oElement = new Element( );
-        $sCellType = $oElement->Algo();
+        $sCellType = $oElement->Algo($iLine, $iColumn);
 
         return $sCellType;
     }

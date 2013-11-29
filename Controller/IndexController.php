@@ -31,10 +31,10 @@ class IndexController extends AbstractController {
 
             $oMap = new Map();
             $oMap->generate($iNbLine, $iNbColumn, $aAttributes);
-            // DEBUG
-            echo '<pre>'; print_r($oMap->getMap());
-            $oMap->mapToJsonDebugPrint();
-            exit;
+            // // DEBUG
+            // echo '<pre>'; print_r($oMap->getMap());
+            // $oMap->mapToJsonDebugPrint();
+            // exit;
             return $this->render('Index/map', array( 'oMap' => $oMap->mapToJson()));
         }
 
