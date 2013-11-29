@@ -14,79 +14,89 @@ class Element extends CellDrawing implements ElementInterface
      */
     public function Algo()
     {
-        // $natureTemp[5]; // tableau de 5 cases vides
+        $natureTemp[6]; // tableau de 5 cases vides
 
-        // $natureCellule[$i][$j]; // tableau de la taille de la map comportant
-        // //la nature de chaque cellule remplie au fur et à mesure de la génération.
+        $typeNature = 0; // basée par défaut sur la roche
 
-        // $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
+        $natureCellule[$i][$j]; // tableau de la taille de la map comportant
+        //la nature de chaque cellule remplie au fur et à mesure de la génération.
 
-        // $compteur = 0; // variable qui va permettre de définir
+        $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
 
-        // // pourcentage des natures globales de la carte
-        // $nature[1]=60; //roche
-        // $nature[2]=30; //sable
-        // $nature[3]=5; //fer
-        // $nature[4]=3; //mineral
-        // $nature[5]=2; //autre
+        $compteur = 0; // variable qui va permettre de définir
 
-        // //On va chercher les natures sur la ligne
-        // if(isset(case[$i-1][$j])) {
-        //     if(isset(case[$i-2][$j])) {
-        //         if(isset(case[$i-3][$j])) {
-        //             $natureTemp[$natureCellule[$i-3][$j]] + 5;
-        //         }
+        // pourcentage des natures globales de la carte
+        $nature[0]=55; //roche
+        $nature[1]=30; //sable
+        $nature[2]=5; //fer
+        $nature[3]=5; //glace
+        $nature[4]=3; //mineral
+        $nature[5]=2; //autre
 
-        //         $natureTemp[$natureCellule[$i-2][$j]] + 5;
-        //     }
+        $i = &self::$_aCellPosition[0];
+        $j = &self::$_aCellPosition[1];
 
-        //     $natureTemp[$natureCellule[$i-1][$j]] + 5;
-        // }
+        //On va chercher les natures sur la ligne
+        if(isset(self::$_aMatrice[$i-1][$j])) {
 
-        // //on va chercher les natures sur la colonne
-        // if(isset(case[$i][$j-1])) {
-        //     if(isset(case[$i][$j-2])) {
-        //         if(isset(case[$i][$j-3])) {
-        //             $natureTemp[$natureCellule[$i][$j-3]] + 5;
-        //         }
+            if(isset(self::$_aMatrice[$i-2][$j])) {
 
-        //         $natureTemp[$natureCellule[$i][$j-2]] + 5;
-        //     }
+                if(isset(self::$_aMatrice[$i-3][$j])) {
 
-        //     $natureTemp[$natureCellule[$i][$j-1]] + 5;
-        // }
+                    $natureTemp[$natureCellule[$i-3][$j]] + 5;
+                }
 
-        // // on agrège le tout
-        // for($k=0;$k<5;$k++)
-        // {
-        //     //par nature
-        //     $natureTemp[$k] = $natureTemp[$k] + $nature[$k];
+                $natureTemp[$natureCellule[$i-2][$j]] + 5;
+            }
 
-        //     // on fait le total pour le jet de dés
-        //     $totalTemp = $totalTemp + $natureTemp[$k];
+            $natureTemp[$natureCellule[$i-1][$j]] + 5;
+        }
 
-        // }
+        //on va chercher les natures sur la colonne
+        if(isset(self::$_aMatrice[$i][$j-1])) {
 
+            if(isset(self::$_aMatrice[$i][$j-2])) {
 
-        // // Définir la fonction rand() entre 0 et $totalTemp
-        // $jet = rand(min=0, max=$totalTemp); // a corriger !!
+                if(isset(self::$_aMatrice[$i][$j-3])) {
 
+                    $natureTemp[$natureCellule[$i][$j-3]] + 5;
+                }
 
-        // // fait un tri du résultat pout trouver la bonne nature
-        // for($l=0; $l<5; $l++)
-        // {
-        //    if ($jet > $compteur && $jet <= ($compteur + $natureTemp[$l]))
-        //    {
-        //        $natureCellule[$i][$j] = $l; // on affecte à la cellule actuelle la nature tirée au dé
-        //    }
+                $natureTemp[$natureCellule[$i][$j-2]] + 5;
+            }
 
-        //    $compteur = $compteur + $natureTemp[$l];
-        // }
+            $natureTemp[$natureCellule[$i][$j-1]] + 5;
+        }
+
+        // on agrège le tout
+        for($k=0;$k<5;$k++)
+        {
+            //par nature
+            $natureTemp[$k] = $natureTemp[$k] + $nature[$k];
+
+            // on fait le total pour le jet de dés
+            $totalTemp = $totalTemp + $natureTemp[$k];
+
+        }
 
 
-        $sRand = rand(1, 6);
+        // Définir la fonction rand() entre 0 et $totalTemp
+        $jet = rand(0, $totalTemp);
 
-        return $sRand;
+
+        // fait un tri du résultat pout trouver la bonne nature
+        for($l=0; $l<5; $l++)
+        {
+           if ($jet > $compteur && $jet <= ($compteur + $natureTemp[$l]))
+           {
+               $typeNature = $l; // on affecte à la cellule actuelle la nature tirée au dé
+           }
+
+           $compteur = $compteur + $natureTemp[$l];
+        }
+
+
+        return $typeNature;
     }
 
     /**
