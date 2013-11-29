@@ -67,7 +67,7 @@ class Map implements MapInterface
                 self::$_aMatrice[$i][$j] = NULL;
             }
         }
-exit;
+
         // Remplissage d'une cellule de notre map.
         // Ici on applique notre remplissage trois fois pour lisser les valeurs.
         for($i=0; $i<3; $i++) {
