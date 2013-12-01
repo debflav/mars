@@ -33,8 +33,8 @@ class Element extends CellDrawing implements ElementInterface
         $nature[4]=3;   // glace
         $nature[5]=3;   // autre
 
-        $i = $this->_aCellPosition[0];
-        $j = $this->_aCellPosition[1];
+        $i = self::$_aCellPosition[0];
+        $j = self::$_aCellPosition[1];
 
         //On va chercher les natures sur la ligne
         if(isset(self::$_aMatrice[$i-1][$j])) {

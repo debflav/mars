@@ -24,7 +24,7 @@ class CellDrawing extends Map
      *
      * @var array
      */
-    protected $_aCellPosition = array();
+    protected static $_aCellPosition = array();
 
 
     /**
@@ -38,7 +38,7 @@ class CellDrawing extends Map
      */
     public function drawCell( $iLine, $iColumn, $aCellValue)
     {
-        $this->_aCellPosition = array( $iLine, $iColumn);
+        self::$_aCellPosition = array( $iLine, $iColumn);
 
         // Si aucune valeur on crée notre tableau pour la première fois,
         // sinon on lisse nos premières valeurs obtenues.
