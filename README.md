@@ -5,62 +5,38 @@ A la recherche d'une forme de vie !!! =)
 
 
 ##Json
-Format de sortie du fichier Json donné par Guillaume:
+Format de sortie du fichier Json :
 
-// Une case représente 100m réels.
 
 {
-    "echelle": 100, 
-    "lignes": [
+    "size": {
+        "x": 2,
+        "y": 2
+    },
+    "map": [
         [
             {
-                "z": 1,
-                "nature": 2
+                "z": 41,
+                "type": 0
             },
             {
-                "z": 1,
-                "nature": 3
-            },
-            {
-                "z": 1,
-                "nature": 3
+                "z": 34,
+                "type": 0
             }
         ],
         [
             {
-                "z": 1,
-                "nature": 3
+                "z": -18,
+                "type": 0
             },
             {
-                "z": 1,
-                "nature": 3
-            },
-            {
-                "z": 1,
-                "nature": 3
-            }
-        ],
-        [
-            {
-                "z": 1,
-                "nature": 3
-            },
-            {
-                "z": 1,
-                "nature": 3
-            },
-            {
-                "z": 1,
-                "nature": 3
+                "z": -88,
+                "type": 1
             }
         ]
     ]
 }
 
-
 ## System requirements
 
 Version PHP >= 5.4
-
-Lib viewer javascript: https://github.com/mrdoob/three.js
-
