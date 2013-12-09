@@ -63,7 +63,7 @@ class Map implements MapInterface
         // Remplissage d'une cellule de notre map.
         foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
             foreach($aLine as $iColumn => $aCellValue) {
-                $oCellInfo = new CellDrawing($this->_aMatrice, $this->_aGlobalAttributes);
+                $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
                 $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
                 $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
             }

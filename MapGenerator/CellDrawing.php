@@ -8,7 +8,7 @@ namespace MapGenerator;
  */
 class CellDrawing implements CellDrawingInterface
 {
-    
+
     /**
      * La map
      *
@@ -16,30 +16,14 @@ class CellDrawing implements CellDrawingInterface
      */
     private $_aMap = array();
 
-    
-    /**
-     * Taille axe des X
-     * 
-     * @var int
-     */
-    private $_iAxeX;
 
-
-    /**
-     * Taille axe des Y
-     * 
-     * @var int
-     */
-    private $_iAxeY;
-    
-    
     /**
      * Attributs de la map(%roche, % glace...)
      * @var array
      */
     private $_aGlobalAttributes = array();
-    
-    
+
+
     /**
      * Contient toutes les informations sur notre cellule courante.
      *
@@ -54,16 +38,14 @@ class CellDrawing implements CellDrawingInterface
      * @var array
      */
     private $_aCellPos = array();
-    
-    
+
+
     /**
      * @param array $_aMap
      * @param array $_aGlobalAttributes
      */
     public function __construct($_aMap, $_aGlobalAttributes) {
-        $this->_aMap  = $_aMap['map'];
-        $this->_iAxeX = $_aMap['size']['x'];
-        $this->_iAxeY = $_aMap['size']['y'];
+        $this->_aMap  = $_aMap;
         $this->_aGlobalAttributes = $_aGlobalAttributes;
     }
 
@@ -99,12 +81,9 @@ class CellDrawing implements CellDrawingInterface
     private function defineCellType( )
     {
 
-        $natureTemp = array(0,0,0,0,0,0); // tableau de 6 cases vides
+        $natureTemp = array_fill(0, 6, 0); // tableau de 6 cases vides
 
         $typeNature = 0; // basée par défaut sur la roche
-
-        $natureCellule = array(); // tableau de la taille de la map comportant
-        //la nature de chaque cellule remplie au fur et à mesure de la génération.
 
         $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
 
@@ -112,40 +91,40 @@ class CellDrawing implements CellDrawingInterface
 
         // pourcentage des natures globales de la carte
         // roche, sable, minerai, fer, glace, autre
-        $this->_aGlobalAttributes = array(55, 29, 5, 5, 3, 3);
+        $this->_aGlobalAttributes = array(55, 29, 5, 5, 5, 3);
 
 
         //On va chercher les natures sur la ligne
-        /*if(isset($this->_aMap[$this->_aCellPos[0]-1][$this->_aCellPos[1]])) {
+        if( $this->prev()) {
 
-            if(isset($this->_aMap[$this->_aCellPos[0]-2][$this->_aCellPos[1]])) {
+            if( $this->prev(2)) {
 
-                if(isset($this->_aMap[$this->_aCellPos[0]-3][$this->_aCellPos[1]])) {
+                if( $this->prev(3)) {
 
-                    $natureTemp[$natureCellule[$this->_aCellPos[0]-3][$this->_aCellPos[1]]] + 5;
+                    $natureTemp[0] = 5;
                 }
 
-                $natureTemp[$natureCellule[$this->_aCellPos[0]-2][$this->_aCellPos[1]]] + 10;
+                $natureTemp[1] = 10;
             }
 
-            $natureTemp[$natureCellule[$this->_aCellPos[0]-1][$this->_aCellPos[1]]] + 15;
+            $natureTemp[2] = 15;
         }
 
         //on va chercher les natures sur la colonne
-        if(isset($this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]-1])) {
+        if( $this->top()) {
 
-            if(isset($this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]-2])) {
+            if( $this->top(2)) {
 
-                if(isset($this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]-3])) {
+                if( $this->top(3)) {
 
-                    $natureTemp[$natureCellule[$this->_aCellPos[0]][$this->_aCellPos[1]-3]] + 5;
+                    $natureTemp[3] = 5;
                 }
 
-                $natureTemp[$natureCellule[$this->_aCellPos[0]][$this->_aCellPos[1]-2]] + 10;
+                $natureTemp[4] = 10;
             }
 
-            $natureTemp[$natureCellule[$this->_aCellPos[0]][$this->_aCellPos[1]-1]] + 15;
-        }*/
+            $natureTemp[5] = 15;
+        }
 
         // on agrège le tout
         for($k=0;$k<6;$k++)
@@ -178,7 +157,7 @@ class CellDrawing implements CellDrawingInterface
         return $typeNature;
     }
 
-    
+
     /**
      * Définit l'élevation du terrain (z)
      *
@@ -190,8 +169,8 @@ class CellDrawing implements CellDrawingInterface
 
         return $sElevation;
     }
-    
-    
+
+
     /**
      * Attribut de la cellule courante
      *
@@ -206,111 +185,111 @@ class CellDrawing implements CellDrawingInterface
     /**
      * Cellule adjacente précèdente
      *
-     * @return null|array
+     * @return bool
      */
-    public function prev( )
+    public function prev( $iLine = 1)
     {
-        if( $this->_aCellPos[1] > 0 ) {
-            return $this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]-1];
+        if( isset($this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]-$iLine]) ) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
 
     /**
      * Cellule adjacente suivante
      *
-     * @return null|array
+     * @return bool
      */
-    public function next( )
+    public function next( $iLine = 1)
     {
-        if( $this->_aCellPos[1] < ($this->_iAxeY - 1)) {
-            return $this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]+1];
+        if( isset($this->_aMap[$this->_aCellPos[0]][$this->_aCellPos[1]+$iLine])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
-     
-     
+
+
     /**
      * Cellule adjacente en haut
      *
-     * @return null|array
+     * @return bool
      */
-    public function top( )
+    public function top( $iColumn = 1)
     {
-        if( $this->_aCellPos[0] > 0) {
-            return $this->_aMap[$this->_aCellPos[0]-1][$this->_aCellPos[1]];
+        if( isset($this->_aMap[$this->_aCellPos[0]-$iColumn][$this->_aCellPos[1]])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
 
     /**
      * Cellule adjacente haut gauche
      *
-     * @return null|array
+     * @return bool
      */
-    public function topLeft( )
+    public function topLeft( $iColumn = 1, $iLine = 1)
     {
-       if( $this->_aCellPos[0] > 0 && $this->_aCellPos[1] > 0) {
-           return $this->_aMap[$this->_aCellPos[0]-1][$this->_aCellPos[1]-1];
+       if( isset($this->_aMap[$this->_aCellPos[0]-$iColumn][$this->_aCellPos[1]-$iLine])) {
+           return TRUE;
        }
-       return NULL;
+       return FALSE;
     }
 
 
     /**
      * Cellule adjacente haut droite
      *
-     * @return null|array
+     * @return bool
      */
-    public function topRight( )
+    public function topRight( $iColumn = 1, $iLine = 1)
     {
-        if ( $this->_aCellPos[1] < ($this->_iAxeY - 1) &&  $this->_aCellPos[0] > 0) {
-            return $this->_aMap[$this->_aCellPos[0]-1][$this->_aCellPos[1]+1];
+        if ( isset($this->_aMap[$this->_aCellPos[0]-$iColumn][$this->_aCellPos[1]+$iLine])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
 
     /**
      * Cellule adjacente bas
      *
-     * @return null|array
+     * @return bool
      */
-    public function bottom( )
+    public function bottom( $iColumn = 1)
     {
-        if( $this->_aCellPos[0] > $this->_iAxeY) {
-            return $this->_aMap[$this->_aCellPos[0]+1][$this->_aCellPos[1]];
+        if( isset($this->_aMap[$this->_aCellPos[0]+$iColumn][$this->_aCellPos[1]])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
     /**
      * Cellule adjacente en bas à gauche
      *
-     * @return null|array
+     * @return bool
      */
-    public function bottomLeft( )
+    public function bottomLeft( $iColumn = 1, $iLine = 1)
     {
-        if( $this->_aCellPos[0] < $this->_iAxeY - 1 && $this->_aCellPos[1] > 0) {
-            return $this->_aMap[$this->_aCellPos[0]+1][$this->_aCellPos[1]-1];
+        if( isset($this->_aMap[$this->_aCellPos[0]+$iColumn][$this->_aCellPos[1]-$iLine])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
 
     /**
      * Cellule adjacente en bas à droite
      *
-     * @return null|array
+     * @return bool
      */
-   public function bottomRight( )
+   public function bottomRight( $iColumn = 1, $iLine = 1)
     {
-        if( $this->_aCellPos[0] < $this->_iAxeX - 1 && $this->_aCellPos[1] < $this->_iAxeY - 1) {
-            return $this->_aMap[$this->_aCellPos[0]+1][$this->_aCellPos[1]+1];
+        if( isset($this->_aMap[$this->_aCellPos[0]+$iColumn][$this->_aCellPos[1]+$iLine])) {
+            return TRUE;
         }
-        return NULL;
+        return FALSE;
     }
 
 }
