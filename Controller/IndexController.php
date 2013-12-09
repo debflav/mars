@@ -26,11 +26,10 @@ class IndexController extends AbstractController {
                                   "other"    => $oRequest->get('other')    ? (int) $oRequest->get('other')    : 0,
                                 );
 
-            $iNbLine   = (int) $oRequest->get('line');
-            $iNbColumn = (int) $oRequest->get('column');
+            $iDimension   = (int) $oRequest->get('dimension');
 
             $oMap = new Map();
-            $oMap->generate($iNbLine, $iNbColumn, $aAttributes);
+            $oMap->generate($iDimension, $aAttributes);
 
             return $this->render('Index/map', array( 'oMap' => $oMap->mapToJson()));
         }

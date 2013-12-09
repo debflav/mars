@@ -25,17 +25,11 @@ class Map implements MapInterface
     private $_aGlobalAttributes = [];
 
     /**
-     * Taille axe des X
+     * Dimension de la map x et y
+     *
      * @var int
      */
-    private $_iAxeX;
-
-
-    /**
-     * Taille axe des Y
-     * @var int
-     */
-    private $_iAxeY;
+    private $_iDimension;
 
 
     /**
@@ -46,7 +40,7 @@ class Map implements MapInterface
 
 
     use Singleton;
-    
+
     /**
      * Initialisation des attributs de la map (echelle, taille...).
      * Fonction générale pour la génération de la carte.
@@ -56,21 +50,16 @@ class Map implements MapInterface
      * @param array   $aAttributes
      * @return void
      */
-    public function generate($iNbLine, $iNbColumn, $aAttributes)
+    public function generate($iDimension, $aAttributes)
     {
         // Setters
         $this->_aGlobalAttributes = $aAttributes;
-        $this->_iAxeX             = $iNbLine;
-        $this->_iAxeY             = $iNbColumn;
-        $this->_aMatrice = array('size' => array( 'x' => $this->_iAxeX, 'y' => $this->_iAxeY ));
+        $this->_iDimension        = $iDimension;
+        $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
 
         // Création de la map vide
-        for ($i = 0; $i < $this->_iAxeX; $i++) {
-            for ($j = 0; $j < $this->_iAxeY; $j++) {
-                $this->_aMatrice['map'][$i][$j] = NULL;
-            }
-        }
-        
+        $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
+
         // Remplissage d'une cellule de notre map.
         foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
             foreach($aLine as $iColumn => $aCellValue) {

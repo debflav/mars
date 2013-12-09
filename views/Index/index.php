@@ -6,10 +6,7 @@
       <script>
         $(function () {
             $( "#mapgenerate" ).submit(function( event ) {
-                if($("#line").val().length === 0) {
-                    return false;
-                }
-                if($("#column").val().length === 0) {
+                if($("#dimension").val().length === 0) {
                     return false;
                 }
             });
@@ -17,12 +14,8 @@
     </script>
     <form id="mapgenerate" method="POST">
       <p>
-        <label>Dimension en X: </label>
-        <input id="line" name="line" type="text" placeholder="Dimension en X" />
-      </p>
-      <p>
-        <label>Dimension en Y: </label>
-        <input id="column" name="column" type="text" placeholder="Dimension en Y" />
+        <label>Dimension: </label>
+        <input id="dimension" name="dimension" type="text" placeholder="Dimension" />
       </p>
       <p>
         <label>Pourcentage Roche: </label>
