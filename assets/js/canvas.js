@@ -1,50 +1,67 @@
-$(function() {
+
+
+    // Terrain
+    var tilesetImage = new Image();
+    tilesetImage.src = 'assets/js/tile_ex.png';
+    tilesetImage.onload = drawCanvas;
+
+    // Rover
+    var roverImage = new Image();
+    roverImage.src = 'assets/js/rover_ex.png';
+
+    // Initialisation & récupération du canvas
     var canvas = document.getElementById('canvas');
-        if(!canvas)
-        {
-            alert("Impossible de récupérer le canvas");
-            return;
-        }
+    /*if(!canvas) {
+        alert("Impossible de récupérer le canvas");
+        return;
+    }*/
+    var ctx = canvas.getContext('2d');
+    /*if(!ctx) {
+        alert("Impossible de récupérer le context du canvas");
+        return;
+    }*/
 
-    var context = canvas.getContext('2d');
-        if(!context)
-        {
-            alert("Impossible de récupérer le context du canvas");
-            return;
-        }
+    var tileSize = 32;      // La taille d'une image (32x32)
+    var imageNumTiles = 16; // Le nombre de tiles par cellule dans le tileset image
+    ctx.canvas.height = tileSize * map.size.x; // Initialise la taille du canvas suivant le nombre de colonnes
+    ctx.canvas.width =  tileSize * map.size.y; // Initialise la taille du canvas suivant le nombre de lignes
 
-    // Taille des block
-    var block_width = 25;
+    // Initialisation de l'objet rover
+    var rover = new Rover(map.size.x, map.size.y);
+    rover.init();
 
-    // Modification de la taille du canvas
-    context.canvas.width = map.map.length*block_width;
-    context.canvas.height = map.map.length*block_width;
+    // Rafraîchissement du rover et de la map
+    setInterval(function() {
+        drawCanvas();
+        rover.moveRover();
+    }, 1000);
 
-    // Boucle sur notre Json, desinne le canvas
-    for (var l = 0; l < map.map.length; l++) {
-        for( var j = 0; j < map.map[l].length; j++ ) {
-            switch(map.map[l][j].type) {
-                case 0: // Roche
-                    context.fillStyle = '#e07327';
-                    break;
-                case 1: // Sable
-                    context.fillStyle = '#ffd859';
-                    break;
-                case 2: // Minerai
-                    context.fillStyle = '#952023';
-                    break;
-                case 3: // Fer
-                    context.fillStyle = '#898989';
-                    break;
-                case 4: // Glace
-                    context.fillStyle = '#1bbbb1';
-                    break;
-                case 5: // Autre
-                    context.fillStyle = '#38cc2e';
-                    break;
+
+    function drawCanvas () {
+        // Dessine la map
+        for (var l = 0; l < map.map.length; l++) {
+            for( var j = 0; j < map.map[l].length; j++ ) {
+                var tile = 0;
+                switch(map.map[l][j].type) {
+                    case 0: // Roche
+                        tile = 124;
+                        break;
+                    case 1: // Sable
+                        tile = 172;
+                        break;
+                    default:
+                        tile = 79;
+                        break;
+                }
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
             }
-            context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
         }
+        // Dessine le rover
+        var tile = 0;
+        var tileRow = (tile / imageNumTiles) | 0;
+        var tileCol = (tile % imageNumTiles) | 0;
+        ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.rover_pos[0].x*tileSize), (rover.rover_pos[0].y*tileSize), tileSize, tileSize);
     }
 
-});

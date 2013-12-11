@@ -2,7 +2,8 @@
 
 namespace MapGenerator;
 
-use MapGenerator\CellDrawing;
+use MapGenerator\CellDrawing,
+    MapGenerator\Singleton;
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -15,26 +16,20 @@ class Map implements MapInterface
      *
      * @var array
      */
-    protected static $_aMatrice = [];
+    private $_aMatrice = [];
 
     /**
      * Attributs de la map(%roche, % glace...)
      * @var array
      */
-    protected static $_aGlobalAttributes = [];
+    private $_aGlobalAttributes = [];
 
     /**
-     * Taille axe des X
+     * Dimension de la map x et y
+     *
      * @var int
      */
-    protected static $_iAxeX;
-
-
-    /**
-     * Taille axe des Y
-     * @var int
-     */
-    protected static $_iAxeY;
+    private $_iDimension;
 
 
     /**
@@ -43,6 +38,8 @@ class Map implements MapInterface
      */
     private $_iScale = 5;
 
+
+    use Singleton;
 
     /**
      * Initialisation des attributs de la map (echelle, taille...).
@@ -53,31 +50,24 @@ class Map implements MapInterface
      * @param array   $aAttributes
      * @return void
      */
-    public function generate($iNbLine, $iNbColumn, $aAttributes)
+    public function generate($iDimension, $aAttributes)
     {
         // Setters
-        self::$_aGlobalAttributes = $aAttributes;
-        self::$_iAxeX             = $iNbLine;
-        self::$_iAxeY             = $iNbColumn;
-        self::$_aMatrice = array('size' => array( 'x' => self::$_iAxeX, 'y' => self::$_iAxeY ));
+        $this->_aGlobalAttributes = $aAttributes;
+        $this->_iDimension        = $iDimension;
+        $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
 
         // Création de la map vide
-        for ($i = 0; $i < self::$_iAxeX; $i++) {
-            for ($j = 0; $j < self::$_iAxeY; $j++) {
-                self::$_aMatrice['map'][$i][$j] = NULL;
-            }
-        }
+        $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
+
         // Remplissage d'une cellule de notre map.
-        // Ici on applique notre remplissage une fois ( plus pour lisser les valeurs ).
-        for($i=0; $i<3; $i++) {
-            foreach (self::$_aMatrice['map'] as $iLine => $aLine) {
-                foreach($aLine as $iColumn => $aCellValue) {
-                    $oCellInfo = new CellDrawing();
-                    $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
-                    self::$_aMatrice['map'][$iLine][$iColumn] = $aCell;
-                }
-                $iLine++;
+        foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
+            foreach($aLine as $iColumn => $aCellValue) {
+                $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
+                $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
+                $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
             }
+            $iLine++;
         }
     }
 
@@ -89,7 +79,7 @@ class Map implements MapInterface
      */
     public function getMap()
     {
-        return self::$_aMatrice;
+        return $this->_aMatrice;
     }
 
 
@@ -100,19 +90,7 @@ class Map implements MapInterface
      */
     public function mapToJson()
     {
-        return json_encode( self::$_aMatrice);
-    }
-
-
-    /**
-     * Encode et retourne la carte au format Json
-     *
-     * @return JSON
-     */
-    public function mapToJsonDebugPrint()
-    {
-        echo '<pre>';
-        print_r(json_encode( self::$_aMatrice, JSON_PRETTY_PRINT));
+        return json_encode( $this->_aMatrice);
     }
 
 

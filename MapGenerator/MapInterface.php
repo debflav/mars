@@ -5,7 +5,7 @@ namespace MapGenerator;
 interface MapInterface
 {
 
-    public function generate( $iNbLine, $iNbColumn, $aAttributs);
+    public function generate( $iDimension, $aAttributs);
 
     public function mapToJson();
 
