@@ -40,7 +40,7 @@
                             alert('Problème lors du loading du script');
                         });
 
-                        $.getScript( "assets/js/canvas.js" ).fail(function( jqxhr, settings, exception ) {
+                        $.getScript( "assets/js/canvas.old2.js" ).fail(function( jqxhr, settings, exception ) {
                             alert('Problème lors du loading du script');
                         });
 
