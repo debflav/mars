@@ -3,7 +3,7 @@
 namespace MapGenerator;
 
 use MapGenerator\CellDrawing,
-    Framework\Singleton;
+    MapGenerator\Singleton;
 
 /**
  * Generation de notre object map retourné au javascript.
