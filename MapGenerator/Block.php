@@ -1,0 +1,41 @@
+<?php
+namespace MapGenerator\Block;
+
+use MapGenerator\CellDrawing;
+use MapGenerator\Element\Element;
+
+class Block {
+
+	private $blockLength;
+	private $block = array(); //Matrice du block
+	private $natures = array(); //Tableau que l'on remplis avec chaque % de natures. Indexes : 0 = roche, 1 = sable, 2 = fer, 3 = mineral, 4 = glace, 5 = autres
+
+	public function __construct($blockLength) {	//On définie la taille du block lors de l'instanciation de celui ci
+		$this->blockLength = $blockLength;
+	}
+
+	public function setBlockLength($value) {
+		$this->blockLength = $value;
+	}
+
+	public function getBlockLength() {
+		return $this->blockLength;
+	}
+
+	public function generate() { 	//$blockLength correspond au nombre de cases qui composent un bloc
+
+		for($i = 0; $i < $this->blockLength; $i++) {
+			for ($j=0; $j < $this->blockLength; $j++) {
+				$this->block[$i][$j] = Algo($i, $j);
+				$this->block[$i][$j] = elevationField();
+			}
+		}
+	}
+
+	public function setNatures($index, $value) {
+		if($index >= 0 && $index <= 6) {
+			$this->natures[$index] = (int) $value;
+		}
+	}
+
+}
