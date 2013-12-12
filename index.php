@@ -43,15 +43,8 @@
                         $.getScript( "assets/js/rover.js" ).fail(function( jqxhr, settings, exception ) {
                              $("body").text("Une erreur s'est produite et le script de déplacement du rover n'a pas été trouvée");
                         });
-
-<<<<<<< HEAD
-                        $.getScript( "assets/js/canvas.old2.js" ).fail(function( jqxhr, settings, exception ) {
-                            alert('Problème lors du loading du script');
-=======
                         $.getScript( "assets/js/canvas.js" ).fail(function( jqxhr, settings, exception ) {
-                            console.log(jqxhr);
                             $("body").text("Une erreur s'est produite et le script de génération de la map n'a pas été trouvée");
->>>>>>> version_1
                         });
 
                     }).error( function() {
