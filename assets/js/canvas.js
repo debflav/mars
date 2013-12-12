@@ -1,67 +1,100 @@
+// Terrain
+//var tilesetImage = new Image();
+//tilesetImage.src = 'assets/js/tile_ex.png';
+
+// Terrain
+var worldmapImage = new Image();
+worldmapImage.src = 'assets/js/worldmap_ex.png';
+worldmapImage.onload = drawCanvas;
+
+var worldmapImage2 = new Image();
+worldmapImage2.src = 'assets/js/worldmap2_ex.png';
+worldmapImage2.onload = drawCanvas;
+
+// Rover
+var roverImage = new Image();
+roverImage.src = 'assets/js/rover_ex.png';
+
+// Initialisation & récupération du canvas
+var canvas = document.getElementById('canvas');
+
+if(!canvas) {
+    alert("Impossible de récupérer le canvas");
+}
+
+var ctx = canvas.getContext('2d');
+if(!ctx) {
+    alert("Impossible de récupérer le context du canvas");
+}
+
+// Intialisation des objets du canvas
+var tileSize = 32;      // La taille d'une image (32x32)
+var imageNumTiles = 16; // Le nombre de tiles par cellule dans le tileset image
+ctx.canvas.height = tileSize * map.size.x; // Initialise la taille du canvas suivant le nombre de colonnes
+ctx.canvas.width =  tileSize * map.size.y; // Initialise la taille du canvas suivant le nombre de lignes
+
+// Initialisation
+var rover = new Rover(map.size.x, map.size.y);
+rover.init();
+updateMap();
 
 
-    // Terrain
-    var tilesetImage = new Image();
-    tilesetImage.src = 'assets/js/tile_ex.png';
-    tilesetImage.onload = drawCanvas;
+/* Dessine la carte */
+function drawCanvas () {
+    // Dessine la map
+    for (var l = 0; l < map.map.length; l++) {
+        for( var j = 0; j < map.map[l].length; j++ ) {
+            // Pour toutes les images sans fond on ajoute de l'herbe (à modifier)
+            var tile = 5;
+            var image = null;
+            var tileRow = (tile / imageNumTiles) | 0;
+            var tileCol = (tile % imageNumTiles) | 0;
+            ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
+            switch(map.map[l][j].type) {
+                case 0: // Roche
+                    tile = 20;
+                    image = worldmapImage;
+                    break;
+                case 1: // Sable
+                    tile = 6;
+                    image = worldmapImage;
+                    break;
+                case 4: // Glace
+                    tile = 4;
+                    image = worldmapImage;
+                    break;
+                case 5: // Autre
+                    tile = 55;
+                    image = worldmapImage;
+                    break;
+                default:
+                    image = worldmapImage;
+                    break;
+            }
+            var tileRow = (tile / imageNumTiles) | 0;
+            var tileCol = (tile % imageNumTiles) | 0;
+            ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
+        }
+    }
+    // Dessine le rover
+    var tile = 0;
+    var tileRow = (tile / imageNumTiles) | 0;
+    var tileCol = (tile % imageNumTiles) | 0;
+    ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.rover_pos[0].x*tileSize), (rover.rover_pos[0].y*tileSize), tileSize, tileSize);
 
-    // Rover
-    var roverImage = new Image();
-    roverImage.src = 'assets/js/rover_ex.png';
+}
 
-    // Initialisation & récupération du canvas
-    var canvas = document.getElementById('canvas');
-    /*if(!canvas) {
-        alert("Impossible de récupérer le canvas");
-        return;
-    }*/
-    var ctx = canvas.getContext('2d');
-    /*if(!ctx) {
-        alert("Impossible de récupérer le context du canvas");
-        return;
-    }*/
+/* Mise à jour du score ... ect */
+function updateValue(rover) {
+    $("#energy span").text(rover.ENERGY);
+    $("#score span").text(rover.SCORE);
+}
 
-    var tileSize = 32;      // La taille d'une image (32x32)
-    var imageNumTiles = 16; // Le nombre de tiles par cellule dans le tileset image
-    ctx.canvas.height = tileSize * map.size.x; // Initialise la taille du canvas suivant le nombre de colonnes
-    ctx.canvas.width =  tileSize * map.size.y; // Initialise la taille du canvas suivant le nombre de lignes
-
-    // Initialisation de l'objet rover
-    var rover = new Rover(map.size.x, map.size.y);
-    rover.init();
-
-    // Rafraîchissement du rover et de la map
+/* Rafraîchissement du rover et de la map */
+function updateMap() {
     setInterval(function() {
         drawCanvas();
         rover.moveRover();
+        updateValue(rover);
     }, 1000);
-
-
-    function drawCanvas () {
-        // Dessine la map
-        for (var l = 0; l < map.map.length; l++) {
-            for( var j = 0; j < map.map[l].length; j++ ) {
-                var tile = 0;
-                switch(map.map[l][j].type) {
-                    case 0: // Roche
-                        tile = 124;
-                        break;
-                    case 1: // Sable
-                        tile = 172;
-                        break;
-                    default:
-                        tile = 79;
-                        break;
-                }
-                var tileRow = (tile / imageNumTiles) | 0;
-                var tileCol = (tile % imageNumTiles) | 0;
-                ctx.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
-            }
-        }
-        // Dessine le rover
-        var tile = 0;
-        var tileRow = (tile / imageNumTiles) | 0;
-        var tileCol = (tile % imageNumTiles) | 0;
-        ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.rover_pos[0].x*tileSize), (rover.rover_pos[0].y*tileSize), tileSize, tileSize);
-    }
-
+}
