@@ -18,18 +18,18 @@ class Tile {
 	private $matriceBlock = array();	// Matrice du bloc courant
 
 	// Lors de la création d'une case, on lui passe les probablités de base du block (differentes en fonction du type de block), ainsi que les coordonnées de la case
-	public function __construct($matrice, $naturesTile, $x, $y) {
+	public function __construct($matrice, $naturesTile, $blockLenght, $x, $y) {
 		$this->naturesTile = $naturesTile;
 		$this->matriceBlock = $matrice;
 		$this->x = $x;
 		$this->y = $y;
 	}
 
-	public function Algo($i, $j)
+	public function Generate()
     { 
         $natureTemp = [null, null, null, null, null, null]; // tableau de 5 cases vides
         $naturePrev = [];
-        //aCurrent_Map = self::$_aMatrice;
+        //aCurrent_Map = $this->block;
         $inatureCellule = 0; // tableau de la taille de la map comportant
         //la nature de chaque cellule remplie au fur et à mesure de la génération.
 
@@ -41,12 +41,12 @@ class Tile {
 
 
         // On récupère les cellules précédente
-        $cellPrev = $this->prev($i, $j);
-        $naturePrev = $this->prev_nature($i, $j);
-        $cellPrev2 = $this->prev($i, $j - 1);
-        $naturePrev2 = $this->prev_nature($i, $j - 1);
-        $cellPrev3 = $this->prev($i, $j - 2);
-        $naturePrev3 = $this->prev_nature($i, $j - 2);
+        $cellPrev = $this->prev($this->x, $this->y);
+        $naturePrev = $this->prev_nature($this->x, $this->y);
+        $cellPrev2 = $this->prev($this->x, $this->y - 1);
+        $naturePrev2 = $this->prev_nature($this->x, $this->y - 1);
+        $cellPrev3 = $this->prev($this->x, $this->y - 2);
+        $naturePrev3 = $this->prev_nature($this->x, $this->y - 2);
 
 
         //On va chercher les natures sur la ligne
@@ -63,26 +63,26 @@ class Tile {
             $this->$natureTile[$naturePrev] = $this->$natureTile[$naturePrev] + 10;
         }
 
-        $colTop = $this->top($i, $j);
-        $natureTop = $this->top_nature_colonne($i, $j);
+        $colTop = $this->top($this->x, $this->y);
+        $natureTop = $this->top_nature_colonne($this->x, $this->y);
 
-        $colTop2 = $this->top($i -1, $j);
-        $natureTop2 = $this->top_nature_colonne($i-1, $j);
+        $colTop2 = $this->top($this->x -1, $this->y);
+        $natureTop2 = $this->top_nature_colonne($i-1, $this->y);
 
-        $colTop3 = $this->top($i - 2, $j);
-        $natureTop3 = $this->top_nature_colonne($i-2, $j);
+        $colTop3 = $this->top($this->x - 2, $this->y);
+        $natureTop3 = $this->top_nature_colonne($i-2, $this->y);
 
-        $colTopLeft = $this->topLeft($i, $j);
-        $colTopLeft1_1 = $this->topLeft($i, $j - 1);
-        $colTopLeft2_1 = $this->topLeft($i - 1, $j - 1);
-        $colTopLeft1_2 = $this->topLeft($i - 1, $j);
+        $colTopLeft = $this->topLeft($this->x, $this->y);
+        $colTopLeft1_1 = $this->topLeft($this->x, $this->y - 1);
+        $colTopLeft2_1 = $this->topLeft($this->x - 1, $this->y - 1);
+        $colTopLeft1_2 = $this->topLeft($this->x - 1, $this->y);
 
-        if($i > 0 && $j < self::$_iAxeX)
+        if($this->x > 0 && $this->y < $blockLenght)
         {
-           $natureTopLeft = $this->topleft_nature_colonne($i, $j);
-           $natureTopLeft1_1 = $this->topleft_nature_colonne($i, $j-1);
-           $natureTopLeft2_1 = $this->topleft_nature_colonne($i - 1, $j-1);
-           $natureTopLeft1_2 = $this->topleft_nature_colonne($i - 1, $j);
+           $natureTopLeft = $this->topleft_nature_colonne($this->x, $this->y);
+           $natureTopLeft1_1 = $this->topleft_nature_colonne($this->x, $this->y-1);
+           $natureTopLeft2_1 = $this->topleft_nature_colonne($this->x - 1, $this->y-1);
+           $natureTopLeft1_2 = $this->topleft_nature_colonne($this->x - 1, $this->y);
         }
 
         
@@ -127,13 +127,13 @@ class Tile {
 
 
         // Définir la fonction rand() entre 0 et $totalTemp
-        $jet = rand(0, $totalTemp);
+        $this->yet = rand(0, $totalTemp);
 
 
         // fait un tri du résultat pout trouver la bonne nature
         for($l=0; $l<=5; $l++)
         {
-           if ($jet >= $compteur && $jet <= ($compteur + $this->$natureTile[$l]))
+           if ($this->yet >= $compteur && $this->yet <= ($compteur + $this->$natureTile[$l]))
            {
                $inatureCellule = $l; // on affecte à la cellule actuelle la nature tirée au dé
            }
@@ -211,7 +211,7 @@ class Tile {
      */
     public function current($iLine, $iColumn)
     {
-        return self::$_aMatrice[$iLine][$iColumn];
+        return $this->block[$iLine][$iColumn];
     }
 
 
@@ -225,7 +225,7 @@ class Tile {
     public function prev( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return self::$_aMatrice['map'][$iLine][$iColumn-1];
+            return $this->block[$iLine][$iColumn-1];
     }
 
     /**
@@ -239,7 +239,7 @@ class Tile {
     public function prev_nature( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return self::$_aMatrice['map'][$iLine][$iColumn-1]['type'];
+            return $this->block[$iLine][$iColumn-1]['type'];
     }
 
     /**
@@ -253,7 +253,7 @@ class Tile {
     public function top_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 )
-            return self::$_aMatrice['map'][$iLine - 1][$iColumn]['type'];
+            return $this->block[$iLine - 1][$iColumn]['type'];
     }
 
     /**
@@ -267,7 +267,7 @@ class Tile {
     public function topleft_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return self::$_aMatrice['map'][$iLine - 1][$iColumn - 1]['type'];
+            return $this->block[$iLine - 1][$iColumn - 1]['type'];
     }
 
     /**
@@ -280,8 +280,8 @@ class Tile {
      */
     public function topright_nature_colonne($iLine, $iColumn)
     {
-        if( $iLine > 0 && $iLine < self::$_iAxeY && $iColumn < self::$_iAxeX - 1)
-            return self::$_aMatrice['map'][$iLine - 1][$iColumn + 1]['type'];
+        if( $iLine > 0 && $iLine < $blockLenght && $iColumn < $blockLenght - 1)
+            return $this->block[$iLine - 1][$iColumn + 1]['type'];
     }
 
     /**
@@ -293,8 +293,8 @@ class Tile {
      */
     public function next( $iLine, $iColumn)
     {
-        if( $iColumn < (self::$_iAxeY - 1))
-            return self::$_aMatrice['map'][$iLine][$iColumn+1];
+        if( $iColumn < ($blockLenght - 1))
+            return $this->block[$iLine][$iColumn+1];
     }
 
 
@@ -308,7 +308,7 @@ class Tile {
     public function topLeft( $iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return self::$_aMatrice['map'][$iLine-1][$iColumn-1];
+            return $this->block[$iLine-1][$iColumn-1];
     }
 
 
@@ -321,8 +321,8 @@ class Tile {
      */
     public function topRight( $iLine, $iColumn)
     {
-        if ( $iColumn < (self::$_iAxeY - 1) &&  $iLine > 0)
-            return self::$_aMatrice['map'][$iLine-1][$iColumn+1];
+        if ( $iColumn < ($blockLenght - 1) &&  $iLine > 0)
+            return $this->block[$iLine-1][$iColumn+1];
     }
 
     /**
@@ -334,8 +334,8 @@ class Tile {
      */
     public function top( $iLine, $iColumn)
     {
-        if ( $iColumn < (self::$_iAxeY - 1) &&  $iLine > 0)
-            return self::$_aMatrice['map'][$iLine-1][$iColumn];
+        if ( $iColumn < ($blockLenght - 1) &&  $iLine > 0)
+            return $this->block[$iLine-1][$iColumn];
     }
 
     /**
@@ -347,8 +347,8 @@ class Tile {
      */
     public function bottomLeft( $iLine, $iColumn)
     {
-        if( $iLine < self::$_iAxeY - 1 && $iColumn > 0)
-            return self::$_aMatrice['map'][$iLine+1][$iColumn-1];
+        if( $iLine < $blockLenght - 1 && $iColumn > 0)
+            return $this->block[$iLine+1][$iColumn-1];
     }
 
 
@@ -361,7 +361,7 @@ class Tile {
      */
     public function bottomRight( $iLine, $iColumn)
     {
-        if( $iLine < self::$_iAxeX - 1 && $iColumn < $this->_iAxeY - 1)
-            return self::$_aMatrice['map'][$iLine+1][$iColumn+1];
+        if( $iLine < $blockLenght - 1 && $iColumn < $this->_iAxeY - 1)
+            return $this->block[$iLine+1][$iColumn+1];
     }
 }
