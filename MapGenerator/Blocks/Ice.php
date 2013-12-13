@@ -98,7 +98,7 @@ class Ice extends Block
 	{ 	
 		for($i = 0; $i < $this->blockLength; $i++) {
 			for ($j=0; $j < $this->blockLength; $j++) {
-				$this->block[$i][$j] = new Tile($this->getBlock(), $this->getNatures(), $i, $j);
+				$this->block[$i][$j] = new Tile($this->getBlock(), $this->getNatures(), $this->getBlockLength(), $i, $j);
 				$this->block[$i][$j] = elevationField();
 			}
 		}

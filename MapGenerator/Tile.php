@@ -14,11 +14,12 @@ class Tile {
 
 	private $x;
 	private $y;
+	private $blockLength; // Taille du bloc courant
 	private $naturesTile = array();
 	private $matriceBlock = array();	// Matrice du bloc courant
 
 	// Lors de la création d'une case, on lui passe les probablités de base du block (differentes en fonction du type de block), ainsi que les coordonnées de la case
-	public function __construct($matrice, $naturesTile, $blockLenght, $x, $y) {
+	public function __construct($matrice, $naturesTile, $blockLength, $x, $y) {
 		$this->naturesTile = $naturesTile;
 		$this->matriceBlock = $matrice;
 		$this->x = $x;
@@ -53,14 +54,14 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    $this->$natureTile[$naturePrev3] = $this->$natureTile[$naturePrev3] + 10;
+                    $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 10;
 
                 }
 
-                $this->$natureTile[$naturePrev2] = $this->$natureTile[$naturePrev2] + 10;
+                $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 10;
             }
 
-            $this->$natureTile[$naturePrev] = $this->$natureTile[$naturePrev] + 10;
+            $this->naturesTile[$naturePrev] = $this->naturesTile[$naturePrev] + 10;
         }
 
         $colTop = $this->top($this->x, $this->y);
@@ -77,7 +78,7 @@ class Tile {
         $colTopLeft2_1 = $this->topLeft($this->x - 1, $this->y - 1);
         $colTopLeft1_2 = $this->topLeft($this->x - 1, $this->y);
 
-        if($this->x > 0 && $this->y < $blockLenght)
+        if($this->x > 0 && $this->y < $blockLength)
         {
            $natureTopLeft = $this->topleft_nature_colonne($this->x, $this->y);
            $natureTopLeft1_1 = $this->topleft_nature_colonne($this->x, $this->y-1);
@@ -88,29 +89,29 @@ class Tile {
         
         //on va chercher les natures sur la colonne
         if(isset($colTop) && isset($natureTop)) {
-                $this->$natureTile[$natureTop] = $this->$natureTile[$natureTop] + 10;
+                $this->naturesTile[$natureTop] = $this->naturesTile[$natureTop] + 10;
         }
         if(isset($colTopLeft) && isset($natureTopLeft))
         {
-            $this->$natureTile[$natureTopLeft] = $this->$natureTile[$natureTopLeft] + 10;
+            $this->naturesTile[$natureTopLeft] = $this->naturesTile[$natureTopLeft] + 10;
         }
         if(isset($colTopLeft1_1) && isset($natureTopLeft1_1))
         {
-            $this->$natureTile[$natureTopLeft1_1] = $this->$natureTile[$natureTopLeft1_1] + 10;
+            $this->naturesTile[$natureTopLeft1_1] = $this->naturesTile[$natureTopLeft1_1] + 10;
         }
         if(isset($colTopLeft1_2) && isset($natureTopLeft1_2))
         {
-            $this->$natureTile[$natureTopLeft1_2] = $this->$natureTile[$natureTopLeft1_2] + 10;
+            $this->naturesTile[$natureTopLeft1_2] = $this->naturesTile[$natureTopLeft1_2] + 10;
         }
         if(isset($colTopLeft2_1) && isset($natureTopLeft2_1))
         {
-            $this->$natureTile[$natureTopLeft2_1] = $this->$natureTile[$natureTopLeft2_1] + 10;
+            $this->naturesTile[$natureTopLeft2_1] = $this->naturesTile[$natureTopLeft2_1] + 10;
         }            
         if(isset($colTop2) && isset($natureTop2)) {
-            $this->$natureTile[$natureTop2] = $this->$natureTile[$natureTop2] + 10;
+            $this->naturesTile[$natureTop2] = $this->naturesTile[$natureTop2] + 10;
         }
         if(isset($colTop3) && isset($natureTop3)) {
-            $this->$natureTile[$natureTop3] = $this->$natureTile[$natureTop3] + 10;
+            $this->naturesTile[$natureTop3] = $this->naturesTile[$natureTop3] + 10;
         }
 
 
@@ -118,7 +119,7 @@ class Tile {
        for($k=0;$k<=5;$k++)
         {
             //par nature
-            $natureTemp[$k] = $natureTemp[$k] + $this->$natureTile[$k];
+            $natureTemp[$k] = $natureTemp[$k] + $this->naturesTile[$k];
 
             // on fait le total pour le jet de dés
             $totalTemp = $totalTemp + $natureTemp[$k];
@@ -133,12 +134,12 @@ class Tile {
         // fait un tri du résultat pout trouver la bonne nature
         for($l=0; $l<=5; $l++)
         {
-           if ($this->yet >= $compteur && $this->yet <= ($compteur + $this->$natureTile[$l]))
+           if ($this->yet >= $compteur && $this->yet <= ($compteur + $this->naturesTile[$l]))
            {
                $inatureCellule = $l; // on affecte à la cellule actuelle la nature tirée au dé
            }
 
-           $compteur = $compteur + $this->$natureTile[$l];
+           $compteur = $compteur + $this->naturesTile[$l];
         }
 
 
@@ -150,52 +151,52 @@ class Tile {
     	if(isset($natureTile)) {
             switch($natureTile) {
                 case 0: // Roche
-                    $this->$natureTile[0] += 0;
-                    $this->$natureTile[1] -= 4;
-                    $this->$natureTile[2] += 2;
-                    $this->$natureTile[3] += 2;
-                    $this->$natureTile[4] += 1;
-                    $this->$natureTile[5] += 1;
+                    $this->naturesTile[0] += 0;
+                    $this->naturesTile[1] -= 4;
+                    $this->naturesTile[2] += 2;
+                    $this->naturesTile[3] += 2;
+                    $this->naturesTile[4] += 1;
+                    $this->naturesTile[5] += 1;
                     break;
                 case 1: // Sable
-                    $this->$natureTile[0] -= 5;
-                    $this->$natureTile[1] += 5;
-                    $this->$natureTile[2] -= 4;
-                    $this->$natureTile[3] -= 4;
-                    $this->$natureTile[4] += 2;
-                    $this->$natureTile[5] += 4;
+                    $this->naturesTile[0] -= 5;
+                    $this->naturesTile[1] += 5;
+                    $this->naturesTile[2] -= 4;
+                    $this->naturesTile[3] -= 4;
+                    $this->naturesTile[4] += 2;
+                    $this->naturesTile[5] += 4;
                     break;
                 case 2: // Minerai
-                    $this->$natureTile[0] += 1;
-                    $this->$natureTile[1] -= 5;
-                    $this->$natureTile[2] += 0;
-                    $this->$natureTile[3] += 5;
-                    $this->$natureTile[4] += 2;
-                    $this->$natureTile[5] += 1;
+                    $this->naturesTile[0] += 1;
+                    $this->naturesTile[1] -= 5;
+                    $this->naturesTile[2] += 0;
+                    $this->naturesTile[3] += 5;
+                    $this->naturesTile[4] += 2;
+                    $this->naturesTile[5] += 1;
                     break;
                 case 3: // Fer
-                    $this->$natureTile[0] += 1;
-                    $this->$natureTile[1] -= 5;
-                    $this->$natureTile[2] += 2;
-                    $this->$natureTile[3] += 0;
-                    $this->$natureTile[4] += 1;
-                    $this->$natureTile[5] += 1;
+                    $this->naturesTile[0] += 1;
+                    $this->naturesTile[1] -= 5;
+                    $this->naturesTile[2] += 2;
+                    $this->naturesTile[3] += 0;
+                    $this->naturesTile[4] += 1;
+                    $this->naturesTile[5] += 1;
                     break;
                 case 4: // Glace
-                    $this->$natureTile[0] += 0;
-                    $this->$natureTile[1] += 2;
-                    $this->$natureTile[2] += 2;
-                    $this->$natureTile[3] -= 2;
-                    $this->$natureTile[4] += 0;
-                    $this->$natureTile[5] += 5;
+                    $this->naturesTile[0] += 0;
+                    $this->naturesTile[1] += 2;
+                    $this->naturesTile[2] += 2;
+                    $this->naturesTile[3] -= 2;
+                    $this->naturesTile[4] += 0;
+                    $this->naturesTile[5] += 5;
                     break;
                 case 5: // Autre
-                    $this->$natureTile[0] += 0;
-                    $this->$natureTile[1] += 2;
-                    $this->$natureTile[2] += 5;
-                    $this->$natureTile[3] += 5;
-                    $this->$natureTile[4] += 5;
-                    $this->$natureTile[5] += 0;
+                    $this->naturesTile[0] += 0;
+                    $this->naturesTile[1] += 2;
+                    $this->naturesTile[2] += 5;
+                    $this->naturesTile[3] += 5;
+                    $this->naturesTile[4] += 5;
+                    $this->naturesTile[5] += 0;
                     break;
             }
         }
@@ -280,7 +281,7 @@ class Tile {
      */
     public function topright_nature_colonne($iLine, $iColumn)
     {
-        if( $iLine > 0 && $iLine < $blockLenght && $iColumn < $blockLenght - 1)
+        if( $iLine > 0 && $iLine < $blockLength && $iColumn < $blockLength - 1)
             return $this->block[$iLine - 1][$iColumn + 1]['type'];
     }
 
@@ -293,7 +294,7 @@ class Tile {
      */
     public function next( $iLine, $iColumn)
     {
-        if( $iColumn < ($blockLenght - 1))
+        if( $iColumn < ($blockLength - 1))
             return $this->block[$iLine][$iColumn+1];
     }
 
@@ -321,7 +322,7 @@ class Tile {
      */
     public function topRight( $iLine, $iColumn)
     {
-        if ( $iColumn < ($blockLenght - 1) &&  $iLine > 0)
+        if ( $iColumn < ($blockLength - 1) &&  $iLine > 0)
             return $this->block[$iLine-1][$iColumn+1];
     }
 
@@ -334,7 +335,7 @@ class Tile {
      */
     public function top( $iLine, $iColumn)
     {
-        if ( $iColumn < ($blockLenght - 1) &&  $iLine > 0)
+        if ( $iColumn < ($blockLength - 1) &&  $iLine > 0)
             return $this->block[$iLine-1][$iColumn];
     }
 
@@ -347,7 +348,7 @@ class Tile {
      */
     public function bottomLeft( $iLine, $iColumn)
     {
-        if( $iLine < $blockLenght - 1 && $iColumn > 0)
+        if( $iLine < $blockLength - 1 && $iColumn > 0)
             return $this->block[$iLine+1][$iColumn-1];
     }
 
@@ -361,7 +362,7 @@ class Tile {
      */
     public function bottomRight( $iLine, $iColumn)
     {
-        if( $iLine < $blockLenght - 1 && $iColumn < $this->_iAxeY - 1)
+        if( $iLine < $blockLength - 1 && $iColumn < $this->_iAxeY - 1)
             return $this->block[$iLine+1][$iColumn+1];
     }
 }
