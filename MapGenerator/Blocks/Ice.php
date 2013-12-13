@@ -93,4 +93,15 @@ class Ice extends Block
 	{
 		return $this->natures;
 	}
+
+	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
+	{ 	
+		for($i = 0; $i < $this->blockLength; $i++) {
+			for ($j=0; $j < $this->blockLength; $j++) {
+				$this->block[$i][$j] = new Tile($this->getBlock(), $this->getNatures(), $i, $j);
+				$this->block[$i][$j] = elevationField();
+			}
+		}
+	}
+
 }

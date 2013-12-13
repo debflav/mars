@@ -15,6 +15,8 @@ abstract class Block
 		$this->blockLength = $blockLength;
 	}
 
+	abstract public function generate();
+	
 	public function setBlockLength($value) 
 	{
 		$this->blockLength = $value;
@@ -25,35 +27,8 @@ abstract class Block
 		return $this->blockLength;
 	}
 
-	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
-	{ 	
-		for($i = 0; $i < $this->blockLength; $i++) {
-			for ($j=0; $j < $this->blockLength; $j++) {
-				$this->block[$i][$j] = Algo($i, $j);
-				$this->block[$i][$j] = elevationField();
-			}
-		}
-	}
-
-	// public function setNatures($index, $value) {
-	// 	if($index >= 0 && $index <= 6) {
-	// 		$this->natures[$index] = (int) $value;
-	// 	}
-	// }
-
-	public function setNatures($rock, $sand, $iron, $ice, $ore, $other) 
+	public function getBlock() 
 	{
-		$this->natures[ROCK] = (int) $rock;
-		$this->natures[SAND] = (int) $sand;
-		$this->natures[IRON] = (int) $iron;
-		$this->natures[ICE] = (int) $ice;
-		$this->natures[ORE] = (int) $ore;
-		$this->natures[OTHER] = (int) $other;
+		return $this->block;
 	}
-
-	public function getNatures() 
-	{
-		return $this->natures;
-	}
-
 }
