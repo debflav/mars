@@ -365,4 +365,16 @@ class Tile {
         if( $iLine < $blockLength - 1 && $iColumn < $this->_iAxeY - 1)
             return $this->block[$iLine+1][$iColumn+1];
     }
+
+     /**
+     * Définit l'élevation du terrain (z)
+     *
+     * @return int
+     */
+    public function elevationField()
+    {
+        $elevation = rand(-100, 100);
+
+        return $elevation;
+    }
 }
