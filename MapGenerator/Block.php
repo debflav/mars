@@ -4,7 +4,8 @@ namespace MapGenerator\Block;
 use MapGenerator\CellDrawing;
 use MapGenerator\Element\Element;
 
-class Block {
+class Block 
+{
 
 	private $blockLength;
 	private $block = array(); //Matrice du block
@@ -32,10 +33,23 @@ class Block {
 		}
 	}
 
-	public function setNatures($index, $value) {
-		if($index >= 0 && $index <= 6) {
-			$this->natures[$index] = (int) $value;
-		}
+	// public function setNatures($index, $value) {
+	// 	if($index >= 0 && $index <= 6) {
+	// 		$this->natures[$index] = (int) $value;
+	// 	}
+	// }
+
+	public function setNatures($rock, $sand, $iron, $ice, $ore, $other) {
+		$this->natures[ROCK] = (int) $rock;
+		$this->natures[SAND] = (int) $sand;
+		$this->natures[IRON] = (int) $iron;
+		$this->natures[ICE] = (int) $ice;
+		$this->natures[ORE] = (int) $ore;
+		$this->natures[OTHER] = (int) $other;
+	}
+
+	public function getNatures() {
+		return $this->natures;
 	}
 
 }
