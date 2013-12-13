@@ -2,10 +2,12 @@
  *
  * Constructeur
  */
+var ENERGY = 10;
+
 Rover = Rover = function(height, width) {
     this.MAP_HEIGHT = height - 1;
-    this.MAP_WIDTH = width - 1 ;
-    this.ENERGY = 10;
+    this.MAP_WIDTH = width - 1;
+    this.ENERGY = ENERGY;
     this.SCORE = 0;
 };
 
@@ -35,7 +37,7 @@ Rover.prototype.consumeEnergy = function() {
  * Remplissage de l'énergie suivant le type de terrain rencontré
  */
 Rover.prototype.fillEnergy = function() {
-    this.ENERGY++;
+    this.ENERGY = ENERGY;
 };
 
 /**
@@ -50,10 +52,14 @@ Rover.prototype.incrementScore = function() {
  */
 Rover.prototype.checkFieldType = function() {
     if(map.map[this.rover_pos[0].x+1] !== undefined &&  map.map[this.rover_pos[0].y] !== undefined) {
-
+        if(map.map[this.rover_pos[0].x][this.rover_pos[0].y].type === 4) {
+            this.fillEnergy();
+            $('#console').append("<b>Le rover a trouvé de la glace. Energie rechargée.</b>");
+        }
     }
     if( this.rover_pos[0].x+1 === (this.MAP_HEIGHT+1) || this.rover_pos[0].y === (this.MAP_WIDTH+1)) {
            this.init();
     }
     this.consumeEnergy();
+    this.incrementScore();
 };

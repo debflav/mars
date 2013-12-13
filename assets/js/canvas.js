@@ -4,16 +4,16 @@
 
 // Terrain
 var worldmapImage = new Image();
-worldmapImage.src = 'assets/js/worldmap_ex.png';
+worldmapImage.src = 'assets/images/worldmap_ex.png';
 worldmapImage.onload = drawCanvas;
 
 var worldmapImage2 = new Image();
-worldmapImage2.src = 'assets/js/worldmap2_ex.png';
+worldmapImage2.src = 'assets/images/worldmap2_ex.png';
 worldmapImage2.onload = drawCanvas;
 
 // Rover
 var roverImage = new Image();
-roverImage.src = 'assets/js/rover_ex.png';
+roverImage.src = 'assets/images/rover_ex.png';
 
 // Initialisation & récupération du canvas
 var canvas = document.getElementById('canvas');
@@ -42,15 +42,15 @@ updateMap();
 /* Dessine la carte */
 function drawCanvas () {
     // Dessine la map
-    for (var l = 0; l < map.map.length; l++) {
-        for( var j = 0; j < map.map[l].length; j++ ) {
+    for (var x = 0; x < map.map.length; x++) {
+        for( var l = 0; l < map.map[x].length; l++ ) {
             // Pour toutes les images sans fond on ajoute de l'herbe (à modifier)
-            var tile = 5;
+            var tile = 0;
             var image = null;
             var tileRow = (tile / imageNumTiles) | 0;
             var tileCol = (tile % imageNumTiles) | 0;
-            ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
-            switch(map.map[l][j].type) {
+            ctx.drawImage(worldmapImage2, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            switch(map.map[x][l].type) {
                 case 0: // Roche
                     tile = 20;
                     image = worldmapImage;
@@ -73,7 +73,7 @@ function drawCanvas () {
             }
             var tileRow = (tile / imageNumTiles) | 0;
             var tileCol = (tile % imageNumTiles) | 0;
-            ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (j * tileSize), (l * tileSize), tileSize, tileSize);
+            ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
         }
     }
     // Dessine le rover
@@ -107,9 +107,9 @@ function updateMap() {
         updateConsole();
         rover.moveRover();
         updateValue();
-        if( rover.ENERGY == 0) {
+        if( rover.ENERGY === 0) {
             clearInterval(setIntervalId);
-            $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie.</b>");
+            $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie. Score: "+ rover.SCORE +".</b>");
         }
     }, 1000);
 }

@@ -13,6 +13,11 @@ $(function() {
             return;
         }
 
+    // Initialisation
+    var rover = new Rover(map.size.x, map.size.y);
+    rover.init();
+    updateMap();
+
     // Taille des block
     var block_width = 25;
 
@@ -20,31 +25,44 @@ $(function() {
     context.canvas.width = map.map.length*block_width;
     context.canvas.height = map.map.length*block_width;
 
-    // Boucle sur notre Json, desinne le canvas
+/* Dessine la carte */
+function drawCanvas () {
+    // Boucle sur notre Json, dessine le canvas
     for (var l = 0; l < map.map.length; l++) {
         for( var j = 0; j < map.map[l].length; j++ ) {
             switch(map.map[l][j].type) {
                 case 0: // Roche
-                    context.fillStyle = '#e07327';
+                    context.fillStyle = '#A0A0A0';
                     break;
                 case 1: // Sable
-                    context.fillStyle = '#ffd859';
+                    context.fillStyle = '#FFCC66';
                     break;
                 case 2: // Minerai
-                    context.fillStyle = '#952023';
+                    context.fillStyle = '#909090';
                     break;
                 case 3: // Fer
-                    context.fillStyle = '#898989';
+                    context.fillStyle = '#282828';
                     break;
                 case 4: // Glace
-                    context.fillStyle = '#1bbbb1';
+                    context.fillStyle = '#333399';
                     break;
                 case 5: // Autre
-                    context.fillStyle = '#38cc2e';
+                    context.fillStyle = '#FF0000';
                     break;
             }
             context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
         }
+        context.fillStyle = 'Yellow';
+        context.fillRect(rover.rover_pos[0].x*block_width, rover.rover_pos[0].y*block_width, block_width - 1, block_width - 1);
     }
+}
+
+/* Rafraîchissement du rover et de la map */
+function updateMap() {
+    setIntervalId = setInterval(function() {
+        drawCanvas();
+        rover.moveRover();
+    }, 1000);
+}
 
 });
