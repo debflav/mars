@@ -1,5 +1,7 @@
 <?php
 
+spl_autoload_register();
+
 $attributes = $_POST['attributes'];
 $dimension  = $_POST['dimension'];
 

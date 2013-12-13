@@ -8,7 +8,7 @@ abstract class Block
 {
 
 	private $blockLength;
-	private $block = array(); //Matrice du block
+	private $block = array(); //Matrice du block contenant chaque cellule 
 
 	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
 	{	

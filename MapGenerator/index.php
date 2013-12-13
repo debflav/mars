@@ -25,16 +25,30 @@
 	}
 
 	// On remplit la carte vide avec les blocs
+
 	for ($i = 0; $i < ($BlocXY); $i++) { // ligne de blocs
 
+		$g = $i * $DimensionBloc;
+
 		for ($j = 0; $j < ($BlocXY); $j++) { // colonnes de blocs
-			
+
+			$h = $j * $DimensionBloc;
+
 			for ($k = 0; $k <= ($DimensionBloc); $k++) { // ligne du bloc
 
 				for ($l = 0; $l <= ($DimensionBloc); $l++) { // colonnes du bloc
 
-					$TheMap[][] = $Bloc[][]->;
+					$TheMap[$g][$h] = $Bloc[$i][$j]->$block[$k][$l];
+
+					$h++;
+
+				}
+
+				$g++;
+			}
+		}
 	}
+		
 
 
 
