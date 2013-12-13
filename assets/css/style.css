@@ -31,10 +31,6 @@ fieldset {
 }
 
 
-#dimension-error {
-    display: none;
-}
-
 #globals {
     display: none;
 }
@@ -68,3 +64,19 @@ body.loading .modal {
     display: block;
 }
 
+/**
+ * Console
+ */
+#console {
+    display: none;
+    margin: 10px auto;
+    width: 500px;
+    height: 150px;
+    border: 1px solid;
+    overflow: auto;
+}
+
+#console h3 {
+    color: red;
+    text-decoration: underline;
+}

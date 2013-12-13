@@ -85,16 +85,31 @@ function drawCanvas () {
 }
 
 /* Mise à jour du score ... ect */
-function updateValue(rover) {
+function updateValue() {
     $("#energy span").text(rover.ENERGY);
     $("#score span").text(rover.SCORE);
 }
 
+/* Mise à jour de la console (avant que le rover bouge) */
+function updateConsole() {
+    var date = new Date();
+    var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.rover_pos[0].x + '; y:' + rover.rover_pos[0].y + '; type terrain: ' + map.map[rover.rover_pos[0].x][rover.rover_pos[0].y].type +"</p>");
+    $("#console").animate({
+	scrollTop: $("#console").scrollTop() + 60
+    });
+}
+
 /* Rafraîchissement du rover et de la map */
 function updateMap() {
-    setInterval(function() {
+    setIntervalId = setInterval(function() {
         drawCanvas();
+        updateConsole();
         rover.moveRover();
-        updateValue(rover);
+        updateValue();
+        if( rover.ENERGY == 0) {
+            clearInterval(setIntervalId);
+            $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie.</b>");
+        }
     }, 1000);
 }

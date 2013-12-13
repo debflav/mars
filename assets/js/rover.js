@@ -3,9 +3,9 @@
  * Constructeur
  */
 Rover = Rover = function(height, width) {
-    this.MAP_HEIGHT = height;
-    this.MAP_WIDTH = width;
-    this.ENERGY = 100;
+    this.MAP_HEIGHT = height - 1;
+    this.MAP_WIDTH = width - 1 ;
+    this.ENERGY = 10;
     this.SCORE = 0;
 };
 
@@ -13,7 +13,7 @@ Rover = Rover = function(height, width) {
  * Initialisation du rover
  */
 Rover.prototype.init = function() {
-    this.rover_pos = [{x:Math.floor((Math.random()*this.MAP_HEIGHT)+0), y:Math.floor((Math.random() * this.MAP_WIDTH)+0)}];
+    this.rover_pos = [{x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)}];
 };
 
 /**
@@ -52,7 +52,7 @@ Rover.prototype.checkFieldType = function() {
     if(map.map[this.rover_pos[0].x+1] !== undefined &&  map.map[this.rover_pos[0].y] !== undefined) {
 
     }
-    if( this.rover_pos[0].x+1 >= this.MAP_HEIGHT || this.rover_pos[0].y >= this.MAP_WIDTH) {
+    if( this.rover_pos[0].x+1 === (this.MAP_HEIGHT+1) || this.rover_pos[0].y === (this.MAP_WIDTH+1)) {
            this.init();
     }
     this.consumeEnergy();
