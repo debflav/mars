@@ -1,0 +1,35 @@
+STRATEGIES DU ROVER 
+-------------------
+
+* Point A --> Point B (capture the flag) : Avec un principe de scoring ! |||| Score : nombre de cases visitées, ressources identifiées
+
+* Découverte --> Exploration
+
+* "Wow" --> Maximum de ressources : Minerai, Fer, Glace, Autres...
+
+* Autres --> Easter Egg... Un p'tit truc planqué, au hasard un alien qui danse sur une case, sur de la musique de mireille mathieu
+
+
+
+FONCTIONNALITE COMMUNES DE LA GUI
+---------------------------------
+
+*
+
+*
+
+*
+
+*
+
+
+FAIRE DE LA PUB
+---------------
+
+
+ENERGIE
+-------
+
+* Capacité : 100
+
+* 10 d'énergie rechargée si on attend 5 tours sur une case
