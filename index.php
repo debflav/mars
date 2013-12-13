@@ -3,6 +3,8 @@
     ini_set('max_execution_time', '60');
 
     spl_autoload_register();
+
+    include 'constant.php';
 ?>
 <html>
   <head>

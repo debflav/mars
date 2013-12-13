@@ -4,27 +4,29 @@ namespace MapGenerator\Block;
 use MapGenerator\CellDrawing;
 use MapGenerator\Element\Element;
 
-class Block 
+abstract class Block 
 {
 
 	private $blockLength;
 	private $block = array(); //Matrice du block
-	private $natures = array(); //Tableau que l'on remplis avec chaque % de natures. Indexes : 0 = roche, 1 = sable, 2 = fer, 3 = mineral, 4 = glace, 5 = autres
 
-	public function __construct($blockLength) {	//On définie la taille du block lors de l'instanciation de celui ci
+	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
+	{	
 		$this->blockLength = $blockLength;
 	}
 
-	public function setBlockLength($value) {
+	public function setBlockLength($value) 
+	{
 		$this->blockLength = $value;
 	}
 
-	public function getBlockLength() {
+	public function getBlockLength() 
+	{
 		return $this->blockLength;
 	}
 
-	public function generate() { 	//$blockLength correspond au nombre de cases qui composent un bloc
-
+	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
+	{ 	
 		for($i = 0; $i < $this->blockLength; $i++) {
 			for ($j=0; $j < $this->blockLength; $j++) {
 				$this->block[$i][$j] = Algo($i, $j);
@@ -39,7 +41,8 @@ class Block
 	// 	}
 	// }
 
-	public function setNatures($rock, $sand, $iron, $ice, $ore, $other) {
+	public function setNatures($rock, $sand, $iron, $ice, $ore, $other) 
+	{
 		$this->natures[ROCK] = (int) $rock;
 		$this->natures[SAND] = (int) $sand;
 		$this->natures[IRON] = (int) $iron;
@@ -48,7 +51,8 @@ class Block
 		$this->natures[OTHER] = (int) $other;
 	}
 
-	public function getNatures() {
+	public function getNatures() 
+	{
 		return $this->natures;
 	}
 
