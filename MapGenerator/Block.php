@@ -8,7 +8,7 @@ abstract class Block
 {
 
 	private $blockLength;
-	private $block = array(); //Matrice du block
+	private $block = array("nature" => null, "z" => null); //Matrice du block
 
 	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
 	{	
@@ -16,7 +16,7 @@ abstract class Block
 	}
 
 	abstract public function generate();
-	
+
 	public function setBlockLength($value) 
 	{
 		$this->blockLength = $value;
