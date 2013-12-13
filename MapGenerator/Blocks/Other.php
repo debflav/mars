@@ -4,14 +4,14 @@ namespace MapGenerator\Blocks;
 
 use MapGenerator\Block;
 
-class Rock extends Block
+class Other extends Block
 {
-	private $rock    = 70;
-	private $sand    = 13;
-	private $iron    = 6;
-	private $ore     = 6;
-	private $ice     = 4;
-	private $other   = 1;
+	private $rock    = 40;
+	private $sand    = 17;
+	private $iron    = 3;
+	private $ore     = 2;
+	private $ice     = 18;
+	private $other   = 20;
 	private $natures = array(); // On va stocker les pourcentages de natures dans ce tableau
 
 
@@ -93,6 +93,4 @@ class Rock extends Block
 	{
 		return $this->natures;
 	}
-
-
 }
