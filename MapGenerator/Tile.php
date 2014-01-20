@@ -28,8 +28,8 @@ class Tile {
 
 	public function Generate()
     { 
-        $natureTemp = [null, null, null, null, null, null]; // tableau de 5 cases vides
-        $naturePrev = [];
+        $natureTemp = array(); // tableau de 5 cases vides
+        $naturePrev = array();
         //aCurrent_Map = $this->block;
         $inatureCellule = 0; // tableau de la taille de la map comportant
         //la nature de chaque cellule remplie au fur et à mesure de la génération.
@@ -54,8 +54,10 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 10;
-
+                    var_dump($this->naturesTile[$naturePrev3]);
+                    $this->naturesTile[$naturePrev3] = $this->adjustNature($naturePrev3);
+                    var_dump($this->naturesTile[$naturePrev3]);
+                    die();
                 }
 
                 $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 10;

@@ -3,6 +3,8 @@
 namespace MapGenerator;
 
 use MapGenerator\CellDrawing,
+    MapGenerator\Block,
+    MapGenerator\Blocks\Ice,
     MapGenerator\Singleton;
 
 /**
@@ -52,23 +54,29 @@ class Map implements MapInterface
      */
     public function generate($iDimension, $aAttributes)
     {
+        // var_dump('totototo');
         // Setters
         $this->_aGlobalAttributes = $aAttributes;
         $this->_iDimension        = $iDimension;
-        $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
+        // $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
 
         // Création de la map vide
-        $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
+        // $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
 
         // Remplissage d'une cellule de notre map.
-        foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
-            foreach($aLine as $iColumn => $aCellValue) {
-                $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
-                $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
-                $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
-            }
-            $iLine++;
-        }
+        // foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
+        //     foreach($aLine as $iColumn => $aCellValue) {
+        //         $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
+        //         $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
+        //         $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
+        //     }
+        //     $iLine++;
+        // }
+        var_dump("krezoiozen");
+        var_dump($iDimension);
+
+        var_dump($this->_iDimension);
+        $ice = new Ice($this->_iDimension);
     }
 
 
