@@ -28,7 +28,7 @@ class Tile {
 
 	public function Generate()
     { 
-        $natureTemp = array(); // tableau de 5 cases vides
+        $natureTemp = array(null, null, null, null, null, null); // tableau de 6 cases vides
         $naturePrev = array();
         //aCurrent_Map = $this->block;
         $inatureCellule = 0; // tableau de la taille de la map comportant
@@ -37,7 +37,6 @@ class Tile {
         $totalTemp = 0; // variable d'agrégation qui va servir à redéfinir le maximum pour le jet de dé
 
         $compteur = 0; // variable qui va permettre de définir
-
 
 
 
@@ -54,10 +53,7 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    var_dump($this->naturesTile[$naturePrev3]);
                     $this->naturesTile[$naturePrev3] = $this->adjustNature($naturePrev3);
-                    var_dump($this->naturesTile[$naturePrev3]);
-                    die();
                 }
 
                 $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 10;
@@ -70,17 +66,17 @@ class Tile {
         $natureTop = $this->top_nature_colonne($this->x, $this->y);
 
         $colTop2 = $this->top($this->x -1, $this->y);
-        $natureTop2 = $this->top_nature_colonne($i-1, $this->y);
+        $natureTop2 = $this->top_nature_colonne($this->x -1, $this->y);
 
         $colTop3 = $this->top($this->x - 2, $this->y);
-        $natureTop3 = $this->top_nature_colonne($i-2, $this->y);
+        $natureTop3 = $this->top_nature_colonne($this->x -2, $this->y);
 
         $colTopLeft = $this->topLeft($this->x, $this->y);
         $colTopLeft1_1 = $this->topLeft($this->x, $this->y - 1);
         $colTopLeft2_1 = $this->topLeft($this->x - 1, $this->y - 1);
         $colTopLeft1_2 = $this->topLeft($this->x - 1, $this->y);
 
-        if($this->x > 0 && $this->y < $blockLength)
+        if($this->x > 0 && $this->y < $this->blockLength)
         {
            $natureTopLeft = $this->topleft_nature_colonne($this->x, $this->y);
            $natureTopLeft1_1 = $this->topleft_nature_colonne($this->x, $this->y-1);
@@ -115,7 +111,6 @@ class Tile {
         if(isset($colTop3) && isset($natureTop3)) {
             $this->naturesTile[$natureTop3] = $this->naturesTile[$natureTop3] + 10;
         }
-
 
           // on agrège le tout
        for($k=0;$k<=5;$k++)
@@ -206,19 +201,6 @@ class Tile {
     }
 
     /**
-     * Attribut de la cellule courante
-     *
-     * @param integer $iLine
-     * @param integer $iColumn
-     * @return array
-     */
-    public function current($iLine, $iColumn)
-    {
-        return $this->block[$iLine][$iColumn];
-    }
-
-
-    /**
      * Cellule adjacente précèdente
      *
      * @param integer $iLine
@@ -228,7 +210,7 @@ class Tile {
     public function prev( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return $this->block[$iLine][$iColumn-1];
+            return $this->matriceBlock[$iLine][$iColumn-1];
     }
 
     /**
@@ -242,7 +224,7 @@ class Tile {
     public function prev_nature( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return $this->block[$iLine][$iColumn-1]['type'];
+            return $this->matriceBlock[$iLine][$iColumn-1]['nature'];
     }
 
     /**
@@ -256,7 +238,7 @@ class Tile {
     public function top_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 )
-            return $this->block[$iLine - 1][$iColumn]['type'];
+            return $this->matriceBlock[$iLine - 1][$iColumn]['nature'];
     }
 
     /**
@@ -270,7 +252,7 @@ class Tile {
     public function topleft_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return $this->block[$iLine - 1][$iColumn - 1]['type'];
+            return $this->matriceBlock[$iLine - 1][$iColumn - 1]['nature'];
     }
 
     /**
@@ -283,8 +265,8 @@ class Tile {
      */
     public function topright_nature_colonne($iLine, $iColumn)
     {
-        if( $iLine > 0 && $iLine < $blockLength && $iColumn < $blockLength - 1)
-            return $this->block[$iLine - 1][$iColumn + 1]['type'];
+        if( $iLine > 0 && $iLine < $this->blockLength && $iColumn < $this->blockLength - 1)
+            return $this->matriceBlock[$iLine - 1][$iColumn + 1]['nature'];
     }
 
     /**
@@ -294,10 +276,11 @@ class Tile {
      * @param integer $iColumn
      * @return null|array
      */
+     
     public function next( $iLine, $iColumn)
     {
-        if( $iColumn < ($blockLength - 1))
-            return $this->block[$iLine][$iColumn+1];
+        if( $iColumn < ($this->blockLength - 1))
+            return $this->matriceBlock[$iLine][$iColumn+1];
     }
 
 
@@ -311,7 +294,7 @@ class Tile {
     public function topLeft( $iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return $this->block[$iLine-1][$iColumn-1];
+            return $this->matriceBlock[$iLine-1][$iColumn-1];
     }
 
 
@@ -324,8 +307,8 @@ class Tile {
      */
     public function topRight( $iLine, $iColumn)
     {
-        if ( $iColumn < ($blockLength - 1) &&  $iLine > 0)
-            return $this->block[$iLine-1][$iColumn+1];
+        if ( $iColumn < ($this->blockLength - 1) &&  $iLine > 0)
+            return $this->matriceBlock[$iLine-1][$iColumn+1];
     }
 
     /**
@@ -337,8 +320,8 @@ class Tile {
      */
     public function top( $iLine, $iColumn)
     {
-        if ( $iColumn < ($blockLength - 1) &&  $iLine > 0)
-            return $this->block[$iLine-1][$iColumn];
+        if ( $iColumn < ($this->blockLength - 1) &&  $iLine > 0)
+            return $this->matriceBlock[$iLine-1][$iColumn];
     }
 
     /**
@@ -350,8 +333,8 @@ class Tile {
      */
     public function bottomLeft( $iLine, $iColumn)
     {
-        if( $iLine < $blockLength - 1 && $iColumn > 0)
-            return $this->block[$iLine+1][$iColumn-1];
+        if( $iLine < $this->blockLength - 1 && $iColumn > 0)
+            return $this->matriceBlock[$iLine+1][$iColumn-1];
     }
 
 
@@ -364,7 +347,7 @@ class Tile {
      */
     public function bottomRight( $iLine, $iColumn)
     {
-        if( $iLine < $blockLength - 1 && $iColumn < $this->_iAxeY - 1)
+        if( $iLine < $this->blockLength - 1 && $iColumn < $this->_iAxeY - 1)
             return $this->block[$iLine+1][$iColumn+1];
     }
 
