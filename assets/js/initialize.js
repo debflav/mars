@@ -47,7 +47,7 @@ $(function () {
 
             }).error( function( ) {
                 $("body").text("Une erreur s'est produite et la requête n'a pas aboutie :(.");
-                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
 
             return false;
