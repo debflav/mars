@@ -72,11 +72,9 @@ class Map implements MapInterface
         //     }
         //     $iLine++;
         // }
-        var_dump("krezoiozen");
-        var_dump($iDimension);
 
-        var_dump($this->_iDimension);
         $ice = new Ice($this->_iDimension);
+        $ice->generate();
     }
 
 

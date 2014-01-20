@@ -12,6 +12,7 @@ abstract class Block
 	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
 	{	
 		$this->blockLength = $blockLength;
+		$this->setNatures($this->getRock(), $this->getSand(), $this->getIron(), $this->getOre(), $this->getIce(), $this->getOther()  );
 	}
 
 	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
