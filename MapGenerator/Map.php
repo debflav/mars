@@ -2,11 +2,11 @@
 
 namespace MapGenerator;
 
+
 use MapGenerator\CellDrawing;
 use MapGenerator\Singleton;
 use MapGenerator\fonction;
 use MapGenerator\Block;
-
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -55,6 +55,7 @@ class Map implements MapInterface
      */
     public function generate($iDimension)
     {
+
         // // Setters
         // $this->_aGlobalAttributes = $aAttributes;
         // $this->_iDimension        = $iDimension;
@@ -64,6 +65,7 @@ class Map implements MapInterface
         // $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
 
         // // Remplissage d'une cellule de notre map.
+
         // foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
         //     foreach($aLine as $iColumn => $aCellValue) {
         //         $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
