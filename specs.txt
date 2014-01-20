@@ -21,6 +21,41 @@ I/ Génération de la map
 
 			On définie le pourcentage des natures que l'on souhaite avoir sur notre map. Cela influe sur le pourcentage de chance d'avoir une case d'une nature donnée.
 
+		d) forme du JSON
+
+			{
+
+			    "size": {
+			        "x": 2,
+			        "y": 2
+			    },
+			    "map": [
+			        [
+			            {
+			                "z": 23,
+			                "type": 1
+			            },
+			            {
+			                "z": 51,
+			                "type": 6
+			            }
+			        ],
+			        [
+			            {
+			                "z": 55,
+			                "type": 6
+			            },
+			            {
+			                "z": 19,
+			                "type": 6
+			            }
+			        ]
+			    ]
+			}
+
+
+
+
 	3/ Algo de définition des cases
 	-------------------------------
 
