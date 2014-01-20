@@ -108,6 +108,7 @@ class Map implements MapInterface
         for ($i = 0; $i < ($this->_iBlocXY); $i++) { // ligne de blocs
 
             $g = $i * $this->_iDimension;
+            
 
             for ($j = 0; $j < ($this->_iBlocXY); $j++) { // colonnes de blocs
 
