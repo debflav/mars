@@ -7,6 +7,12 @@ use MapGenerator\CellDrawing;
 use MapGenerator\Singleton;
 use MapGenerator\fonction;
 use MapGenerator\Block;
+use MapGenerator\Blocks\Ice;
+use MapGenerator\Blocks\Iron;
+use MapGenerator\Blocks\Ore;
+use MapGenerator\Blocks\Other;
+use MapGenerator\Blocks\Rock;
+use MapGenerator\Blocks\Sand;
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -82,16 +88,16 @@ class Map implements MapInterface
 
         // ETAPE 0 :
         // on génère la carte vide à partir des infos
-        $this->_aMatrice = EmptyMap($this->_iBlocXY * $this->_iDimension);
+        $this->_aMatrice = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
 
         // ETAPE 1 :
         // On génère la carte par bloc avec altitude pseudo plane et nature
-        for ($i = 0; $i < ($_iBlocXY); $i++) {
+        for ($i = 0; $i < ($this->_iBlocXY); $i++) {
 
-            for ($j = 0; $j < ($_iBlocXY); $j++) { // colonnes de blocs
+            for ($j = 0; $j < ($this->_iBlocXY); $j++) { // colonnes de blocs
 
                 // Fonction de génération d'un bloc
-                $Bloc[$i][$j] = ChoiceBlock($this->_iDimension);
+                $Bloc[$i][$j] = $this->ChoiceBlock($this->_iDimension);
                 $Bloc[$i][$j]->generate();
             }
         }
@@ -135,6 +141,52 @@ class Map implements MapInterface
 
     }
 
+    public function ChoiceBlock ($Dimension) {
+
+    // Pondération d'apparition des blocs
+    $NatureBlock[0] = 35;
+    $NatureBlock[1] = 35;
+    $NatureBlock[2] = 5;
+    $NatureBlock[3] = 9;
+    $NatureBlock[4] = 15;
+    $NatureBlock[5] = 1;
+
+    // Définir la fonction rand() entre 0 et 100
+      $jet = rand(1, 100);
+
+
+      // fait un tri du résultat pout trouver la bonne nature
+      
+        switch ($jet)
+        {
+            case($jet <= $NatureBlock[0]) :
+                return new Rock($Dimension); // on affecte au bloc la nature tirée au dé
+                break;
+            case($jet <= $NatureBlock[0] + $NatureBlock[1]) : 
+                return new Sand($Dimension);
+                break;
+            case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2]) :
+                return new Iron($Dimension);
+                break;
+            case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3]) :
+                return new Ore($Dimension);
+                break;
+            case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4]) :
+                return new Ice($Dimension);
+                break;
+            case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4] + $NatureBlock[5]) :
+                return new Iron($Dimension);
+                break;
+        }
+
+    }
+
+    public function emptyMap ($Dimension) {
+
+      $MatriceVide = array_fill(0, $Dimension, array_fill(0, $Dimension, NULL));
+
+      return $MatriceVide;
+    }
 
     /**
      * Retourne la carte sous forme de tableau
@@ -169,13 +221,6 @@ class Map implements MapInterface
         // Utilisé lors de l'envoi d'un fichier.
         // test du format json...(extension...)
 
-    }
-
-    public function EmptyMap ($Dimension) {
-
-        $MatriceVide = array_fill(0, $Dimension, array_fill(0, $Dimension, NULL));
-
-        return $MatriceVide;
     }
 
 }
