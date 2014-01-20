@@ -163,7 +163,7 @@ class CellDrawing implements CellDrawingInterface
      *
      * @return string
      */
-    private function elevationField()
+    public function elevationField()
     {
         $sElevation = rand(-100, 100);
 

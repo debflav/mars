@@ -1,14 +1,15 @@
 <?php
 namespace MapGenerator\Block;
 
-use MapGenerator\CellDrawing;
 use MapGenerator\Element\Element;
 
 abstract class Block 
 {
 
 	private $blockLength;
-	private $block = array("nature" => null, "z" => null); //Matrice du block
+
+	private $block = array(); //Matrice du block
+
 
 	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
 	{	
