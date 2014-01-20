@@ -2,8 +2,11 @@
 
 namespace MapGenerator;
 
-use MapGenerator\CellDrawing,
-    MapGenerator\Singleton;
+use MapGenerator\CellDrawing;
+use MapGenerator\Singleton;
+use MapGenerator\fonction;
+use MapGenerator\Block;
+
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -19,10 +22,10 @@ class Map implements MapInterface
     private $_aMatrice = [];
 
     /**
-     * Attributs de la map(%roche, % glace...)
-     * @var array
+     * Nombre de block de la map
+     * @var int
      */
-    private $_aGlobalAttributes = [];
+    private $_iBlocXY;
 
     /**
      * Dimension de la map x et y
@@ -50,25 +53,84 @@ class Map implements MapInterface
      * @param array   $aAttributes
      * @return void
      */
-    public function generate($iDimension, $aAttributes)
+    public function generate($iDimension)
     {
-        // Setters
-        $this->_aGlobalAttributes = $aAttributes;
-        $this->_iDimension        = $iDimension;
-        $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
+        // // Setters
+        // $this->_aGlobalAttributes = $aAttributes;
+        // $this->_iDimension        = $iDimension;
+        // $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
 
-        // Création de la map vide
-        $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
+        // // Création de la map vide
+        // $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
 
-        // Remplissage d'une cellule de notre map.
-        foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
-            foreach($aLine as $iColumn => $aCellValue) {
-                $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
-                $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
-                $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
+        // // Remplissage d'une cellule de notre map.
+        // foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
+        //     foreach($aLine as $iColumn => $aCellValue) {
+        //         $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
+        //         $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
+        //         $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
+        //     }
+        //     $iLine++;
+        // }
+
+        // VARIABLES
+        $this->_iBlocXY = 2; // Nombre de blocs en longueur et largeur
+        $this->_iDimension = $iDimension; // Nombre de cellule par bloc
+        $Bloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
+
+        // ETAPE 0 :
+        // on génère la carte vide à partir des infos
+        $this->_aMatrice = EmptyMap($this->_iBlocXY * $this->_iDimension);
+
+        // ETAPE 1 :
+        // On génère la carte par bloc avec altitude pseudo plane et nature
+        for ($i = 0; $i < ($_iBlocXY); $i++) {
+
+            for ($j = 0; $j < ($_iBlocXY); $j++) { // colonnes de blocs
+
+                // Fonction de génération d'un bloc
+                $Bloc[$i][$j] = ChoiceBlock($this->_iDimension);
+                $Bloc[$i][$j]->generate();
             }
-            $iLine++;
         }
+
+        // On remplit la carte vide avec les blocs
+
+        for ($i = 0; $i < ($this->_iBlocXY); $i++) { // ligne de blocs
+
+            $g = $i * $this->_iDimension;
+
+            for ($j = 0; $j < ($this->_iBlocXY); $j++) { // colonnes de blocs
+
+                $h = $j * $this->_iDimension;
+
+                for ($k = 0; $k <= ($this->_iDimension); $k++) { // ligne du bloc
+
+                    for ($l = 0; $l <= ($this->_iDimension); $l++) { // colonnes du bloc
+
+                        $this->_aMatrice[$g][$h] = $Bloc[$i][$j]->$block[$k][$l];
+
+                        $h++;
+
+                    }
+
+                    $g++;
+                }
+            }
+        }
+            
+        
+
+
+
+
+        // ETAPE 2 :
+        // on dépose sur la carte un certain nombre d'objet
+
+        // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
+
+        // on pose les objets un à un
+
     }
 
 
@@ -105,6 +167,13 @@ class Map implements MapInterface
         // Utilisé lors de l'envoi d'un fichier.
         // test du format json...(extension...)
 
+    }
+
+    public function EmptyMap ($Dimension) {
+
+        $MatriceVide = array_fill(0, $Dimension, array_fill(0, $Dimension, NULL));
+
+        return $MatriceVide;
     }
 
 }
