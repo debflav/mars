@@ -200,7 +200,7 @@ class Tile {
                     break;
             }
         }
-        return
+        return;
     }
 
     /**

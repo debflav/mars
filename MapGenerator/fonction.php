@@ -26,22 +26,22 @@
         
        	switch ($jet)
        	{
-       	    case($jet <= $NatureBlock[0])
+       	    case($jet <= $NatureBlock[0]):
        	    	return new Rock($Dimension); // on affecte au bloc la nature tirée au dé
        	    	break;
-       	    case($jet <= $NatureBlock[0] + $NatureBlock[1])
+       	    case($jet <= $NatureBlock[0] + $NatureBlock[1]):
        	    	return new Sand($Dimension);
        	    	break;
-       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2])
+       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2]):
        	    	return new Iron($Dimension);
        	    	break;
-       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3])
+       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3]):
        	    	return new Ore($Dimension);
        	    	break;
-       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4])
+       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4]):
        	    	return new Ice($Dimension);
        	    	break;
-       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4] + $NatureBlock[5])
+       	    case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4] + $NatureBlock[5]):
        	    	return new Iron($Dimension);
        	    	break;
       	}
