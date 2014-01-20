@@ -81,12 +81,13 @@ class Rock extends Block
 
 	public function setNatures($rock, $sand, $iron, $ore, $ice, $other) 
 	{
-		$this->rock  = $this->setRock($rock);
-		$this->sand  = $this->setSand($sand);
-		$this->iron  = $this->setIron($iron);
-		$this->ore   = $this->setOre($ore);
-		$this->ice   = $this->setIce($ice);
-		$this->other = $this->setOther($other);
+		$this->natures[] = $rock;
+		$this->natures[] = $sand;
+		$this->natures[] = $iron;
+		$this->natures[] = $ore;
+		$this->natures[] = $ice;
+		$this->natures[] = $other;
+
 	}
 
 	public function getNatures()

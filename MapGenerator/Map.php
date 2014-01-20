@@ -113,11 +113,12 @@ class Map implements MapInterface
 
                 $h = $j * $this->_iDimension;
 
-                for ($k = 0; $k <= ($this->_iDimension); $k++) { // ligne du bloc
+                for ($k = 0; $k < ($this->_iDimension); $k++) { // ligne du bloc
 
-                    for ($l = 0; $l <= ($this->_iDimension); $l++) { // colonnes du bloc
+                    for ($l = 0; $l < ($this->_iDimension); $l++) { // colonnes du bloc
+ 
 
-                        $this->_aMatrice[$g][$h] = $Bloc[$i][$j]->$block[$k][$l];
+                        $this->_aMatrice[$g][$h] = $Bloc[$i][$j]->block[$k][$l];
 
                         $h++;
 

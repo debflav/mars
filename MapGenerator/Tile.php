@@ -39,7 +39,6 @@ class Tile {
         $compteur = 0; // variable qui va permettre de définir
 
 
-
         // On récupère les cellules précédente
         $cellPrev = $this->prev($this->x, $this->y);
         $naturePrev = $this->prev_nature($this->x, $this->y);

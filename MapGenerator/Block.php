@@ -4,9 +4,9 @@ namespace MapGenerator;
 abstract class Block 
 {
 
-	private $blockLength;
+	protected $blockLength;
 
-	private $block = array(); //Matrice du block
+	public $block = array(); //Matrice du block
 
 
 	public function __construct($blockLength) //On définie la taille du block lors de l'instanciation de celui ci
