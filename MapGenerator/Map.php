@@ -127,17 +127,6 @@ class Map implements MapInterface
             for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) { 
             
 
-                var_dump("ligneCelluleMap     : " . $ligneCelluleMap . "\n");
-                var_dump("colonneCelluleMap   : " . $colonneCelluleMap . "\n");
-                var_dump("ligneBloc           : " . $ligneBloc . "\n");
-                var_dump("colonneBloc         : " . $colonneBloc . "\n");
-                var_dump("ligneCelluleBloc    : " . $ligneCelluleBloc . "\n");
-                var_dump("colonneCelluleBloc  : " . $colonneCelluleBloc . "\n --------- \n ");
-
-                
-                
-
-
                 // on incrémente les variables pour la prochaine cellule (les coordonnées de la map sont incrémentées dans les boucles for)
 
                 // gestion des colonnes
@@ -184,12 +173,6 @@ class Map implements MapInterface
             $colonneBloc = 0; // on remet la ligne des blocs à 0
             $colonneCelluleBloc = 0; // on revient à la colonne 0 du bloc suivant
         }
-
-        var_dump($this->_aMatrice);
-        die();
-
-            
-
 
         // ETAPE 2 :
         // on dépose sur la carte un certain nombre d'objet
@@ -264,9 +247,9 @@ class Map implements MapInterface
     public function mapToJson()
     {
         // on met en forme pour le JSON
-        $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension), 'map' => $this->_aMatrice);
-        return json_encode( $this->_aMatrice);
-    }
+        $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension),
+                      'map' => $this->_aMatrice);
+        return json_encode( $temp);
 
 
     /**
