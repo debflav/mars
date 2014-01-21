@@ -82,9 +82,19 @@ function updateMap() {
         updateConsole();
         rover.moveRover();
         updateValue();
-        if( rover.ENERGY === 0) {
+        // Si le rover n'a plus d'energie il se recharge pendant 5 tours ##TODO
+        if( rover.ENERGY <= 0) {
             clearInterval(setIntervalId);
             $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie. Score: "+ rover.SCORE +".</b>");
+        }
+        // Mission 1 (Point A vers point B)
+        if(rover.TYPE_OF_GAME == 1) {
+            // Partie finis objectif atteint
+            if( rover.rover_pos[0].x == rover.DESTINATION.x &&
+                rover.rover_pos[0].y == rover.DESTINATION.y){
+                clearInterval(setIntervalId);
+                $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Score: "+ rover.SCORE +".</b>");
+            }
         }
     }, 1000);
 }
