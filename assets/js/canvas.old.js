@@ -14,8 +14,10 @@ $(function() {
         }
 
     // Initialisation
-    var rover = new Rover(map.size.x, map.size.y);
+    var rover = new Rover(map.size.x, map.size.y, $("#game-type").val());
     rover.init();
+    $('#console').append("<p> x:"+ rover.DESTINATION.x + " y:" + rover.DESTINATION.y + "</p>");
+
     updateMap();
 
     // Taille des block
@@ -57,11 +59,33 @@ function drawCanvas () {
     }
 }
 
+/* Mise à jour du score ... ect */
+function updateValue() {
+    $("#energy span").text(rover.ENERGY);
+    $("#score span").text(rover.SCORE);
+}
+
+/* Mise à jour de la console (avant que le rover bouge) */
+function updateConsole() {
+    var date = new Date();
+    var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.rover_pos[0].x + '; y:' + rover.rover_pos[0].y + '; type terrain: ' + map.map[rover.rover_pos[0].x][rover.rover_pos[0].y].type +"</p>");
+    $("#console").animate({
+	scrollTop: $("#console").scrollTop() + 60
+    });
+}
+
 /* Rafraîchissement du rover et de la map */
 function updateMap() {
     setIntervalId = setInterval(function() {
         drawCanvas();
+        updateConsole();
         rover.moveRover();
+        updateValue();
+        if( rover.ENERGY === 0) {
+            clearInterval(setIntervalId);
+            $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie. Score: "+ rover.SCORE +".</b>");
+        }
     }, 1000);
 }
 

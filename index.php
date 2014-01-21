@@ -2,8 +2,6 @@
     ini_set('memory_limit','1024M');
     ini_set('max_execution_time', '60');
 
-    spl_autoload_register();
-
     include 'constant.php';
 ?>
 <html>
@@ -24,10 +22,17 @@
               <input id="dimension" name="dimension" type="text" placeholder="Dimension" />
               <span id="dimension-error"></span>
             </p>
+            <p>
+            <label>Type de partie: </label>
+            <select name="type" id ="game-type">
+              <option value="1" selected>Destination</option>
+              <option value="2">Exploration de carte</option>
+              <option value="3">Récolte de matériel</option>
+            </select>
+            </p>
             <div id="show-globals">
                 Affiner la création de la carte <a href="#" onclick="$('#show-globals a').text('');$('#globals').fadeIn( 2000);">+</a>
             </div>
-
             <div id="globals">
               <p>
                 <label>Pourcentage Roche: </label>
@@ -55,6 +60,16 @@
               </p>
             </div>
             <input type="submit" value="Générer la map" />
+        </fieldset>
+    </form>
+
+    <!-- Formulaire d'envoi de JSON ##TODO -->
+    <form id="map-upload" enctype="multipart/form-data" method="POST">
+        <fieldset>
+            <legend>Upload fucking json</legend>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+            <input type="file" id="jsonfile" name="file" />
+            <input type="submit" value="Envoyer" />
         </fieldset>
     </form>
 
