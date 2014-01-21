@@ -21,7 +21,7 @@ abstract class Block
 			for ($j=0; $j < $this->blockLength; $j++) {
 				$tile = new Tile($this->getBlock(), $this->getNatures(), $this->getBlockLength(), $i, $j);
 				$this->block[$i][$j] = array(
-					'nature' => $tile->generate(),
+					'type' => $tile->generate(),
 					'z' => $tile->elevationField(),
 				);
 			}

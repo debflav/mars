@@ -9,6 +9,6 @@ interface MapInterface
 
     public function mapToJson();
 
-    public function generateMapFromJson( $sJson);
+    // public function generateMapFromJson( $sJson);
 
 }

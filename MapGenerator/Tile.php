@@ -217,13 +217,12 @@ class Tile {
      *
      * @param integer $iLine
      * @param integer $iColumn
-     * @param integer $nature
      * @return null|array
      */
     public function prev_nature( $iLine, $iColumn)
     {
         if( $iColumn > 0 )
-            return $this->matriceBlock[$iLine][$iColumn-1]['nature'];
+            return $this->matriceBlock[$iLine][$iColumn-1]['type'];
     }
 
     /**
@@ -231,13 +230,12 @@ class Tile {
      *
      * @param integer $iLine
      * @param integer $iColumn
-     * @param integer $nature
      * @return null|array
      */
     public function top_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 )
-            return $this->matriceBlock[$iLine - 1][$iColumn]['nature'];
+            return $this->matriceBlock[$iLine - 1][$iColumn]['type'];
     }
 
     /**
@@ -245,13 +243,12 @@ class Tile {
      *
      * @param integer $iLine
      * @param integer $iColumn
-     * @param integer $nature
      * @return null|array
      */
     public function topleft_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 && $iColumn > 0)
-            return $this->matriceBlock[$iLine - 1][$iColumn - 1]['nature'];
+            return $this->matriceBlock[$iLine - 1][$iColumn - 1]['type'];
     }
 
     /**
@@ -259,13 +256,12 @@ class Tile {
      *
      * @param integer $iLine
      * @param integer $iColumn
-     * @param integer $nature
      * @return null|array
      */
     public function topright_nature_colonne($iLine, $iColumn)
     {
         if( $iLine > 0 && $iLine < $this->blockLength && $iColumn < $this->blockLength - 1)
-            return $this->matriceBlock[$iLine - 1][$iColumn + 1]['nature'];
+            return $this->matriceBlock[$iLine - 1][$iColumn + 1]['type'];
     }
 
     /**

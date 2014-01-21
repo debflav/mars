@@ -83,7 +83,7 @@ class Map implements MapInterface
 
 
         // VARIABLES
-        $this->_iBlocXY = 2; // Nombre de blocs en longueur et largeur
+        $this->_iBlocXY = 3; // Nombre de blocs en longueur et largeur
         $this->_iDimension = $iDimension; // Nombre de cellule par bloc
         $TabBloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
 
@@ -249,20 +249,7 @@ class Map implements MapInterface
         // on met en forme pour le JSON
         $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension),
                       'map' => $this->_aMatrice);
-        return json_encode( $temp);
-
-
-    /**
-     * ##TODO
-     * Prend un Json en paramètre
-     *
-     * @return string JSON
-     */
-    public function generateMapFromJson( $sJson)
-    {
-        // Utilisé lors de l'envoi d'un fichier.
-        // test du format json...(extension...)
-
+        return json_encode($temp);
     }
 
 }
