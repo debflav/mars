@@ -28,13 +28,13 @@ class Map implements MapInterface
     private $_aMatrice = [];
 
     /**
-     * Nombre de block de la map
+     * Nombre de bloc en largeur et en longueur de la map
      * @var int
      */
     private $_iBlocXY;
 
     /**
-     * Dimension de la map x et y
+     * Nombre de cellule en largeur et en longueur dans le bloc
      *
      * @var int
      */
@@ -85,7 +85,7 @@ class Map implements MapInterface
         // VARIABLES
         $this->_iBlocXY = 2; // Nombre de blocs en longueur et largeur
         $this->_iDimension = $iDimension; // Nombre de cellule par bloc
-        $Bloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
+        $TabBloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
 
         // ETAPE 0 :
         // on génère la carte vide à partir des infos
@@ -98,37 +98,96 @@ class Map implements MapInterface
             for ($j = 0; $j < ($this->_iBlocXY); $j++) { // colonnes de blocs
 
                 // Fonction de génération d'un bloc
-                $Bloc[$i][$j] = $this->ChoiceBlock($this->_iDimension);
-                $Bloc[$i][$j]->generate();
+                $TabBloc[$i][$j] = $this->ChoiceBlock($this->_iDimension);
+                $TabBloc[$i][$j]->generate();
             }
         }
 
         // On remplit la carte vide avec les blocs
 
-        for ($i = 0; $i < ($this->_iBlocXY); $i++) { // ligne de blocs
+        // variables pour la boucle
+        $ligneBloc = 0; // sert à se déplacer d'une ligne de bloc à l'autre, est remise à zéro une fois égale à $this->_iBlocXY
+        $colonneBloc = 0; // sert à se déplacer d'une colonne de bloc à l'autre, est remise à zéro une fois égale à $this->_iBlocXY
 
-            $g = $i * $this->_iDimension;
+        $ligneCelluleBloc = 0; // sert à se déplacer de ligne en ligne dans les blocs, est remise à zéro un fois égale à $this->_iDimension
+        $colonneCelluleBloc = 0; // sert à se déplacer de colonne en colonne dans les blocs, est remise à zéro un fois égale à $this->_iDimension
+
+        // on se promène dans les lignes de la map (chaque itération descends d'une ligne)
+        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) { 
+
+
+            if ($ligneCelluleBloc >= $this->_iDimension) { // si on atteint la dernière ligne du bloc
+
+                $ligneCelluleBloc = 0; // on revient à la ligne 0 du bloc suivant
+                $ligneBloc++;
+            }
+
+
+                // on se promène dans les colonnes de la map (chaque itération se déplace d'une colonne)
+            for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) { 
             
 
-            for ($j = 0; $j < ($this->_iBlocXY); $j++) { // colonnes de blocs
+                var_dump("ligneCelluleMap     : " . $ligneCelluleMap . "\n");
+                var_dump("colonneCelluleMap   : " . $colonneCelluleMap . "\n");
+                var_dump("ligneBloc           : " . $ligneBloc . "\n");
+                var_dump("colonneBloc         : " . $colonneBloc . "\n");
+                var_dump("ligneCelluleBloc    : " . $ligneCelluleBloc . "\n");
+                var_dump("colonneCelluleBloc  : " . $colonneCelluleBloc . "\n --------- \n ");
 
-                $h = $j * $this->_iDimension;
+                
+                
 
-                for ($k = 0; $k < ($this->_iDimension); $k++) { // ligne du bloc
 
-                    for ($l = 0; $l < ($this->_iDimension); $l++) { // colonnes du bloc
- 
+                // on incrémente les variables pour la prochaine cellule (les coordonnées de la map sont incrémentées dans les boucles for)
 
-                        $this->_aMatrice[$g][$h] = $Bloc[$i][$j]->block[$k][$l];
+                // gestion des colonnes
+                if ($colonneCelluleBloc >= $this->_iDimension) { // si on atteint la dernière colonne du bloc
 
-                        $h++;
+                    $colonneCelluleBloc = 0; // on revient à la colonne 0 du bloc suivant
 
+                    if ($colonneBloc >= $this->_iBlocXY) { // Si on arrive au bout de la ligne des blocs
+
+                        $colonneBloc = 0; // on remet la ligne des blocs à 0
+
+
+                        // on assigne les valeurs à la cellule de la map avec le bloc correspondant
+                        $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
+
+                        $colonneCelluleBloc++; // on augmente le numéro de la colonne 
+
+                    } else {
+
+                        // sinon on augmente le numéro de la colonne des blocs
+                        $colonneBloc++; // on passe à la colonne du bloc suivant 
+
+                        // on assigne les valeurs à la cellule de la map avec le bloc correspondant
+                        $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
+
+                        $colonneCelluleBloc++; // on augmente le numéro de la colonne 
                     }
 
-                    $g++;
+                } else {
+
+                    // on assigne les valeurs à la cellule de la map avec le bloc correspondant
+                    $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
+
+                    $colonneCelluleBloc++; // sinon on augmente le numéro de la colonne 
                 }
             }
+
+            // on incrémente les variables pour la prochaine cellule (les coordonnées de la map sont incrémentées dans les boucles for)
+
+            // gestion des lignes
+            $ligneCelluleBloc++; // sinon on augmente le numéro de la ligne 
+                
+
+            $colonneBloc = 0; // on remet la ligne des blocs à 0
+            $colonneCelluleBloc = 0; // on revient à la colonne 0 du bloc suivant
         }
+
+        var_dump($this->_aMatrice);
+        die();
+
             
 
 
@@ -138,7 +197,6 @@ class Map implements MapInterface
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
         // on pose les objets un à un
-
     }
 
     public function ChoiceBlock ($Dimension) {
@@ -205,6 +263,8 @@ class Map implements MapInterface
      */
     public function mapToJson()
     {
+        // on met en forme pour le JSON
+        $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension), 'map' => $this->_aMatrice);
         return json_encode( $this->_aMatrice);
     }
 
