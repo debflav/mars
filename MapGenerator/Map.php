@@ -185,12 +185,12 @@ class Map implements MapInterface
     public function ChoiceBlock ($Dimension) {
 
     // Pondération d'apparition des blocs
-    $NatureBlock[0] = 35;
-    $NatureBlock[1] = 35;
-    $NatureBlock[2] = 5;
-    $NatureBlock[3] = 9;
-    $NatureBlock[4] = 15;
-    $NatureBlock[5] = 1;
+    $NatureBlock[0] = 35; // Roche
+    $NatureBlock[1] = 35; // Sable
+    $NatureBlock[2] = 5;  // Fer
+    $NatureBlock[3] = 9;   // Minerai
+    $NatureBlock[4] = 15;  // Glace
+    $NatureBlock[5] = 1; // Autre
 
     // Définir la fonction rand() entre 0 et 100
       $jet = rand(1, 100);
@@ -216,7 +216,7 @@ class Map implements MapInterface
                 return new Ice($Dimension);
                 break;
             case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2] + $NatureBlock[3] + $NatureBlock[4] + $NatureBlock[5]) :
-                return new Iron($Dimension);
+                return new Other($Dimension);
                 break;
         }
     }
