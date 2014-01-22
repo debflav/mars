@@ -23,7 +23,6 @@ abstract class Block
 	{ 	
 		for($i = 0; $i < $this->blockLength; $i++) {
 			for ($j=0; $j < $this->blockLength; $j++) {
-				
 				$tile = new Tile($this->getBlock(), $this->getNatures(), $this->getBlockLength(), $i, $j, $this->altitudeBlock);
 				$this->block[$i][$j] = array(
 					'type' => $tile->generate(),
