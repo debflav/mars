@@ -62,7 +62,7 @@ class Map implements MapInterface
     public function generate($iDimension)
     {
         // VARIABLES
-        $this->_iBlocXY = 10; // Nombre de blocs en longueur et largeur
+        $this->_iBlocXY = 20; // Nombre de blocs en longueur et largeur
         $this->_iDimension = $iDimension; // Nombre de cellule par bloc
         $TabBloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
 
