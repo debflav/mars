@@ -32,7 +32,7 @@ ctx.canvas.width =  tileSize * map.size.y; // Initialise la taille du canvas sui
 // Initialisation
 var rover = new Rover(map.size.x, map.size.y, $("#game-type").val());
 rover.init();
-$('#console').append("<p>Destination x:"+ rover.DESTINATION.x + " y:" + rover.DESTINATION.y + "</p>");
+$('#console').append("<p>Destination x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
 updateMap();
 
 
@@ -41,6 +41,7 @@ function drawCanvas () {
     // Dessine la map
     for (var x = 0; x < map.map.length; x++) {
         for( var l = 0; l < map.map[x].length; l++ ) {
+            ctx.globalAlpha = 1.0;
             // Pour toutes les images sans fond on ajoute de l'herbe (à modifier)
             var tile = 0;
             var image = null;
@@ -76,30 +77,48 @@ function drawCanvas () {
                     image = worldmapImage;
                     break;
             }
-            var tileRow = (tile / imageNumTiles) | 0;
-            var tileCol = (tile % imageNumTiles) | 0;
-            ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            if(map.map[x][l].z > 0) {
+                ctx.globalAlpha = 0.3;
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            } else {
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            }
         }
     }
     // Dessine le rover
+    ctx.globalAlpha = 1.0;
     var tile = 0;
     var tileRow = (tile / imageNumTiles) | 0;
     var tileCol = (tile % imageNumTiles) | 0;
-    ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.rover_pos[0].x*tileSize), (rover.rover_pos[0].y*tileSize), tileSize, tileSize);
+    ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.position[0].x*tileSize), (rover.position[0].y*tileSize), tileSize, tileSize);
 
 }
 
-/* Mise à jour du score ... ect */
+/* Mise à jour du nombre de déplacement ... ect */
 function updateValue() {
-    $("#energy span").text(rover.ENERGY);
-    $("#score span").text(rover.SCORE);
+    $("#energy span").text(rover.energy);
+    $("#round span").text(rover.round);
 }
 
 /* Mise à jour de la console (avant que le rover bouge) */
 function updateConsole() {
     var date = new Date();
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.rover_pos[0].x + '; y:' + rover.rover_pos[0].y + '; type terrain: ' + map.map[rover.rover_pos[0].x][rover.rover_pos[0].y].type + '; z terrain: ' + map.map[rover.rover_pos[0].x][rover.rover_pos[0].y].z + "</p>");
+
+    if(rover.waiting == 0) {
+        $('#console').append("<p>" + curr_time + ": X:"+ rover.position[0].x + '; Y:'
+        + rover.position[0].y + '; Z: ' + map.map[rover.position[0].x][rover.position[0].y].z
+        + '; Type: ' + map.map[rover.position[0].x][rover.position[0].y].type + "</p>");
+    }
+    // Si case de type glace l'énergie est remplie à son maximum.
+    if(map.map[rover.position[0].x][rover.position[0].y].type === 4) {
+        rover.fillEnergy();
+        $('#console').append("<b>Le rover a trouvé de la glace. Energie rechargée.</b>");
+    }
     $("#console").animate({
 	scrollTop: $("#console").scrollTop() + 60
     });
@@ -108,22 +127,17 @@ function updateConsole() {
 /* Rafraîchissement du rover et de la map */
 function updateMap() {
     setIntervalId = setInterval(function() {
+        rover.moveRover();
         drawCanvas();
         updateConsole();
-        rover.moveRover();
         updateValue();
-        // Si le rover n'a plus d'energie il se recharge pendant 5 tours ##TODO
-        if( rover.ENERGY <= 0) {
-            clearInterval(setIntervalId);
-            $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie. Score: "+ rover.SCORE +".</b>");
-        }
         // Mission 1 (Point A vers point B)
         if(rover.TYPE_OF_GAME == 1) {
             // Partie finis objectif atteint
-            if( rover.rover_pos[0].x == rover.DESTINATION.x &&
-                rover.rover_pos[0].y == rover.DESTINATION.y){
+            if( rover.position[0].x == rover.destination.x &&
+                rover.position[0].y == rover.destination.y){
                 clearInterval(setIntervalId);
-                $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Score: "+ rover.SCORE +".</b>");
+                $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Déplacements réalisées: "+ rover.round +".</b>");
             }
         }
     }, 1000);
