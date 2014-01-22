@@ -23,6 +23,7 @@ class Tile {
 	// Lors de la création d'une case, on lui passe les probablités de base du block (differentes en fonction du type de block), ainsi que les coordonnées de la case
 	public function __construct($matrice, $naturesTile, $blockLength, $x, $y, $altitudeBlock) {
 		$this->naturesTile = $naturesTile;
+      //  var_dump($naturesTile);
 
 
 		$this->matriceBlock = $matrice;
@@ -60,13 +61,13 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    $this->naturesTile[$naturePrev3] = $this->adjustNature($naturePrev3);
+                    $this->adjustNature($naturePrev3);
                 }
 
-                $this->naturesTile[$naturePrev2] = $this->adjustNature($naturePrev2);
+                $this->adjustNature($naturePrev2);
             }
 
-            $this->naturesTile[$naturePrev] = $this->adjustNature($naturePrev);
+            $this->adjustNature($naturePrev);
         }
 
         $colTop = $this->top($this->x, $this->y);
@@ -100,31 +101,32 @@ class Tile {
         
         //on va chercher les natures sur la colonne
         if(isset($colTop) && isset($natureTop)) {
-                $this->naturesTile[$natureTop] += $this->adjustNature($natureTop);
+                $this->adjustNature($natureTop);
         }
         if(isset($colTopLeft) && isset($natureTopLeft))
         {
-            $this->naturesTile[$natureTopLeft] += $this->adjustNature($natureTopLeft);
+            $this->adjustNature($natureTopLeft);
         }
         if(isset($colTopLeft1_1) && isset($natureTopLeft1_1))
         {
-            $this->naturesTile[$natureTopLeft1_1] += $this->adjustNature($natureTopLeft1_1);
+            $this->adjustNature($natureTopLeft1_1);
         }
         if(isset($colTopLeft1_2) && isset($natureTopLeft1_2))
         {
-            $this->naturesTile[$natureTopLeft1_2] += $this->adjustNature($natureTopLeft1_2);
+            $this->adjustNature($natureTopLeft1_2);
         }
         if(isset($colTopLeft2_1) && isset($natureTopLeft2_1))
         {
-            $this->naturesTile[$natureTopLeft2_1] += $this->adjustNature($natureTopLeft2_1);
+            $this->adjustNature($natureTopLeft2_1);
         }            
         if(isset($colTop2) && isset($natureTop2)) {
-            $this->naturesTile[$natureTop2] += $this->adjustNature($natureTop2);
+            $this->adjustNature($natureTop2);
         }
         if(isset($colTop3) && isset($natureTop3)) {
-            $this->naturesTile[$natureTop3] += $this->adjustNature($natureTop3);
+            $this->adjustNature($natureTop3);
         }
-
+        //var_dump($this->naturesTile);
+        //die();
           // on agrège le tout
        for($k=0;$k<=5;$k++)
         {
@@ -132,7 +134,7 @@ class Tile {
             $natureTemp[$k] = $natureTemp[$k] + $this->naturesTile[$k];
 
             // on fait le total pour le jet de dés
-            $totalTemp = $totalTemp + $natureTemp[$k];
+            $totalTemp += $natureTemp[$k];
 
         }
 
@@ -155,6 +157,7 @@ class Tile {
         $z = $this->altitudeTemp + $this->z; 
         $this->z = $this->elevationField($z);
         // Définir la fonction rand() entre 0 et $totalTemp
+        //var_dump($totalTemp);
         $this->yet = rand(0, $totalTemp);
 
 
@@ -179,14 +182,14 @@ class Tile {
             switch($natureTile) {
                 case 0: // Roche
                     $this->naturesTile[0] += 2;
-                    $this->naturesTile[1] -= 2;
+                    $this->naturesTile[1] += 0;
                     $this->naturesTile[2] += 1;
                     $this->naturesTile[3] += 1;
                     $this->naturesTile[4] += 0;
                     $this->naturesTile[5] += 0;
                     break;
                 case 1: // Sable
-                    $this->naturesTile[0] -= 2;
+                    $this->naturesTile[0] += 0;
                     $this->naturesTile[1] += 2;
                     $this->naturesTile[2] -= 2;
                     $this->naturesTile[3] -= 2;
@@ -194,8 +197,8 @@ class Tile {
                     $this->naturesTile[5] += 2;
                     break;
                 case 2: // Minerai
-                    $this->naturesTile[0] += 1;
-                    $this->naturesTile[1] -= 2;
+                    $this->naturesTile[0] += 2;
+                    $this->naturesTile[1] -= 1;
                     $this->naturesTile[2] += 1;
                     $this->naturesTile[3] += 1;
                     $this->naturesTile[4] += 1;
@@ -203,7 +206,7 @@ class Tile {
                     break;
                 case 3: // Fer
                     $this->naturesTile[0] += 1;
-                    $this->naturesTile[1] -= 2;
+                    $this->naturesTile[1] -= 1;
                     $this->naturesTile[2] += 1;
                     $this->naturesTile[3] += 1;
                     $this->naturesTile[4] += 0;
