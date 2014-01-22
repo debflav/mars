@@ -60,13 +60,13 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    $this->naturesTile[$naturePrev3] = $this->adjustNature($naturePrev3);
+                    $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 1;
                 }
 
-                $this->naturesTile[$naturePrev2] = $this->adjustNature($naturePrev2);
+                $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 3;
             }
 
-            $this->naturesTile[$naturePrev] = $this->adjustNature($naturePrev);
+            $this->naturesTile[$naturePrev] = $this->naturesTile[$naturePrev] + 5;
         }
 
         $colTop = $this->top($this->x, $this->y);
