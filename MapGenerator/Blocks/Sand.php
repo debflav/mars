@@ -6,8 +6,8 @@ use MapGenerator\Block;
 
 class Sand extends Block
 {
-	private $rock    = 13;
-	private $sand    = 70;
+	private $rock    = 18;
+	private $sand    = 65;
 	private $iron    = 6;
 	private $ore     = 6;
 	private $ice     = 4;

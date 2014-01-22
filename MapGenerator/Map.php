@@ -61,29 +61,8 @@ class Map implements MapInterface
      */
     public function generate($iDimension)
     {
-
-        // // Setters
-        // $this->_aGlobalAttributes = $aAttributes;
-        // $this->_iDimension        = $iDimension;
-        // $this->_aMatrice = array('size' => array( 'x' => $this->_iDimension, 'y' => $this->_iDimension ));
-
-        // // Création de la map vide
-        // $this->_aMatrice['map'] = array_fill(0, $this->_iDimension, array_fill(0, $this->_iDimension, NULL));
-
-        // // Remplissage d'une cellule de notre map.
-
-        // foreach ($this->_aMatrice['map'] as $iLine => $aLine) {
-        //     foreach($aLine as $iColumn => $aCellValue) {
-        //         $oCellInfo = new CellDrawing($this->_aMatrice['map'], $this->_aGlobalAttributes);
-        //         $aCell = $oCellInfo->drawCell( $iLine, $iColumn, $aCellValue);
-        //         $this->_aMatrice['map'][$iLine][$iColumn] = $aCell;
-        //     }
-        //     $iLine++;
-        // }
-
-
         // VARIABLES
-        $this->_iBlocXY = 3; // Nombre de blocs en longueur et largeur
+        $this->_iBlocXY = 10; // Nombre de blocs en longueur et largeur
         $this->_iDimension = $iDimension; // Nombre de cellule par bloc
         $TabBloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
 

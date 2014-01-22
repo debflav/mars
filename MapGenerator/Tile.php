@@ -61,7 +61,6 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-<<<<<<< HEAD
                     $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 1;
                 }
 
@@ -69,15 +68,6 @@ class Tile {
             }
 
             $this->naturesTile[$naturePrev] = $this->naturesTile[$naturePrev] + 5;
-=======
-                    $this->adjustNature($naturePrev3);
-                }
-
-                $this->adjustNature($naturePrev2);
-            }
-
-            $this->adjustNature($naturePrev);
->>>>>>> 0e5b5e1b22cbb188c82dee455aa02ae7c00aa834
         }
 
         $colTop = $this->top($this->x, $this->y);
@@ -204,7 +194,7 @@ class Tile {
                     $this->naturesTile[2] -= 2;
                     $this->naturesTile[3] -= 2;
                     $this->naturesTile[4] += 1;
-                    $this->naturesTile[5] += 2;
+                    $this->naturesTile[5] += 0;
                     break;
                 case 2: // Minerai
                     $this->naturesTile[0] += 2;
@@ -228,7 +218,7 @@ class Tile {
                     $this->naturesTile[2] += 0;
                     $this->naturesTile[3] += 0;
                     $this->naturesTile[4] += 2;
-                    $this->naturesTile[5] += 1;
+                    $this->naturesTile[5] += 0;
                     break;
                 case 5: // Autre
                     $this->naturesTile[0] += 0;
