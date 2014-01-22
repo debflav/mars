@@ -34,22 +34,22 @@ function drawCanvas () {
         for( var j = 0; j < map.map[l].length; j++ ) {
             switch(map.map[l][j].type) {
                 case 0: // Roche
-                    context.fillStyle = '#A0A0A0';
+                    context.fillStyle = '#a38980';
                     break;
                 case 1: // Sable
                     context.fillStyle = '#FFCC66';
                     break;
                 case 2: // Minerai
-                    context.fillStyle = '#909090';
+                    context.fillStyle = '#900066';
                     break;
                 case 3: // Fer
-                    context.fillStyle = '#282828';
+                    context.fillStyle = '#3c3c3c';
                     break;
                 case 4: // Glace
-                    context.fillStyle = '#333399';
+                    context.fillStyle = '#fefdff';
                     break;
                 case 5: // Autre
-                    context.fillStyle = '#FF0000';
+                    context.fillStyle = '#abff2a';
                     break;
             }
             context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
