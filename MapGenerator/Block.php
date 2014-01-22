@@ -6,6 +6,8 @@ abstract class Block
 
 	protected $blockLength;
 
+	protected $altitudeBlock;
+
 	public $block = array(); //Matrice du block
 
 
@@ -13,16 +15,20 @@ abstract class Block
 	{	
 		$this->blockLength = $blockLength;
 		$this->setNatures($this->getRock(), $this->getSand(), $this->getIron(), $this->getOre(), $this->getIce(), $this->getOther()  );
+		srand();
+		$this->altitudeBlock = rand(-2, 2);
 	}
 
 	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
 	{ 	
 		for($i = 0; $i < $this->blockLength; $i++) {
 			for ($j=0; $j < $this->blockLength; $j++) {
-				$tile = new Tile($this->getBlock(), $this->getNatures(), $this->getBlockLength(), $i, $j);
+				
+				var_dump($this->getBlock());
+				$tile = new Tile($this->getBlock(), $this->getNatures(), $this->getBlockLength(), $i, $j, $this->altitudeBlock);
 				$this->block[$i][$j] = array(
 					'type' => $tile->generate(),
-					'z' => $tile->elevationField(),
+					'z' => $tile->getZ()
 				);
 			}
 		}
