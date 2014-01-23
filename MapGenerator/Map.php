@@ -62,7 +62,7 @@ class Map implements MapInterface
     public function generate($iDimension)
     {
         // VARIABLES
-        $this->_iBlocXY = 20; // Nombre de blocs en longueur et largeur
+        $this->_iBlocXY = 6; // Nombre de blocs en longueur et largeur
         $this->_iDimension = $iDimension; // Nombre de cellule par bloc
         $TabBloc = array_fill(0, $this->_iBlocXY, array_fill(0, $this->_iBlocXY, NULL)); // tableau contenant des objets blocs
 
@@ -154,9 +154,15 @@ class Map implements MapInterface
         }
 
         // ETAPE 2 :
-        // on dépose sur la carte un certain nombre d'objet
+        // on créer le calque de la carte (une nouvelle map vide)
+
+        $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
 
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
+
+        // on ne prend que les objets ayant une taille plus petite que le quart du bloc
+
+        // on dépose sur la carte un certain nombre d'objet
 
         // on pose les objets un à un
     }
@@ -164,12 +170,12 @@ class Map implements MapInterface
     public function ChoiceBlock ($Dimension) {
 
     // Pondération d'apparition des blocs
-    $NatureBlock[0] = 35; // Roche
-    $NatureBlock[1] = 35; // Sable
+    $NatureBlock[0] = 40; // Roche
+    $NatureBlock[1] = 40; // Sable
     $NatureBlock[2] = 5;  // Fer
-    $NatureBlock[3] = 9;   // Minerai
-    $NatureBlock[4] = 15;  // Glace
-    $NatureBlock[5] = 1; // Autre
+    $NatureBlock[3] = 5;   // Minerai
+    $NatureBlock[4] = 10;  // Glace
+    $NatureBlock[5] = 0; // Autre
 
     // Définir la fonction rand() entre 0 et 100
       $jet = rand(1, 100);
