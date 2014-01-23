@@ -6,11 +6,11 @@ use MapGenerator\Block;
 
 class Iron extends Block
 {
-	private $rock    = 50;
-	private $sand    = 20;
-	private $iron    = 19;
+	private $rock    = 72;
+	private $sand    = 5;
+	private $iron    = 20;
 	private $ore     = 2;
-	private $ice     = 8;
+	private $ice     = 1;
 	private $other   = 0;
 	private $natures = array(); // On va stocker les pourcentages de natures dans ce tableau
 
