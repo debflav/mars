@@ -117,7 +117,7 @@ function updateConsole() {
     // Si case de type glace l'énergie est remplie à son maximum.
     if(map.map[rover.position[0].x][rover.position[0].y].type === 4) {
         rover.fillEnergy();
-        $('#console').append("<b>Le rover a trouvé de la glace. Energie rechargée.</b>");
+        $('#console').append("<p><b>Le rover a trouvé de la glace. Energie rechargée.</b></p>");
     }
     $("#console").animate({
 	scrollTop: $("#console").scrollTop() + 60
@@ -137,7 +137,7 @@ function updateMap() {
             if( rover.position[0].x == rover.destination.x &&
                 rover.position[0].y == rover.destination.y){
                 clearInterval(setIntervalId);
-                $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Déplacements réalisées: "+ rover.round +".</b>");
+                $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Tours réalisés: "+ rover.round +".</b>");
             }
         }
     }, 1000);
