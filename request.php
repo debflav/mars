@@ -7,7 +7,7 @@ $dimension  = isset($_POST['dimension'])  ? $_POST['dimension']  : NULL;
 
 if($dimension === NULL) {
     $map = new MapGenerator\Map();
-    echo $map->mapToJson($_FILES);
+    //echo $map->mapToJson($_FILES);
 } else {
 
     $map = new MapGenerator\Map();

@@ -16,7 +16,7 @@ $(function() {
     // Initialisation
     var rover = new Rover(map.size.x, map.size.y, $("#game-type").val());
     rover.init();
-    $('#console').append("<p> x:"+ rover.DESTINATION.x + " y:" + rover.DESTINATION.y + "</p>");
+    $('#console').append("<p> x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
 
     updateMap();
 
@@ -55,13 +55,13 @@ function drawCanvas () {
             context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
         }
         context.fillStyle = 'Yellow';
-        context.fillRect(rover.rover_pos[0].x*block_width, rover.rover_pos[0].y*block_width, block_width - 1, block_width - 1);
+        context.fillRect(rover.position[0].x*block_width, rover.position[0].y*block_width, block_width - 1, block_width - 1);
     }
 }
 
 /* Mise à jour du score ... ect */
 function updateValue() {
-    $("#energy span").text(rover.ENERGY);
+    $("#energy span").text(rover.energy);
     $("#score span").text(rover.SCORE);
 }
 
@@ -69,7 +69,7 @@ function updateValue() {
 function updateConsole() {
     var date = new Date();
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.rover_pos[0].x + '; y:' + rover.rover_pos[0].y + '; type terrain: ' + map.map[rover.rover_pos[0].x][rover.rover_pos[0].y].type +"</p>");
+    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.position[0].x + '; y:' + rover.position[0].y + '; type terrain: ' + map.map[rover.position[0].x][rover.position[0].y].type +"</p>");
     $("#console").animate({
 	scrollTop: $("#console").scrollTop() + 60
     });
@@ -83,15 +83,15 @@ function updateMap() {
         rover.moveRover();
         updateValue();
         // Si le rover n'a plus d'energie il se recharge pendant 5 tours ##TODO
-        if( rover.ENERGY <= 0) {
+        if( rover.energy <= 0) {
             clearInterval(setIntervalId);
             $('#console').append("<b style='color:red'>Fin de la partie. Le rover n'a plus d'energie. Score: "+ rover.SCORE +".</b>");
         }
         // Mission 1 (Point A vers point B)
         if(rover.TYPE_OF_GAME == 1) {
             // Partie finis objectif atteint
-            if( rover.rover_pos[0].x == rover.DESTINATION.x &&
-                rover.rover_pos[0].y == rover.DESTINATION.y){
+            if( rover.position[0].x == rover.destination.x &&
+                rover.position[0].y == rover.destination.y){
                 clearInterval(setIntervalId);
                 $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Score: "+ rover.SCORE +".</b>");
             }

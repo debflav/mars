@@ -76,8 +76,8 @@
     <!-- Dashboard -->
     <div id="game-dashboard">
         <a href="" onclick="$('#mapgenerate').fadeIn( 2000);" id="showForm">Relancer une partie</a>
-        <div id="energy">Energy: <span>0</span></div>
-        <div id="score">Score: <span>0</span></div>
+        <div id="energy">Energie: <span>0</span></div>
+        <div id="round">Nombre de tours: <span>0</span></div>
     </div>
 
     <!-- Canvas -->
