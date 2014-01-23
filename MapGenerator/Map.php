@@ -156,19 +156,25 @@ class Map implements MapInterface
         // ETAPE 2 :
         // on créer le calque de la carte (une nouvelle map vide)
 
-        $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
+        // $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
 
-        // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
+        // // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = $this->_iBlocXY * $this->_iBlocXY + $this->_iBlocXY; // 1 objet par bloc plus un objet par ligne de bloc
+        // $nombreObjet = $this->_iBlocXY * $this->_iBlocXY + $this->_iBlocXY; // 1 objet par bloc plus un objet par ligne de bloc
 
-        // on ne prend que les objets ayant une taille plus petite que la moitié du bloc
+        // // on ne prend que les objets ayant une taille plus petite que la moitié du bloc
 
-        $listeObjet = array();
+        // $listeObjet = array();
 
-        for ($compteurObjet = 0 ; $compteurObjet < $nombreObjet ; $compteurObjet++ ) {
-          if($totalObjet[$compteurObjet]->taille <= ($this->_iDimension/2))
-        }
+        // for ($compteurObjetpossible = 0 ; $compteurObjetpossible < count($tabObjetPossible) ; $compteurObjetpossible++ ) {
+
+        //   if($tabObjetPossible[$compteurObjetpossible]->taille <= ($this->_iDimension/2)) {
+
+        //     $listeObjet[$compteurObjetListe] = $tabObjetPossible[$compteurObjetpossible];
+
+        //     $compteurObjetListe++;
+        //   }
+        // }
 
         // on dépose sur la carte un certain nombre d'objet
 
