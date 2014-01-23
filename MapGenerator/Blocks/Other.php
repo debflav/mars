@@ -8,10 +8,10 @@ class Other extends Block
 {
 	private $rock    = 42;
 	private $sand    = 22;
-	private $iron    = 4;
-	private $ore     = 4;
-	private $ice     = 18;
-	private $other   = 10;
+	private $iron    = 6;
+	private $ore     = 6;
+	private $ice     = 19;
+	private $other   = 5;
 	private $natures = array(); // On va stocker les pourcentages de natures dans ce tableau
 
 

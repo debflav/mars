@@ -157,7 +157,7 @@ class Tile {
         $z = $this->altitudeTemp + $this->z; 
         $this->z = $this->elevationField($z);
         // Définir la fonction rand() entre 0 et $totalTemp
-        //var_dump($totalTemp);
+
         $this->yet = rand(0, $totalTemp);
 
 
