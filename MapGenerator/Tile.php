@@ -61,13 +61,13 @@ class Tile {
         if(isset($cellPrev) && isset($naturePrev)) {
             if(isset($cellPrev2) && isset($naturePrev2)) {
                 if(isset($cellPrev3) && isset($naturePrev3)) {
-                    $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 5;
+                    $this->naturesTile[$naturePrev3] = $this->naturesTile[$naturePrev3] + 3;
                 }
 
-                $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 10;
+                $this->naturesTile[$naturePrev2] = $this->naturesTile[$naturePrev2] + 6;
             }
 
-            $this->naturesTile[$naturePrev] = $this->naturesTile[$naturePrev] + 30;
+            $this->naturesTile[$naturePrev] = $this->naturesTile[$naturePrev] + 9;
         }
 
         $colTop = $this->top($this->x, $this->y);
@@ -186,7 +186,7 @@ class Tile {
                     $this->naturesTile[2] += 2;
                     $this->naturesTile[3] += 2;
                     $this->naturesTile[4] += 0;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
                 case 1: // Sable
                     $this->naturesTile[0] += 0;
@@ -194,7 +194,7 @@ class Tile {
                     $this->naturesTile[2] -= 5;
                     $this->naturesTile[3] -= 5;
                     $this->naturesTile[4] += 2;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
                 case 2: // Minerai
                     $this->naturesTile[0] += 5;
@@ -202,7 +202,7 @@ class Tile {
                     $this->naturesTile[2] += 2;
                     $this->naturesTile[3] += 2;
                     $this->naturesTile[4] += 2;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
                 case 3: // Fer
                     $this->naturesTile[0] += 2;
@@ -210,7 +210,7 @@ class Tile {
                     $this->naturesTile[2] += 2;
                     $this->naturesTile[3] += 2;
                     $this->naturesTile[4] += 0;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
                 case 4: // Glace
                     $this->naturesTile[0] += 0;
@@ -218,7 +218,7 @@ class Tile {
                     $this->naturesTile[2] += 0;
                     $this->naturesTile[3] += 0;
                     $this->naturesTile[4] += 5;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
                 case 5: // Autre
                     $this->naturesTile[0] += 0;
@@ -226,7 +226,7 @@ class Tile {
                     $this->naturesTile[2] += 0;
                     $this->naturesTile[3] += 0;
                     $this->naturesTile[4] += 0;
-                    $this->naturesTile[5] += 0;
+                    $this->naturesTile[5] -= 5;
                     break;
             }
         }
