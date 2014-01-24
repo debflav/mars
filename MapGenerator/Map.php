@@ -166,8 +166,15 @@ class Map implements MapInterface
 
         // $listeObjet = array();
 
-        // for ($compteurObjet = 0 ; $compteurObjet < $nombreObjet ; $compteurObjet++ ) {
-        //   if($totalObjet[$compteurObjet]->taille <= ($this->_iDimension/2))
+
+        // for ($compteurObjetpossible = 0 ; $compteurObjetpossible < count($tabObjetPossible) ; $compteurObjetpossible++ ) {
+
+        //   if($tabObjetPossible[$compteurObjetpossible]->taille <= ($this->_iDimension/2)) {
+
+        //     $listeObjet[$compteurObjetListe] = $tabObjetPossible[$compteurObjetpossible];
+
+        //     $compteurObjetListe++;
+        //   }
         // }
 
         // on dépose sur la carte un certain nombre d'objet
