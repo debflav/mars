@@ -14,6 +14,13 @@ use MapGenerator\Blocks\Other;
 use MapGenerator\Blocks\Rock;
 use MapGenerator\Blocks\Sand;
 use MapGenerator\Patterns\LittlePlate;
+use MapGenerator\Patterns\LittleMountain;
+use MapGenerator\Patterns\LittleTrench;
+use MapGenerator\Patterns\LittleCrater;
+use MapGenerator\Patterns\MediumPlate;
+use MapGenerator\Patterns\MediumCrater;
+use MapGenerator\Patterns\MediumTrench;
+use MapGenerator\Patterns\LargePlate;
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -233,12 +240,32 @@ class Map implements MapInterface
 
     public function jetObject()
     {
-      $jetObject = rand(0, 3);
+      $jetObject = rand(0, 8);
       switch ($jetObject) {
         case 0:
           return new LittlePlate();
           break;
-        
+        case 1:
+          return new LittleCrater();
+          break;
+        case 2:
+          return new LittleMountain();
+          break;
+        case 3:
+          return new LittleTrench();
+          break;
+        case 4:
+          return new MediumPlate();
+          break;
+        case 5:
+          return new MediumCrater();
+          break;
+        case 6:
+          return new MediumTrench();
+          break;
+        case 7:
+          return new LargePlate();
+          break;
         default:
           return new LittlePlate();
           break;
