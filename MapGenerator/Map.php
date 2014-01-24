@@ -169,7 +169,7 @@ class Map implements MapInterface
 
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = 10;
+        $nombreObjet = 8;
         $object = $this->jetObject();
 
         // on dépose sur la carte un certain nombre d'objet
@@ -186,8 +186,8 @@ class Map implements MapInterface
 
             // on tire le random
             $startPostion = array();
-            $StartX = rand(0, $this->_iBlocXY * $this->_iDimension);
-            $StartY = rand(0, $this->_iBlocXY * $this->_iDimension);
+            $StartX = rand(0, ($this->_iBlocXY * $this->_iDimension) - 15);
+            $StartY = rand(0, ($this->_iBlocXY * $this->_iDimension) -15 );
 
             $startPostion[0] = $StartX;
             $startPostion[1] = $StartY;
@@ -195,9 +195,9 @@ class Map implements MapInterface
             $object = $this->jetObject();
             
             // Boucle parcourant le calque pour verifier que l'emplacement est libre
-            for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
+            for ($x = $StartX; $x < ($StartX + $object->getX()) || $x < ($this->_iBlocXY * $this->_iDimension); $x++)
             {
-              for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
+              for ($y = $StartY; $y < ($StartY + $object->getY()) || $y < ($this->_iBlocXY * $this->_iDimension); $y++)
               {
                  if(empty($calque[$x][$y])) {
                   $stack += 0;
@@ -214,12 +214,18 @@ class Map implements MapInterface
           $objetY = 0;
 
           // on copie notre objet dans le calque
-          for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
+          for ($x = $StartX; $x < ($StartX + $object->getX()) && $x < ($this->_iBlocXY * $this->_iDimension); $x++)
           {
             $objetY = 0;
-            for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
-            {
-               $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+            for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
+            { 
+              var_dump($objetX);
+              var_dump($objetY);
+               if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
+                    $objetY < ($StartY + $object->getY())) {
+                  $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+               }
+               
                $objetY++;
             }
             $objetX++;

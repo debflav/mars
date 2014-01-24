@@ -8,7 +8,7 @@ class LittleCrater
     /**
      * 
      */
-    $tracingMap = array(array(1, 3, 5, 3, 1),
+    protected $tracingMap = array(array(1, 3, 5, 3, 1),
                         array(3, 5, 3, 5, 3),
                         array(5, 3, 3, 3, 5),
                         array(3, 5, 3, 5, 3),

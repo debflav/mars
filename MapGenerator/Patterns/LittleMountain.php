@@ -8,7 +8,7 @@ class LittleMountain
     /**
      * 
      */
-    $tracingMap = array(array(3, 6, 5, 4, 2, 1),
+    protected $tracingMap = array(array(3, 6, 5, 4, 2, 1),
                       array(5, 10, 13, 11, 7, 3),
                       array(6, 12, 15, 14, 9, 4),
                       array(5, 11, 14, 13, 8, 5),
