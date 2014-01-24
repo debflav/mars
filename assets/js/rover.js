@@ -5,6 +5,14 @@
 var ENERGY = 10,
     SCALE = 5;
 
+//Type de cases
+var ROCK = 0,
+    SAND = 1,
+    IRON = 2,
+    ORE = 3,
+    ICE = 4,
+    OTHER = 5;
+
 /**
  * Constructeur
  */
@@ -24,7 +32,9 @@ Rover.prototype.init = function() {
     this.destination = null;
     this.waiting = 0;
     this.usedWay = [];
-    this.position = [{x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)}];
+    this.position = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
+    this.tempX = null;
+    this.tempY = null;
 
     if(this.TYPE_OF_GAME == 1) {
         this.destination = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
@@ -36,6 +46,12 @@ Rover.prototype.init = function() {
  * Bouge le Rover
  */
 Rover.prototype.moveRover = function() {
+    // Initialisation
+    var sand = false;
+
+    this.tempX = this.position.x;
+    this.tempY = this.position.y;
+
     // Incrémentation nombre de tours
     this.incrementRound();
 
@@ -43,66 +59,96 @@ Rover.prototype.moveRover = function() {
     if(this.waiting > 0) {
         $('#console').append("<p><b>Plus d'energie. Récupération reste "+ this.waiting +" tour(s)</b></p>");
         this.waiting--;
+        this.energy++;
         return;
     }
 
-    // Initialisation
-    var tempX     = this.position[0].x,
-        tempY     = this.position[0].y,
-        sand      = false,
-        diagonale = false;
+    this.defaultMovement();
 
-    // Déplacement temporaire horizontal
-    if(tempX < this.destination.x) {
-        tempX = tempX+1;
-    } else if(tempX > this.destination.x) {
-        tempX = tempX-1;
-    }
+    var diagonal = this.isDiagonal();
 
-    // Déplacement temporaire vertical
-    if(tempY < this.destination.y) {
-        tempY = tempY+1;
-    } else if(tempY > this.destination.y) {
-        tempY = tempY-1;
+    // Détermine si se déplace sur une case de sable
+    if(json.map[this.tempX][this.tempY].type === SAND) {
+        sand = true;
     }
 
     // Calcul de la pente pour la case temporaire
-    var slope = this.checkSlope(tempX, tempY);
+    var slope = this.checkSlope(diagonal);
 
     // Test de la pente pour voir si la case est pratiquable
-    /*if(Math.abs(slope) < 1.5) {
-        this.position[0].x = tempX;
-        this.position[0].y = tempY;
+    if(Math.abs(slope) < 150) {
+        // Incrémentations liées aux déplacements
+        this.consumeEnergy(slope, sand, diagonal);
     }
     else {
-        // En attendant
-        this.position[0].x = tempX;
-        this.position[0].y = tempY;
-    }*/
+        // Obligé de prendre un autre chemin car pente non pratiquable
+        // Cellule déjà connues
+        var knownTiles = [];
+        knownTiles.push({"x" : this.tempX, "y" : this.tempY});
+
+        if(this.position.x !== this.tempX) {
+            value = this.position.x - this.tempX;
+            if(value > 0) {
+                
+            }
+            else {
+
+            }
+        }
+
+        //if(this.tempX !== this.position.x) {
+            // et n'est pas dans visitedTile
+            for(var i = 0; i < knownTiles.length; i++) {
+
+            }
+        //}
+        slope = this.checkSlope(diagonal);
+
+        this.position.x;
+        this.position.y;
+    }
 
     // Palpeur de terrain
     //this.checkFieldType(tempX, tempY);
 
-    // Détermine si se déplace sur une case de sable
-    if(map.map[tempX][tempY].type === 1) {
-        sand = true;
-    }
-
-    // Détermine si se déplace en diagonale
-    if(this.position[0].x !== tempX &&
-       this.position[0].y !== tempY)
-       {
-           diagonale = true;
-       }
-
     // Incrémentations liées aux déplacements
-    this.consumeEnergy(0, sand, diagonale, tempX, tempY);
+    //this.consumeEnergy(0, sand, diagonale, tempX, tempY);
 
     // Mouvement temporaire debug
-    this.position[0].x = tempX;
-    this.position[0].y = tempY;
+    this.position.x = this.tempX;
+    this.position.y = this.tempY;
 };
 
+
+/**
+ * Détermine si se déplace en diagonale
+ */
+Rover.prototype.isDiagonal = function() {
+    if(this.position.x !== this.tempX &&
+       this.position.y !== this.tempY)
+       {
+           return true;
+       }
+
+    return false;
+};
+
+
+Rover.prototype.defaultMovement = function() {
+    // Déplacement temporaire horizontal
+    if(this.tempX < this.destination.x) {
+        this.tempX = this.tempX+1;
+    } else if(this.tempX > this.destination.x) {
+        this.tempX = this.tempX-1;
+    }
+
+    // Déplacement temporaire vertical
+    if(this.tempY < this.destination.y) {
+        this.tempY = this.tempY+1;
+    } else if(this.tempY > this.destination.y) {
+        this.tempY = this.tempY-1;
+    }
+};
 
 
 /**
@@ -112,7 +158,7 @@ Rover.prototype.moveRover = function() {
  * sand : bool
  * diagonale : bool.
  */
-Rover.prototype.consumeEnergy = function(slope, sand, diagonale, tempX, tempY) {
+Rover.prototype.consumeEnergy = function(slope, sand, diagonale) {
 
     var E = 0;  //Coefficient du coût
     var price = 0;
@@ -139,30 +185,49 @@ Rover.prototype.consumeEnergy = function(slope, sand, diagonale, tempX, tempY) {
 
     if( this.energy - price > 0) {
         this.energy -= price;
-    }
+    }// energie insuffisante pour un déplacement, recherche d'alternative
     else {
         // Recherche un autre chemin en ligne droite ou de la glaçe
         // si on est en diagonale
-        var price = 1,
-            priceSandUp = 1 + 0.1*E,
+        var priceSandUp = 1 + 0.1*E,
             priceSandDown = 1 - 0.1*E,
             priceSlope = 1 * (1 + slope);
+            price = 1;
 
         if(diagonale && this.energy > 1) {
             // Avec le peu d'energie qu'il reste le rover peut palper les cases
             // autour de lui pour choisir le meilleur chemin.
-            if(this.energy > 1 && this.energy < 1.2) {
-                //this.cheapestTile();
-                //this.findIce();
-                //this.position[0].x
-                //this.position[0].y
-            }
-            else {
+            if(this.energy >= 1.1 && this.energy <= 1.4) {
+                // Si la destination est a droite du rover
+                /*if(this.destination.x - this.position.x > 0) {
+                    // Si la destination est en haut a droite du rover
+                    if(this.destination.y - this.position.y > 0) {
+                        // Si la case à gauche du rover est de type glace
+                        if(this.checkFieldType(this.position.x - 1, this.position.y == ICE)) {
 
+                            // Traitement
+
+                        }
+                        // Sinon si la case en bas du rovert est de type glace
+                        else if(this.checkFieldType(this.position.x, this.position.y - 1 == ICE)) {
+
+                            // Traitement
+
+                        }
+                    }
+                }*/
             }
+
+            //}
+            //else {
+
+            //}
+
+            //On cherche en priorité une case de glace
+
+
         } // Cas où on part déjà en ligne droite
         else if(!diagonale && this.energy >= 1) {
-
 
 
         }
@@ -196,11 +261,13 @@ Rover.prototype.incrementRound = function() {
  * Regarde la pente
  * (Elevation case + 1 / elevation case courante) / distance entre deux cases
  */
-Rover.prototype.checkSlope = function(tempX, tempY) {
-    //console.log(map.map[tempX][tempY].z);
-    //console.log(map.map[this.position[0].x][this.position[0].y].z);
+Rover.prototype.checkSlope = function(diagonale) {
+    if(diagonale) {
 
-    return (map.map[tempX][tempY].z - map.map[this.position[0].x][this.position[0].y].z) / SCALE;// 7,5 ?
+        return (Math.abs(json.map[this.tempX][this.tempY].z - json.map[this.position.x][this.position.y].z)) / (SCALE*Math.sqrt(2));
+    }
+
+    return (Math.abs(json.map[this.tempX][this.tempY].z - json.map[this.position.x][this.position.y].z)) / SCALE;
 };
 
 
@@ -213,22 +280,31 @@ Rover.prototype.checkFieldType = function(posX, posY) {
     var price = 0;
 
     // Si on check la case sur laquelle le rover est
-    if (posX - this.position[0].x == 0 && posY - this.position[0].y == 0) {
+    if (posX - this.position.x == 0 && posY - this.position.y == 0) {
         price = E * 0.1;
-        this.energy -= price;
-        return map.map[posX][posY].type;
+        if(this.energy - price > 0) {
+            this.energy -= price;
+            return json.map[posX][posY].type;
+        }
+        return false;
     }
     // Si on check une case adjacente
-    else if(Math.abs(posX - this.position[0].x) <= 1 && Math.abs(posY - this.position[0].y) <= 1) {
+    else if(this.isAdjacent(posX, posY)) {
         price = E * 0.2;
-        this.energy -= price;
-        return map.map[posX][posY].type;
+        if(this.energy - price > 0) {
+            this.energy -= price;
+            return json.map[posX][posY].type;
+        }
+        return false;
     }
     // Si on check une case plus loin
-    else if(Math.abs(posX - this.position[0].x) <= 2 && Math.abs(posY - this.position[0].y) <= 2) {
+    else if(Math.abs(posX - this.position.x) <= 2 && Math.abs(posY - this.position.y) <= 2) {
         price = E * 0.4;
-        this.energy -= price;
-        return map.map[posX][posY].type;
+        if(this.energy - price > 0) {
+            this.energy -= price;
+            return json.map[posX][posY].type;
+        }
+        return false;
     }
 };
 
@@ -237,7 +313,17 @@ Rover.prototype.checkFieldType = function(posX, posY) {
  * Case la plus benefique à emprûnter.
  */
 Rover.prototype.cheapestTile = function() {
-    //this.position[0].x
-    //this.position[0].y
+    //this.position.x
+    //this.position.y
 
+};
+
+
+/**
+ *
+ * @param int posX
+ * @param int posY
+ */
+Rover.prototype.isAdjacent = function(posX, posY) {
+    return (Math.abs(posX - this.position.x) <= 1 && Math.abs(posY - this.position.y) <= 1);
 };

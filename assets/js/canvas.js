@@ -11,6 +11,12 @@ worldmapImage2.onload = drawCanvas;
 var roverImage = new Image();
 roverImage.src = 'assets/images/rover.png';
 
+
+// Rover
+var marker = new Image();
+marker.src = 'assets/images/marker.png';
+
+
 // Initialisation & récupération du canvas
 var canvas = document.getElementById('canvas');
 
@@ -26,11 +32,11 @@ if(!ctx) {
 // Intialisation des objets du canvas
 var tileSize = 32;      // La taille d'une image (32x32)
 var imageNumTiles = 16; // Le nombre de tiles par cellule dans le tileset image
-ctx.canvas.height = tileSize * map.size.x; // Initialise la taille du canvas suivant le nombre de colonnes
-ctx.canvas.width =  tileSize * map.size.y; // Initialise la taille du canvas suivant le nombre de lignes
+ctx.canvas.height = tileSize * json.size.x; // Initialise la taille du canvas suivant le nombre de colonnes
+ctx.canvas.width =  tileSize * json.size.y; // Initialise la taille du canvas suivant le nombre de lignes
 
 // Initialisation
-var rover = new Rover(map.size.x, map.size.y, $("#game-type").val());
+var rover = new Rover(json.size.x, json.size.y, $("#game-type").val());
 rover.init();
 $('#console').append("<p>Destination x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
 updateMap();
@@ -39,8 +45,8 @@ updateMap();
 /* Dessine la carte */
 function drawCanvas () {
     // Dessine la map
-    for (var x = 0; x < map.map.length; x++) {
-        for( var l = 0; l < map.map[x].length; l++ ) {
+    for (var x = 0; x < json.map.length; x++) {
+        for( var l = 0; l < json.map[x].length; l++ ) {
             ctx.globalAlpha = 1.0;
             // Pour toutes les images sans fond on ajoute de l'herbe (à modifier)
             var tile = 0;
@@ -48,7 +54,7 @@ function drawCanvas () {
             var tileRow = (tile / imageNumTiles) | 0;
             var tileCol = (tile % imageNumTiles) | 0;
             ctx.drawImage(worldmapImage2, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
-            switch(map.map[x][l].type) {
+            switch(json.map[x][l].type) {
                 case 0: // Roche
                     tile = 20;
                     image = worldmapImage;
@@ -77,7 +83,7 @@ function drawCanvas () {
                     image = worldmapImage;
                     break;
             }
-            if(map.map[x][l].z > 0) {
+            if(json.map[x][l].z > 0) {
                 ctx.globalAlpha = 0.3;
                 var tileRow = (tile / imageNumTiles) | 0;
                 var tileCol = (tile % imageNumTiles) | 0;
@@ -94,13 +100,16 @@ function drawCanvas () {
     var tile = 0;
     var tileRow = (tile / imageNumTiles) | 0;
     var tileCol = (tile % imageNumTiles) | 0;
-    ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.position[0].x*tileSize), (rover.position[0].y*tileSize), tileSize, tileSize);
+    // Marker
+    ctx.drawImage(marker, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.destination.x*tileSize), (rover.destination.y*tileSize), tileSize, tileSize);
+    // Rover
+    ctx.drawImage(roverImage, (tileCol*tileSize), (tileRow*tileSize), tileSize, tileSize, (rover.position.x*tileSize), (rover.position.y*tileSize), tileSize, tileSize);
 
 }
 
 /* Mise à jour du nombre de déplacement ... ect */
 function updateValue() {
-    $("#energy span").text(rover.energy);
+    $("#energy span").text(rover.energy.toFixed(2));
     $("#round span").text(rover.round);
 }
 
@@ -110,12 +119,12 @@ function updateConsole() {
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 
     if(rover.waiting == 0) {
-        $('#console').append("<p>" + curr_time + ": X:"+ rover.position[0].x + '; Y:'
-        + rover.position[0].y + '; Z: ' + map.map[rover.position[0].x][rover.position[0].y].z
-        + '; Type: ' + map.map[rover.position[0].x][rover.position[0].y].type + "</p>");
+        $('#console').append("<p>" + curr_time + ": X:"+ rover.position.x + '; Y:'
+        + rover.position.y + '; Z: ' + json.map[rover.position.x][rover.position.y].z
+        + '; Type: ' + json.map[rover.position.x][rover.position.y].type + "</p>");
     }
     // Si case de type glace l'énergie est remplie à son maximum.
-    if(map.map[rover.position[0].x][rover.position[0].y].type === 4) {
+    if(json.map[rover.position.x][rover.position.y].type === 4) {
         rover.fillEnergy();
         $('#console').append("<p><b>Le rover a trouvé de la glace. Energie rechargée.</b></p>");
     }
@@ -134,8 +143,8 @@ function updateMap() {
         // Mission 1 (Point A vers point B)
         if(rover.TYPE_OF_GAME == 1) {
             // Partie finis objectif atteint
-            if( rover.position[0].x == rover.destination.x &&
-                rover.position[0].y == rover.destination.y){
+            if( rover.position.x == rover.destination.x &&
+                rover.position.y == rover.destination.y){
                 clearInterval(setIntervalId);
                 $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Tours réalisés: "+ rover.round +".</b>");
             }

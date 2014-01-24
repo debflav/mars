@@ -29,14 +29,14 @@ $(function () {
                 dataType: 'json',
                 data: {"dimension": $("#dimension").val(), attributes: attributes }
             }).success( function(msg) {
-                map = msg;
+                json = msg;
 
                 // Récupération des scripts pour afficher la map & le viewer
                 $.getScript("assets/js/rover.js").fail(function( ) {
                      $("body").text("Une erreur s'est produite et le script de déplacement du rover a rencontré une erreur.");
                      $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
                 });
-                $.getScript("assets/js/canvas.old.js").fail(function( ) {
+                $.getScript("assets/js/canvas.js").fail(function( ) {
                     $("body").text("Une erreur s'est produite et le script de génération de la map a rencontré une erreur.");
                     $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
                 });
