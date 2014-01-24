@@ -1,38 +1,37 @@
 $(function() {
     var canvas = document.getElementById('canvas');
-        if(!canvas)
-        {
-            alert("Impossible de récupérer le canvas");
-            return;
-        }
+    if(!canvas)
+    {
+        alert("Impossible de récupérer le canvas");
+        return;
+    }
 
     var context = canvas.getContext('2d');
-        if(!context)
-        {
-            alert("Impossible de récupérer le context du canvas");
-            return;
-        }
+    if(!context)
+    {
+        alert("Impossible de récupérer le context du canvas");
+        return;
+    }
 
     // Initialisation
-    var rover = new Rover(map.size.x, map.size.y, $("#game-type").val());
+    var rover = new Rover(json.size.x, json.size.y, $("#game-type").val());
     rover.init();
-    $('#console').append("<p> x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
-
+    $('#console').append("<p>Destination x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
     updateMap();
 
     // Taille des block
     var block_width = 25;
 
     // Modification de la taille du canvas
-    context.canvas.width = map.map.length*block_width;
-    context.canvas.height = map.map.length*block_width;
+    context.canvas.width = json.map.length*block_width;
+    context.canvas.height = json.map.length*block_width;
 
 /* Dessine la carte */
 function drawCanvas () {
     // Boucle sur notre Json, dessine le canvas
-    for (var l = 0; l < map.map.length; l++) {
-        for( var j = 0; j < map.map[l].length; j++ ) {
-            switch(map.map[l][j].type) {
+    for (var x = 0; x < json.map.length; x++) {
+        for( var l = 0; l < json.map[x].length; l++ ) {
+            switch(json.map[x][l].type) {
                 case 0: // Roche
                     context.fillStyle = '#a38980';
                     break;
@@ -52,10 +51,10 @@ function drawCanvas () {
                     context.fillStyle = '#abff2a';
                     break;
             }
-            context.fillRect(l*block_width, j*block_width, block_width - 1, block_width - 1);
+            context.fillRect(l*block_width, x*block_width, block_width - 1, block_width - 1);
         }
         context.fillStyle = 'Yellow';
-        context.fillRect(rover.position[0].x*block_width, rover.position[0].y*block_width, block_width - 1, block_width - 1);
+        context.fillRect(rover.position.x*block_width, rover.position.y*block_width, block_width - 1, block_width - 1);
     }
 }
 
@@ -69,7 +68,7 @@ function updateValue() {
 function updateConsole() {
     var date = new Date();
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.position[0].x + '; y:' + rover.position[0].y + '; type terrain: ' + map.map[rover.position[0].x][rover.position[0].y].type +"</p>");
+    $('#console').append("<p>" + curr_time + ": Le rover est en x:"+ rover.position.x + '; y:' + rover.position.y + '; type terrain: ' + json.map[rover.position.x][rover.position.y].type +"</p>");
     $("#console").animate({
 	scrollTop: $("#console").scrollTop() + 60
     });
@@ -90,8 +89,8 @@ function updateMap() {
         // Mission 1 (Point A vers point B)
         if(rover.TYPE_OF_GAME == 1) {
             // Partie finis objectif atteint
-            if( rover.position[0].x == rover.destination.x &&
-                rover.position[0].y == rover.destination.y){
+            if( rover.position.x == rover.destination.x &&
+                rover.position.y == rover.destination.y){
                 clearInterval(setIntervalId);
                 $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Score: "+ rover.SCORE +".</b>");
             }
