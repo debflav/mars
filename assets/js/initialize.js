@@ -10,16 +10,6 @@ $(function () {
             $("#dimension-error").text("Ne peut être vide.");
             return false;
         }
-
-        // Récupération des valeurs des attributs de la map
-        var attributes = [];
-        attributes[0] = $("#rock").val();
-        attributes[1] = $("#sand").val();
-        attributes[2] = $("#iron").val();
-        attributes[3] = $("#minerals").val();
-        attributes[4] = $("#ice").val();
-        attributes[5] = $("#other").val();
-
         $("#map-generate").hide();
 
         // Requête ajax
@@ -27,7 +17,7 @@ $(function () {
                 type: "POST",
                 url: 'request.php',
                 dataType: 'json',
-                data: {"dimension": $("#dimension").val(), attributes: attributes }
+                data: {"dimension": $("#dimension").val() }
             }).success( function(msg) {
                 json = msg;
 

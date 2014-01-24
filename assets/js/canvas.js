@@ -117,11 +117,12 @@ function updateValue() {
 function updateConsole() {
     var date = new Date();
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-
+    var energyUsed = energyStart - rover.energy;
+    
     if(rover.waiting == 0) {
         $('#console').append("<p>" + curr_time + ": X:"+ rover.position.x + '; Y:'
         + rover.position.y + '; Z: ' + json.map[rover.position.x][rover.position.y].z
-        + '; Type: ' + json.map[rover.position.x][rover.position.y].type + "</p>");
+        + '; Type: ' + json.map[rover.position.x][rover.position.y].type + " E:"+ energyUsed.toFixed(2) +"</p>");
     }
     // Si case de type glace l'énergie est remplie à son maximum.
     if(json.map[rover.position.x][rover.position.y].type === 4) {
@@ -136,6 +137,7 @@ function updateConsole() {
 /* Rafraîchissement du rover et de la map */
 function updateMap() {
     setIntervalId = setInterval(function() {
+        energyStart = rover.energy;
         rover.moveRover();
         drawCanvas();
         updateConsole();
