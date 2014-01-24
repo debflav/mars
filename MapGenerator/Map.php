@@ -21,6 +21,7 @@ use MapGenerator\Patterns\MediumPlate;
 use MapGenerator\Patterns\MediumCrater;
 use MapGenerator\Patterns\MediumTrench;
 use MapGenerator\Patterns\LargePlate;
+use MapGenerator\Patterns\LargeCrater;
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -266,6 +267,9 @@ class Map implements MapInterface
         case 7:
           return new LargePlate();
           break;
+        case 8:
+          return new LargeCrater();
+          break;          
         default:
           return new LittlePlate();
           break;
