@@ -142,13 +142,13 @@ class Tile {
 
         $pond = rand(0, 100);
 
-        if($pond <= 10) {
+        if($pond <= 1) {
             $this->z = -2; 
-        } elseif ($pond <= 30) {
+        } elseif ($pond <= 10) {
             $this->z = -1; 
-        } elseif ($pond <= 70) {
-            $this->z = 0; 
         } elseif ($pond <= 90) {
+            $this->z = 0; 
+        } elseif ($pond <= 99) {
             $this->z = 1; 
         }else {
             $this->z = 2; 

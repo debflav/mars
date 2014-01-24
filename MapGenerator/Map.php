@@ -13,6 +13,7 @@ use MapGenerator\Blocks\Ore;
 use MapGenerator\Blocks\Other;
 use MapGenerator\Blocks\Rock;
 use MapGenerator\Blocks\Sand;
+use MapGenerator\Patterns\LittlePlate;
 
 /**
  * Generation de notre object map retourné au javascript.
@@ -156,30 +157,92 @@ class Map implements MapInterface
         // ETAPE 2 :
         // on créer le calque de la carte (une nouvelle map vide)
 
-        // $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
+        $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
 
-        // // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
+        // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        // $nombreObjet = $this->_iBlocXY * $this->_iBlocXY + $this->_iBlocXY; // 1 objet par bloc plus un objet par ligne de bloc
-
-        // // on ne prend que les objets ayant une taille plus petite que la moitié du bloc
-
-        // $listeObjet = array();
-
-
-        // for ($compteurObjetpossible = 0 ; $compteurObjetpossible < count($tabObjetPossible) ; $compteurObjetpossible++ ) {
-
-        //   if($tabObjetPossible[$compteurObjetpossible]->taille <= ($this->_iDimension/2)) {
-
-        //     $listeObjet[$compteurObjetListe] = $tabObjetPossible[$compteurObjetpossible];
-
-        //     $compteurObjetListe++;
-        //   }
-        // }
+        $nombreObjet = 10;
+        $object = $this->jetObject();
 
         // on dépose sur la carte un certain nombre d'objet
 
+        for($compteurObjet = 0; $compteurObjet < $nombreObjet; $compteurObjet++)
+        {
+
+          // init du stack
+          $stack = 1;
+
+          while ($stack != 0) // tant que toutes les cases visées ne sont pas vides
+          {
+            $stack = 0;
+
+            // on tire le random
+            $startPostion = array();
+            $StartX = rand(0, $this->_iBlocXY * $this->_iDimension);
+            $StartY = rand(0, $this->_iBlocXY * $this->_iDimension);
+
+            $startPostion[0] = $StartX;
+            $startPostion[1] = $StartY;
+
+            $object = $this->jetObject();
+            
+            // Boucle parcourant le calque pour verifier que l'emplacement est libre
+            for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
+            {
+              for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
+              {
+                 if(empty($calque[$x][$y])) {
+                  $stack += 0;
+                 } else {
+                  $stack += 1;
+                 }
+              }
+            }
+
+          } // fin du while
+
+          $valuesObject = $object->getPattern();
+          $objetX = 0;
+          $objetY = 0;
+
+          // on copie notre objet dans le calque
+          for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
+          {
+            $objetY = 0;
+            for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
+            {
+               $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+               $objetY++;
+            }
+            $objetX++;
+          }
+        }
+
         // on pose les objets un à un
+        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) { 
+
+          for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) { 
+
+            if(NULL != $calque[$ligneCelluleMap][$colonneCelluleMap])
+            {
+              $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap]['z'] = $calque[$ligneCelluleMap][$colonneCelluleMap];
+            }
+          }
+        }
+    }
+
+    public function jetObject()
+    {
+      $jetObject = rand(0, 3);
+      switch ($jetObject) {
+        case 0:
+          return new LittlePlate();
+          break;
+        
+        default:
+          return new LittlePlate();
+          break;
+      }
     }
 
     public function ChoiceBlock ($Dimension) {
@@ -249,7 +312,7 @@ class Map implements MapInterface
         // on met en forme pour le JSON
         $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension),
                       'map' => $this->_aMatrice);
-        return json_encode($temp);
+        echo json_encode($temp);
     }
 
 }

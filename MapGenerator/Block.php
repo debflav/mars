@@ -16,7 +16,7 @@ abstract class Block
 		$this->blockLength = $blockLength;
 		$this->setNatures($this->getRock(), $this->getSand(), $this->getIron(), $this->getOre(), $this->getIce(), $this->getOther()  );
 		srand();
-		$this->altitudeBlock = rand(-2, 2);
+		$this->altitudeBlock = 0;
 	}
 
 	public function generate() //$blockLength correspond au nombre de cases qui composent un bloc
