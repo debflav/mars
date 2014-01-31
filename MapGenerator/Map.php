@@ -169,14 +169,13 @@ class Map implements MapInterface
 
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = 8;
+        $nombreObjet = 6;
         $object = $this->jetObject();
 
         // on dépose sur la carte un certain nombre d'objet
 
         for($compteurObjet = 0; $compteurObjet < $nombreObjet; $compteurObjet++)
         {
-
           // init du stack
           $stack = 1;
 
@@ -187,7 +186,7 @@ class Map implements MapInterface
             // on tire le random
             $startPostion = array();
             $StartX = rand(0, ($this->_iBlocXY * $this->_iDimension) - 15);
-            $StartY = rand(0, ($this->_iBlocXY * $this->_iDimension) -15 );
+            $StartY = rand(0, ($this->_iBlocXY * $this->_iDimension) - 15);
 
             $startPostion[0] = $StartX;
             $startPostion[1] = $StartY;
@@ -219,10 +218,9 @@ class Map implements MapInterface
             $objetY = 0;
             for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
             { 
-              var_dump($objetX);
-              var_dump($objetY);
-               if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
-                    $objetY < ($StartY + $object->getY())) {
+               //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
+                   // $objetY < ($StartY + $object->getY())) {
+                if($calque[$x][$y]) {
                   $calque[$x][$y] = $valuesObject[$objetX][$objetY];
                }
                

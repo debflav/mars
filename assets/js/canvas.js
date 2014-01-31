@@ -84,7 +84,12 @@ function drawCanvas () {
                     break;
             }
             if(json.map[x][l].z > 0) {
-                ctx.globalAlpha = 0.3;
+                ctx.globalAlpha = 1,5;
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            } else if (json.map[x][l].z < 0){
+                ctx.globalAlpha = 0,5;
                 var tileRow = (tile / imageNumTiles) | 0;
                 var tileCol = (tile % imageNumTiles) | 0;
                 ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
