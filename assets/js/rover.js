@@ -52,9 +52,6 @@ Rover.prototype.moveRover = function() {
     this.tempX = this.position.x;
     this.tempY = this.position.y;
 
-    // Incrémentation nombre de tours
-    this.incrementRound();
-
     // Robot incapable de bouger. Recharge de l'énergie.
     if(this.waiting > 0) {
         $('#console').append("<p><b>Plus d'energie. Récupération reste "+ this.waiting +" tour(s)</b></p>");
@@ -68,7 +65,7 @@ Rover.prototype.moveRover = function() {
     var diagonal = this.isDiagonal();
 
     // Détermine si se déplace sur une case de sable
-    if(json.map[this.tempX][this.tempY].type === SAND) {
+    if(json.map[this.tempY][this.tempX].type === SAND) {
         sand = true;
     }
 
@@ -77,8 +74,8 @@ Rover.prototype.moveRover = function() {
 
     // Test de la pente pour voir si la case est pratiquable
     if(Math.abs(slope) < 150) {
-        // Incrémentations liées aux déplacements
-        this.consumeEnergy(slope, sand, diagonal);
+            // Incrémentations liées aux déplacements
+            this.consumeEnergy(slope, sand, diagonal);
     }
     else {
         // Obligé de prendre un autre chemin car pente non pratiquable
@@ -89,23 +86,9 @@ Rover.prototype.moveRover = function() {
         if(this.position.x !== this.tempX) {
             value = this.position.x - this.tempX;
             if(value > 0) {
-                
-            }
-            else {
 
             }
         }
-
-        //if(this.tempX !== this.position.x) {
-            // et n'est pas dans visitedTile
-            for(var i = 0; i < knownTiles.length; i++) {
-
-            }
-        //}
-        slope = this.checkSlope(diagonal);
-
-        this.position.x;
-        this.position.y;
     }
 
     // Palpeur de terrain
@@ -113,6 +96,10 @@ Rover.prototype.moveRover = function() {
 
     // Incrémentations liées aux déplacements
     //this.consumeEnergy(0, sand, diagonale, tempX, tempY);
+
+
+    // Incrémentation nombre de tours
+    this.incrementRound();
 
     // Mouvement temporaire debug
     this.position.x = this.tempX;
@@ -138,14 +125,16 @@ Rover.prototype.defaultMovement = function() {
     // Déplacement temporaire horizontal
     if(this.tempX < this.destination.x) {
         this.tempX = this.tempX+1;
-    } else if(this.tempX > this.destination.x) {
+    }
+    else if(this.tempX > this.destination.x) {
         this.tempX = this.tempX-1;
     }
 
     // Déplacement temporaire vertical
     if(this.tempY < this.destination.y) {
         this.tempY = this.tempY+1;
-    } else if(this.tempY > this.destination.y) {
+    }
+    else if(this.tempY > this.destination.y) {
         this.tempY = this.tempY-1;
     }
 };
@@ -162,6 +151,12 @@ Rover.prototype.consumeEnergy = function(slope, sand, diagonale) {
 
     var E = 0;  //Coefficient du coût
     var price = 0;
+
+    // Si l'energie est inférieure à 50% on change le comportement.
+    // Cad palpe pour trouver de la glace
+    if(this.energy <= (ENERGY/2)) {
+
+    }
 
     if(diagonale) {
         E = 1.4;
@@ -264,10 +259,10 @@ Rover.prototype.incrementRound = function() {
 Rover.prototype.checkSlope = function(diagonale) {
     if(diagonale) {
 
-        return (Math.abs(json.map[this.tempX][this.tempY].z - json.map[this.position.x][this.position.y].z)) / (SCALE*Math.sqrt(2));
+        return (Math.abs(json.map[this.tempY][this.tempX].z - json.map[this.position.y][this.position.x].z)) / (SCALE*Math.sqrt(2));
     }
 
-    return (Math.abs(json.map[this.tempX][this.tempY].z - json.map[this.position.x][this.position.y].z)) / SCALE;
+    return (Math.abs(json.map[this.tempY][this.tempX].z - json.map[this.position.y][this.position.x].z)) / SCALE;
 };
 
 
@@ -284,16 +279,16 @@ Rover.prototype.checkFieldType = function(posX, posY) {
         price = E * 0.1;
         if(this.energy - price > 0) {
             this.energy -= price;
-            return json.map[posX][posY].type;
+            return json.map[posY][posX].type;
         }
         return false;
     }
     // Si on check une case adjacente
-    else if(this.isAdjacent(posX, posY)) {
+    else if(this.isAdjacent(posY, posX)) {
         price = E * 0.2;
         if(this.energy - price > 0) {
             this.energy -= price;
-            return json.map[posX][posY].type;
+            return json.map[posY][posX].type;
         }
         return false;
     }
@@ -302,7 +297,7 @@ Rover.prototype.checkFieldType = function(posX, posY) {
         price = E * 0.4;
         if(this.energy - price > 0) {
             this.energy -= price;
-            return json.map[posX][posY].type;
+            return json.map[posY][posX].type;
         }
         return false;
     }
@@ -324,6 +319,6 @@ Rover.prototype.cheapestTile = function() {
  * @param int posX
  * @param int posY
  */
-Rover.prototype.isAdjacent = function(posX, posY) {
+Rover.prototype.isAdjacent = function(posY, posX) {
     return (Math.abs(posX - this.position.x) <= 1 && Math.abs(posY - this.position.y) <= 1);
 };
