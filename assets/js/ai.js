@@ -28,7 +28,7 @@ Ai = Ai = function(height, width, typeOfGame) {
 };
 
 Ai.prototype.lookingForWay = function() {
-
+	
 };
 
 Ai.prototype.emptyMap = function() {
