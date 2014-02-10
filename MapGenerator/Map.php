@@ -221,8 +221,7 @@ class Map implements MapInterface
             { 
 
                // if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
-               //      $objetY < ($StartY + $object->getY())) {
-               //      $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+
 
                //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
                    // $objetY < ($StartY + $object->getY())) {
