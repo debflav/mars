@@ -29,12 +29,9 @@ Rover = Rover = function(height, width, typeOfGame) {
 Rover.prototype.init = function() {
     this.energy = ENERGY;
     this.round = 0;
-    this.destination = null;
     this.waiting = 0;
     this.usedWay = [];
     this.position = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
-    this.tempX = null;
-    this.tempY = null;
 
     if(this.TYPE_OF_GAME == 1) {
         this.destination = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
