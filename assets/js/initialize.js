@@ -1,17 +1,5 @@
 $(function () {
-    $( "#map-generate" ).submit(function( ) {
-
-        // Récupération de la valeur de la map
-        if(isNaN(Number( $("#dimension").val()))) {
-            $("#dimension-error").text("Doit être un nombre.");
-            return false;
-        }
-        if($("#dimension").val().length === 0) {
-            $("#dimension-error").text("Ne peut être vide.");
-            return false;
-        }
-        $("#map-generate").hide();
-
+    function mapGenerate( ) {
         // Requête ajax
         $.ajax({
                 type: "POST",
@@ -45,7 +33,7 @@ $(function () {
             });
 
             return false;
-    });
+    };
     $(document).on({
         ajaxStart: function() {
             $("body").addClass("loading");
@@ -53,6 +41,39 @@ $(function () {
         ajaxStop: function() {
             $("body").removeClass("loading");
         }
+    });
+
+    /* Manage showing via js */
+    $("#game-type").change(function( ) {
+        $("#game-type-fieldset" ).hide();
+
+        if( $("#game-type").val() !== 1) {
+            $("#map-coordinates").hide();
+            $("#json-upload").show();
+            $("#json-upload input").removeAttr('disabled');
+        }
+        if( $( "#game-type" ).val() == 1) {
+            $( "#map-coordinates" ).show();
+        }
+
+    });
+    $( "#map-coordinates input[type=submit]" ).click(function( ) {
+        if( $("#startX" ).val() && $("#startY" ).val()
+         && $("#endX" ).val() && $("#endY" ).val())
+        {
+            $( "#map-generate" ).hide();
+            $( "#map-coordinates" ).hide();
+            if($("#json-upload").length === 0) {
+                mapGenerate();
+            } else {
+                $("#json-upload").show();
+                $("#json-upload input").removeAttr('disabled');
+            }
+        } else {
+             $("#fields-rover-error" ).html('Toutes les valeurs doivent être remplis');
+        }
+
+        return false;
     });
 
 });
