@@ -54,9 +54,23 @@ $(function () {
 
     });
     $( "#map-coordinates input[type=submit]" ).click(function( ) {
-        if( $("#startX" ).val() && $("#startY" ).val()
-         && $("#endX" ).val() && $("#endY" ).val())
-        {
+        // Set Rover Globals
+        startX = $("#startX").val();
+        startY = $("#startY").val();
+        endX   = $("#endX").val();
+        endY   = $("#endY").val();
+        mapDim = $("#dimension").val()*20;
+        
+        // Test if files are not empty
+        if(startX && startY && endX && endY) {
+            // Test if value are not bigger than the map dimension
+            if(startX > mapDim || startY > mapDim ||
+               endX > mapDim || endY > mapDim) {
+                $("#fields-rover-error" ).html('Les coordonnées doivent être inférieures à ' + mapDim);
+                
+                return false;
+            }
+            
             $( "#map-generate" ).hide();
             $( "#map-coordinates" ).hide();
             if($("#json-upload").length === 0) {
