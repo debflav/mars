@@ -219,16 +219,15 @@ class Map implements MapInterface
             $objetY = 0;
             for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
             { 
-<<<<<<< HEAD
-               if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
-                    $objetY < ($StartY + $object->getY())) {
-                    $calque[$x][$y] = $valuesObject[$objetX][$objetY];
-=======
+
+               // if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
+               //      $objetY < ($StartY + $object->getY())) {
+               //      $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+
                //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
                    // $objetY < ($StartY + $object->getY())) {
                 if($calque[$x][$y]) {
                   $calque[$x][$y] = $valuesObject[$objetX][$objetY];
->>>>>>> bd06ea7f4866ead82cd8b0f1ec464beda3dbd618
                }
                
                $objetY++;
