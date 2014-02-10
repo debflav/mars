@@ -23,10 +23,14 @@ $(function () {
         xhr.upload.addEventListener('loadend', function(e) {
             $("body").removeClass("loading");
         });
-    
-        xhr.onload = function() {
-            json = JSON.parse(this.response);
 
+        xhr.onload = function() {
+            if(this.response === 'errorJsonFormat') {
+                $("body").text("Le format du Json donné comporte des incohérences.");
+                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                return;
+            }
+            json = JSON.parse(this.response);
             $.getScript("assets/js/rover.js").fail(function( ) {
                 $("body").text("Une erreur s'est produite et le script de déplacement du rover a rencontré une erreur.");
                 $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
@@ -35,9 +39,6 @@ $(function () {
                 $("body").text("Une erreur s'est produite et le script de génération de la map a rencontré une erreur.");
                 $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
             });
-
-            // Cache les fieldsets, un peu à l'arrache
-            $("fieldset").hide();
 
             // Affichage des éléments
             $("#console").fadeIn(2000);
