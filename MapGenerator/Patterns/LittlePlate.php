@@ -9,7 +9,7 @@ class LittlePlate
      * 
      */
     protected $tracingMap = array(array(1, 3, 5, 3, 1, 0),
-                                  array(3, 5, 5, 5, 5, 5),
+                                  array(3, 3, 5, 5, 5, 5),
                                   array(3, 5, 5, 5, 5, 5),
                                   array(5, 5, 5, 5, 4, 4),
                                   array(5, 5, 5, 5, 3, 5),

@@ -85,12 +85,21 @@ function drawCanvas () {
                 default:
                     break;
             }
-            if(json.map[y][x].z > 0) {
-                ctx.globalAlpha = 0.6;
-            }
+            if(json.map[x][y].z > 0) {
+                ctx.globalAlpha = 1,5;
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            } else if (json.map[x][l].z < 0){
+                ctx.globalAlpha = 0,5;
+                var tileRow = (tile / imageNumTiles) | 0;
+                var tileCol = (tile % imageNumTiles) | 0;
+                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+            } else {
             var tileRow = (tile / imageNumTiles) | 0;
             var tileCol = (tile % imageNumTiles) | 0;
             ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (y * tileSize), tileSize, tileSize);
+            }
         }
     }
     // Règle l'opacité à 1 pour éviter les bugs
