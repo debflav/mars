@@ -169,7 +169,7 @@ class Map implements MapInterface
 
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = 8;
+        $nombreObjet = 3;
         $object = $this->jetObject();
 
         // on dépose sur la carte un certain nombre d'objet
@@ -219,11 +219,9 @@ class Map implements MapInterface
             $objetY = 0;
             for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
             { 
-              var_dump($objetX);
-              var_dump($objetY);
                if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
                     $objetY < ($StartY + $object->getY())) {
-                  $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+                    $calque[$x][$y] = $valuesObject[$objetX][$objetY];
                }
                
                $objetY++;
@@ -349,7 +347,7 @@ class Map implements MapInterface
         // on met en forme pour le JSON
         $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension),
                       'map' => $this->_aMatrice);
-        echo json_encode($temp);
+        return json_encode($temp);
     }
 
 }
