@@ -101,7 +101,7 @@ class Map implements MapInterface
         $colonneCelluleBloc = 0; // sert à se déplacer de colonne en colonne dans les blocs, est remise à zéro un fois égale à $this->_iDimension
 
         // on se promène dans les lignes de la map (chaque itération descends d'une ligne)
-        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) { 
+        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) {
 
 
             if ($ligneCelluleBloc >= $this->_iDimension) { // si on atteint la dernière ligne du bloc
@@ -112,8 +112,8 @@ class Map implements MapInterface
 
 
                 // on se promène dans les colonnes de la map (chaque itération se déplace d'une colonne)
-            for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) { 
-            
+            for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) {
+
 
                 // on incrémente les variables pour la prochaine cellule (les coordonnées de la map sont incrémentées dans les boucles for)
 
@@ -130,17 +130,17 @@ class Map implements MapInterface
                         // on assigne les valeurs à la cellule de la map avec le bloc correspondant
                         $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
 
-                        $colonneCelluleBloc++; // on augmente le numéro de la colonne 
+                        $colonneCelluleBloc++; // on augmente le numéro de la colonne
 
                     } else {
 
                         // sinon on augmente le numéro de la colonne des blocs
-                        $colonneBloc++; // on passe à la colonne du bloc suivant 
+                        $colonneBloc++; // on passe à la colonne du bloc suivant
 
                         // on assigne les valeurs à la cellule de la map avec le bloc correspondant
                         $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
 
-                        $colonneCelluleBloc++; // on augmente le numéro de la colonne 
+                        $colonneCelluleBloc++; // on augmente le numéro de la colonne
                     }
 
                 } else {
@@ -148,15 +148,15 @@ class Map implements MapInterface
                     // on assigne les valeurs à la cellule de la map avec le bloc correspondant
                     $this->_aMatrice[$ligneCelluleMap][$colonneCelluleMap] = $TabBloc[$ligneBloc][$colonneBloc]->block[$ligneCelluleBloc][$colonneCelluleBloc];
 
-                    $colonneCelluleBloc++; // sinon on augmente le numéro de la colonne 
+                    $colonneCelluleBloc++; // sinon on augmente le numéro de la colonne
                 }
             }
 
             // on incrémente les variables pour la prochaine cellule (les coordonnées de la map sont incrémentées dans les boucles for)
 
             // gestion des lignes
-            $ligneCelluleBloc++; // sinon on augmente le numéro de la ligne 
-                
+            $ligneCelluleBloc++; // sinon on augmente le numéro de la ligne
+
 
             $colonneBloc = 0; // on remet la ligne des blocs à 0
             $colonneCelluleBloc = 0; // on revient à la colonne 0 du bloc suivant
@@ -193,7 +193,7 @@ class Map implements MapInterface
             $startPostion[1] = $StartY;
 
             $object = $this->jetObject();
-            
+
             // Boucle parcourant le calque pour verifier que l'emplacement est libre
             for ($x = $StartX; $x < ($StartX + $object->getX()) || $x < ($this->_iBlocXY * $this->_iDimension); $x++)
             {
@@ -218,17 +218,17 @@ class Map implements MapInterface
           {
             $objetY = 0;
             for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
-            { 
+            {
 
-               // if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
+               // if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) &&
 
 
-               //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
+               //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) &&
                    // $objetY < ($StartY + $object->getY())) {
                 if($calque[$x][$y]) {
                   $calque[$x][$y] = $valuesObject[$objetX][$objetY];
                }
-               
+
                $objetY++;
             }
             $objetX++;
@@ -236,9 +236,9 @@ class Map implements MapInterface
         }
 
         // on pose les objets un à un
-        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) { 
+        for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) {
 
-          for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) { 
+          for ($colonneCelluleMap=0; $colonneCelluleMap < $this->_iBlocXY * $this->_iDimension; $colonneCelluleMap++) {
 
             if(NULL != $calque[$ligneCelluleMap][$colonneCelluleMap])
             {
@@ -278,7 +278,7 @@ class Map implements MapInterface
           break;
         case 8:
           return new LargeCrater();
-          break;          
+          break;
         default:
           return new LittlePlate();
           break;
@@ -300,13 +300,13 @@ class Map implements MapInterface
 
 
       // fait un tri du résultat pout trouver la bonne nature
-      
+
         switch ($jet)
         {
             case($jet <= $NatureBlock[0]) :
                 return new Rock($Dimension); // on affecte au bloc la nature tirée au dé
                 break;
-            case($jet <= $NatureBlock[0] + $NatureBlock[1]) : 
+            case($jet <= $NatureBlock[0] + $NatureBlock[1]) :
                 return new Sand($Dimension);
                 break;
             case($jet <= $NatureBlock[0] + $NatureBlock[1] + $NatureBlock[2]) :
@@ -355,4 +355,19 @@ class Map implements MapInterface
         return json_encode($temp);
     }
 
+    /**
+     * Regarde si le format du Json est correct ou non
+     * (A optimiser)
+     */
+    public function checkJsonFormat( $sJsonContent)
+    {
+        $oContent = json_decode($sJsonContent);
+        if(!isset($oContent->size) && !isset($oContent->map)) {
+            return $sJsonContent;
+        }
+
+        // Code lu par upload.js
+        return 'errorJsonFormat';
+
+    }
 }

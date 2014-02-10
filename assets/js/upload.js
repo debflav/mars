@@ -25,8 +25,12 @@ $(function () {
         });
 
         xhr.onload = function() {
+            if(this.response === 'errorJsonFormat') {
+                $("body").text("Le format du Json donné comporte des incohérences.");
+                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                return;
+            }
             json = JSON.parse(this.response);
-
             $.getScript("assets/js/rover.js").fail(function( ) {
                 $("body").text("Une erreur s'est produite et le script de déplacement du rover a rencontré une erreur.");
                 $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
