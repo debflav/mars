@@ -1,9 +1,6 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    $class = str_replace("\\", "/", $class);
-    include __DIR__ . DIRECTORY_SEPARATOR. $class . '.php';
-});
+spl_autoload_register();
 
 $dimension  = isset($_POST['dimension'])  ? $_POST['dimension']  : NULL;
 
