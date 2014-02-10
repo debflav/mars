@@ -362,7 +362,7 @@ class Map implements MapInterface
     public function checkJsonFormat( $sJsonContent)
     {
         $oContent = json_decode($sJsonContent);
-        if(!isset($oContent->size) && !isset($oContent->map)) {
+        if(isset($oContent->size) && isset($oContent->map)) {
             return $sJsonContent;
         }
 
