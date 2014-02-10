@@ -166,10 +166,9 @@ class Map implements MapInterface
         // on créer le calque de la carte (une nouvelle map vide)
 
         $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
-
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = 3;
+        $nombreObjet = 5;
 
         $object = $this->jetObject();
 
@@ -195,11 +194,12 @@ class Map implements MapInterface
             $object = $this->jetObject();
             
             // Boucle parcourant le calque pour verifier que l'emplacement est libre
-            for ($x = $StartX; $x < ($StartX + $object->getX()) || $x < ($this->_iBlocXY * $this->_iDimension); $x++)
+            for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
             {
-              for ($y = $StartY; $y < ($StartY + $object->getY()) || $y < ($this->_iBlocXY * $this->_iDimension); $y++)
+              for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
               {
-                 if(empty($calque[$x][$y])) {
+                // var_dump($calque[$x][$y]);
+                 if($x < ($this->_iBlocXY * $this->_iDimension) && $y < ($this->_iBlocXY * $this->_iDimension) && empty($calque[$x][$y])) {
                   $stack += 0;
                  } else {
                   $stack += 1;
@@ -214,28 +214,21 @@ class Map implements MapInterface
           $objetY = 0;
 
           // on copie notre objet dans le calque
-          for ($x = $StartX; $x < ($StartX + $object->getX()) && $x < ($this->_iBlocXY * $this->_iDimension); $x++)
+          for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
           {
             $objetY = 0;
-            for ($y = $StartY; $y < ($StartY + $object->getY()) && $y < ($this->_iBlocXY * $this->_iDimension) ; $y++)
+            for ($y = $StartY; $y < ($StartY + $object->getY()); $y++)
             { 
-
-               // if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
-               //     $objetY < ($StartY + $object->getY())) {
-               //     $calque[$x][$y] = $valuesObject[$objetX][$objetY];
-
-               //if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension)) && $objetX < ($StartX + $object->getX()) && 
-                   // $objetY < ($StartY + $object->getY())) {
-                if($calque[$x][$y]) {
-                  $calque[$x][$y] = $valuesObject[$objetX][$objetY];
-               }
+              if (($x <= ($this->_iBlocXY * $this->_iDimension)) && ($y <=  ($this->_iBlocXY * $this->_iDimension))) {
+                $calque[$x][$y] = $valuesObject[$objetX][$objetY];
+              }
                
                $objetY++;
             }
             $objetX++;
           }
         }
-
+         // var_dump($calque);
         // on pose les objets un à un
         for ($ligneCelluleMap=0; $ligneCelluleMap < $this->_iBlocXY * $this->_iDimension; $ligneCelluleMap++) { 
 
@@ -251,7 +244,7 @@ class Map implements MapInterface
 
     public function jetObject()
     {
-      $jetObject = rand(0, 8);
+      $jetObject = rand(0, 7);
       switch ($jetObject) {
         case 0:
           return new LittlePlate();
@@ -277,9 +270,9 @@ class Map implements MapInterface
         case 7:
           return new LargePlate();
           break;
-        case 8:
-          return new LargeCrater();
-          break;          
+        // case 8:
+        //   return new LargeCrater();
+        //   break;          
         default:
           return new LittlePlate();
           break;
