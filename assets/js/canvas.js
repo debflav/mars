@@ -85,24 +85,21 @@ function drawCanvas () {
                 default:
                     break;
             }
-            if(json.map[x][l].z > 0) {
-                ctx.globalAlpha = 1.5;
+            if(json.map[x][y].z > 0) {
+                ctx.globalAlpha = 1,5;
                 var tileRow = (tile / imageNumTiles) | 0;
                 var tileCol = (tile % imageNumTiles) | 0;
-                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
-            } else if (json.map[x][l].z < 0){
-                ctx.globalAlpha = 0.5;
+                ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (y * tileSize), tileSize, tileSize);
+            } else if (json.map[x][y].z < 0){
+                ctx.globalAlpha = 0,5;
                 var tileRow = (tile / imageNumTiles) | 0;
                 var tileCol = (tile % imageNumTiles) | 0;
-                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+                ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (y * tileSize), tileSize, tileSize);
             } else {
                 var tileRow = (tile / imageNumTiles) | 0;
                 var tileCol = (tile % imageNumTiles) | 0;
-                ctx.drawImage(image, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (l * tileSize), tileSize, tileSize);
+                ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (y * tileSize), tileSize, tileSize);
             }
-            var tileRow = (tile / imageNumTiles) | 0;
-            var tileCol = (tile % imageNumTiles) | 0;
-            ctx.drawImage(worldmapImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (x * tileSize), (y * tileSize), tileSize, tileSize);
         }
     }
     // Règle l'opacité à 1 pour éviter les bugs
@@ -132,7 +129,7 @@ function updateConsole() {
     var curr_time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
     // Energie consommée
     var energyUsed = energyStart - rover.energy;
-
+    
     // Info de jeux (et debug pour le moment) dans la console
     if(rover.waiting === 0) {
         $('#console').append("<p>" + curr_time + ": X:"+ rover.position.x + '; Y:'
