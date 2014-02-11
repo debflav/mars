@@ -45,6 +45,8 @@ else if(json.size.x >= 300) {
 
 // Initialisation
 var rover = new Rover(json.size.x, json.size.y, $("#game-type").val());
+var ai = new Ai(json.size.x, json.size.y, 1);
+ai.emptyMap();
 rover.init();
 $('#console').append("<p>Destination x:"+ rover.destination.x + " y:" + rover.destination.y + "</p>");
 updateMap();

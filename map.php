@@ -20,9 +20,9 @@
 
         <label>Taille de la carte:</label>
         <select name="type" id="dimension">
-            <option value="1">Petite</option>
-            <option value="2">Moyenne</option>
-            <option value="10">Grande</option>
+            <option value="5">Petite</option>
+            <option value="10">Moyenne</option>
+            <option value="15">Grande</option>
         </select>
         <br />
 
