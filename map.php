@@ -1,6 +1,6 @@
 <?php
-    ini_set('memory_limit','4096M');
-    ini_set('max_execution_time', '60');
+    ini_set('memory_limit','8096M');
+    ini_set('max_execution_time', '600');
 
     include 'constant.php';
 ?>
