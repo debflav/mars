@@ -168,7 +168,7 @@ class Map implements MapInterface
         $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
-        $nombreObjet = 15;
+        $nombreObjet = 1;
 
         $object = $this->jetObject();
 

@@ -73,16 +73,15 @@ Rover.prototype.moveRover = function() {
     var nextMovement;
      nextMovement = this.defaultMovement();
      //console.log(nextMovement);
-    while (nextMovement === false ) {
-        console.log("KO");
+    while (nextMovement.x === 0 && nextMovement.y === 0 ) {
         this.recusirveSearch(this.nextMove);
     }
 
     //this.recusirveSearch(this.nextMove);
     // console.log(this.nextMove.x);
     // console.log(this.nextMove.y);
-    this.position.x = this.position.x + this.nextMove.x;
-    this.position.y = this.position.y + this.nextMove.y;
+    this.position.x += nextMovement.x;
+    this.position.y += nextMovement.y;
 };
 
 /**
@@ -189,17 +188,17 @@ Rover.prototype.defaultMovement = function() {
     //console.log("this.nextMove.x, y : " + this.movement[nextArea].x + ", " + this.movement[nextArea].y);
     if(this.movement[nextArea] !== 0) {
         //coordinate = this.compass(nextArea);
+        var next = {"x" : 0, "y" : 0};
         for(var value in this.movement){
 
             if(this.movement[value] > this.nextMove.weight){
                  this.nextMove.weight = this.movement[nextArea];
 
             }
-                this.nextMove.x = coordinate.x;
-                this.nextMove.y = coordinate.y;
+                next.x = coordinate.x;
+                next.y = coordinate.y;
         }
-
-    return coordinate;
+    return next;
     }
     // for(var i = 0; i < 3; i++) {
     //     for(var j=0; j< 3; j++) {
@@ -223,7 +222,7 @@ Rover.prototype.defaultMovement = function() {
     // if(difX > 0 && difY > 0) {
 
     // }
-    //return false;
+    return next;
 };
 
 Rover.prototype.recusirveSearch = function(blockedTile) {
