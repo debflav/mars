@@ -53,7 +53,7 @@ function drawCanvas () {
                     break;
             }
             
-            context.globalAlpha = 0.5 + 0.5 * (json.map[x][l].z / 100);
+            context.globalAlpha = 0.5 + 0.5 * (json.map[x][l].z / 40);
             context.fillRect(l*block_width, x*block_width, block_width - 1, block_width - 1);
             
             // context.fillRect(l*block_width, x*block_width, block_width - 1, block_width - 1);
