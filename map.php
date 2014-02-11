@@ -22,7 +22,7 @@
         <select name="type" id="dimension">
             <option value="1">Petite</option>
             <option value="2">Moyenne</option>
-            <option value="2">Grande</option>
+            <option value="10">Grande</option>
         </select>
         <br />
 

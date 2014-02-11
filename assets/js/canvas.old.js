@@ -23,14 +23,15 @@ $(function() {
     var block_width = 25;
 
     // Modification de la taille du canvas
-    context.canvas.width = json.map.length*block_width;
-    context.canvas.height = json.map.length*block_width;
+    context.canvas.width = json.map.length * block_width;
+    context.canvas.height = json.map.length * block_width;
 
 /* Dessine la carte */
 function drawCanvas () {
     // Boucle sur notre Json, dessine le canvas
     for (var x = 0; x < json.map.length; x++) {
         for( var l = 0; l < json.map[x].length; l++ ) {
+            context.globalAlpha = 1.0;
             switch(json.map[x][l].type) {
                 case 0: // Roche
                     context.fillStyle = '#a38980';
@@ -51,8 +52,18 @@ function drawCanvas () {
                     context.fillStyle = '#abff2a';
                     break;
             }
+            if (json.map[x][l].z > 20) {
+                context.globalAlpha = 1;
+            } else if (json.map[x][l].z < -20) {
+                context.globalAlpha = 0;
+            } else {
+                context.globalAlpha = 0.5 + 0.5 * (json.map[x][l].z / 20);
+            }
             context.fillRect(l*block_width, x*block_width, block_width - 1, block_width - 1);
+            
+            // context.fillRect(l*block_width, x*block_width, block_width - 1, block_width - 1);
         }
+        context.globalAlpha = 1.0;
         context.fillStyle = 'Yellow';
         context.fillRect(rover.position.x*block_width, rover.position.y*block_width, block_width - 1, block_width - 1);
     }
@@ -95,6 +106,7 @@ function updateMap() {
                 $('#console').append("<b style='color:red'>Fin de la partie. Le rover a atteint sa destination. Score: "+ rover.SCORE +".</b>");
             }
         }
+        clearInterval(setIntervalId);
     }, 1000);
 }
 

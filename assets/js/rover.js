@@ -33,10 +33,13 @@ Rover.prototype.init = function() {
     this.round = 0;
     this.waiting = 0;
     this.usedWay = [];
-    this.position = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
+
+    //this.position = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
+    this.position = {x:Math.floor(startX), y:Math.floor(startY)};
 
     if(this.TYPE_OF_GAME == 1) {
-        this.destination = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
+        //this.destination = {x:Math.floor(Math.random()*this.MAP_HEIGHT), y:Math.floor(Math.random() * this.MAP_WIDTH)};
+        this.destination = {x:Math.floor(endX), y:Math.floor(endY)};
     }
 
     this.map = this.emptyMap();
