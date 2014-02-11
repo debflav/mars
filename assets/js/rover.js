@@ -21,6 +21,7 @@ Rover = Rover = function(height, width, typeOfGame) {
     this.MAP_WIDTH = width - 1;
     this.TYPE_OF_GAME = typeOfGame;
     this.deplacementCases = [];
+    
 };
 
 
@@ -39,6 +40,7 @@ Rover.prototype.init = function() {
     }
 
     this.map = this.emptyMap();
+    this.nextMove = { "x" : 0, "y" : 0, "weight" : 0};
 };
 
 
@@ -52,18 +54,8 @@ Rover.prototype.moveRover = function() {
     this.tempX = this.position.x;
     this.tempY = this.position.y;
     
-    
-    for(i=0; i < 3; i++)
-    {
-        this.deplacementCases[i] = [];
-    }
-    for(var i = 0; i < 3; i++) {
-        for(var j=0; j<3; j++) {
-            this.deplacementCases[i][j] = {
-                weight : 0
-            };
-        }
-    }
+    this.movement = {"N" : 0, "NE" : 0, "E" : 0, "SE" : 0, "S" : 0, "SW" : 0, "W" : 0, "NW" : 0};
+
     this.map[this.position.y][this.position.x].visited += 1;
     //On récupère les altitudes des cases adjacentes au rover
     this.getAdjacentsZ();
@@ -75,15 +67,19 @@ Rover.prototype.moveRover = function() {
         this.energy++;
         return;
     }
+    var nextMovement;
+     nextMovement = this.defaultMovement();
+     //console.log(nextMovement);
+    while (nextMovement === false ) {
+        console.log("KO");
+        this.recusirveSearch(this.nextMove);
+    }
 
-
-
-
-    this.defaultMovement();
-
-    
-
-   
+    //this.recusirveSearch(this.nextMove);
+    // console.log(this.nextMove.x);
+    // console.log(this.nextMove.y);
+    this.position.x = this.position.x + this.nextMove.x;
+    this.position.y = this.position.y + this.nextMove.y;
 };
 
 /**
@@ -134,38 +130,25 @@ Rover.prototype.isDiagonal = function(tempX, tempY) {
 
 Rover.prototype.defaultMovement = function() {
     // Déplacement temporaire horizontal
-        // if(this.tempX < this.destination.x) {
-        //     this.tempX = this.tempX+1;
-        // }
-        // else if(this.tempX > this.destination.x) {
-        //     this.tempX = this.tempX-1;
-        // }
-
-        // // Déplacement temporaire vertical
-        // if(this.tempY < this.destination.y) {
-        //     this.tempY = this.tempY+1;
-        // }
-        // else if(this.tempY > this.destination.y) {
-        //     this.tempY = this.tempY-1;
-        // }
-
-
-        nextCase = this.getVector();
-        var slope = this.checkSlope(this.isDiagonal(this.position.x + nextCase.x, this.position.y + nextCase.y), this.position.x + nextCase.x, this.position.y + nextCase.y);
+        var nextArea = this.getVector();
+        var coordinate = this.compass(nextArea);
+    
+        this.tempX += coordinate.x;
+        this.tempY += coordinate.y;
+        var slope = 0;
+        slope = this.checkSlope(this.isDiagonal(this.tempX , this.tempY ), this.tempX , this.tempY );
         if(slope > 150) {
-            // On ajoute 1 au x et y car notre position d'origine dans deplacement case est la case[1][1]
-            this.deplacementCases[1+nextCase.x][1+nextCase.y].weight= 0;
+            // 
+            this.movement[nextArea] = 0;
         } else {
             
-            this.deplacementCases[1 + nextCase.x][1+nextCase.y].weight = 10;
-            //this.deplacementCases[1 + nextCase.x][1+nextCase.y].weight -= this.deplacementCases[1+nextCase.x][1+nextCase.y]["visited"] * 4;
+            this.movement[nextArea] += 10;
+            this.movement[nextArea] -= this.map[this.tempY][this.tempX].visited * 4;
         }
-        console.log(this.deplacementCases);
-
         //var diagonal = this.isDiagonal();
           // Détermine si se déplace sur une case de sable
-           // if(json.map[nextCase.y][nextCase.x].type === SAND) {
-            //    sand = true;
+            //if(json.map[nextCase.y][nextCase.x].type === SAND) {
+              //  sand = true;
             //}
 
     // Calcul de la pente pour la case temporaire
@@ -200,58 +183,139 @@ Rover.prototype.defaultMovement = function() {
     // Incrémentation nombre de tours
     this.incrementRound();
 
-    // Mouvement temporaire debug
-    nextMove = { "x" : 1, "y" : 1, "weight" : 0};
+    //console.log("this.nextMove.x, y : " + this.movement[nextArea].x + ", " + this.movement[nextArea].y);
+    if(this.movement[nextArea] !== 0) {
+        //coordinate = this.compass(nextArea);
+        for(var value in this.movement){
 
-    for(var i = 0; i < 3; i++) {
-        for(var j=0; j< 3; j++) {
-            //console.log("test");
-            //console.log(this.deplacementCases[i][j]);
-            if(this.deplacementCases[i][j].weight != 0 && nextMove.weight < this.deplacementCases[i][j].weight) {
-                console.log("test");
-                console.log(this.deplacementCases[i][j].weight);
-                nextMove.y = this.position.y + nextCase.y;
+            if(this.movement[value] > this.nextMove.weight){
+                 this.nextMove.weight = this.movement[nextArea];
+
+            }
+                this.nextMove.x = coordinate.x;
+                this.nextMove.y = coordinate.y;
+        }
+
+    return coordinate;
+    }
+    // for(var i = 0; i < 3; i++) {
+    //     for(var j=0; j< 3; j++) {
+    //         //console.log("test");
+    //         //console.log(this.deplacementCases[i][j]);
+    //         if(this.deplacementCases[i][j].weight != 0 && nextMove.weight < this.deplacementCases[i][j].weight) {
+    //             console.log("test");
+    //             console.log();
+    //             nextMove.y = this.position.y + nextCase.y;
                 
 
-                nextMove.x = this.position.x + nextCase.x;
-                nextMove.weight = this.deplacementCases[i][j].weight;
-                console.log(nextMove);
-            }
-        }
-    }
-    this.position.x = nextMove.x;
-    this.position.y = nextMove.y;
+    //             nextMove.x = this.position.x + nextCase.x;
+    //             nextMove.weight = this.deplacementCases[i][j].weight;
+    //             console.log(nextMove);
+    //         }
+    //     }
+    // }
+    // Mouvement temporaire debug
+     // this.position.x += this.nextMove.x;
+     // this.position.y += this.nextMove.y;
     // if(difX > 0 && difY > 0) {
 
     // }
-
+    //return false;
 };
 
-Rover.prototype.canIGo = function() {
-
+Rover.prototype.recusirveSearch = function(blockedTile) {
+    //console.log(blockedTile);
 };
 
 Rover.prototype.getVector = function() {
-        var nextCase = [];
         var difX = this.tempX - this.destination.x;
         var difY = this.tempY - this.destination.y;
-        if(difX >= 1){
-            nextCase["x"] = (-1);
-        } else if (difX === 0) {
-            nextCase["x"] = 0;
-        } else {
-            nextCase["x"] = 1;
-        }
-                if(difY >= 1){
-            nextCase["y"] =  (-1);
-        } else if (difY === 0) {
-            nextCase["y"] = 0;
-        } else {
-            nextCase["y"] = 1;
-        }
-        return nextCase;
-};
+        var result = "";
 
+        if(difX === 0 && difY >= 1){
+            result = "N";
+        } else if(difY >= 1 && difX >= 1) {
+            result = "NW";
+        } else if (difY >= 1 && difX <= (-1)) {
+            result = "NE";
+        } else if (difY === 0 && difX >= 1) {
+            result = "W";
+        } else if (difY === 0 && difX <= (-1)) {
+            result = "E";
+        } else if (difY <= (-1) && difX <= (-1)) {
+            result = "SE";
+        } else if (difY <= (-1) && difX >= 1) {
+            result = "SW";
+        } else if (difY <= (-1) && difX === 0) {
+            result = "S";
+        }
+
+        // if(difX >= 1){
+        //     echo "W"
+        //     nextTile["x"] = (-1);
+        // } else if (difX === 0) {
+        //     echo "S OU N"
+        //     nextTile["x"] = 0;
+        // } else {
+        //     echo "E"
+        //     nextTile["x"] = 1;
+        // }
+        //         if(difY >= 1){
+        //             echo "N"
+        //     nextTile["y"] =  (-1);
+        // } else if (difY === 0) {
+        //     "E ou W"
+        //     nextTile["y"] = 0;
+        // } else {
+        //     nextTile["y"] = 1;
+        //     "S"
+        // }
+        //return nextTile;
+        return result;
+};
+Rover.prototype.compass = function(cardinal) {
+    var result = {"x" : 0, "y" : 0};
+
+    switch (cardinal) {
+        case "S" :
+            result.y = 1;
+            break;
+
+         case "SE" :
+            result.y = 1;
+            result.x = 1;
+            break;
+
+         case "E" :
+            result.x = 1;
+            break;
+
+         case "NE" :
+            result.y = (-1);
+            result.x = 1;
+            break;
+
+         case "N" :
+            result.y = (-1);
+            break;
+
+         case "NW" :
+            result.y = (-1);
+            result.x = (-1);
+            break;
+
+         case "W" :
+            result.x = (-1);
+            break;
+
+         case "SW" :
+            result.x = (-1);
+            result.y = 1;
+            // return result;
+            break;
+    }
+    return result;
+};
 /**
  * Energie consommée suivant le type de terrain rencontré
  *
@@ -370,7 +434,6 @@ Rover.prototype.incrementRound = function() {
  */
 Rover.prototype.checkSlope = function(diagonale, x, y) {
     if(diagonale) {
-
         return (Math.abs(json.map[y][x].z - json.map[this.position.y][this.position.x].z)) / (SCALE*Math.sqrt(2));
     }
     return (Math.abs(json.map[y][x].z - json.map[this.position.y][this.position.x].z)) / SCALE;
@@ -386,7 +449,7 @@ Rover.prototype.checkFieldType = function(posX, posY) {
     var price = 0;
 
     // Si on check la case sur laquelle le rover est
-    if (posX - this.position.x == 0 && posY - this.position.y == 0) {
+    if (posX - this.position.x === 0 && posY - this.position.y === 0) {
         price = E * 0.1;
         if(this.energy - price > 0) {
             this.energy -= price;
@@ -433,6 +496,8 @@ Rover.prototype.cheapestTile = function() {
 Rover.prototype.isAdjacent = function(posY, posX) {
     return (Math.abs(posX - this.position.x) <= 1 && Math.abs(posY - this.position.y) <= 1);
 };
+
+
 
 /**
  * On créer la map d'exploration vide
