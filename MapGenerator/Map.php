@@ -168,7 +168,11 @@ class Map implements MapInterface
         $calque = $this->emptyMap($this->_iBlocXY * $this->_iDimension);
         // on définit le nombre d'objet à poser en fonction du nombre de bloc divisant la carte
 
+<<<<<<< HEAD
+        $nombreObjet = 70;
+=======
         $nombreObjet = 1;
+>>>>>>> c3c3a1bcf3ebed0c097423e20addc38c9a4f965e
 
         $object = $this->jetObject();
 
@@ -191,7 +195,12 @@ class Map implements MapInterface
             $startPostion[0] = $StartX;
             $startPostion[1] = $StartY;
 
-            $object = $this->jetObject();
+            if($compteurObjet == 0){
+              $object = new LargeCrater();
+            } else {
+              $object = $this->jetObject();
+            }
+            
 
             // Boucle parcourant le calque pour verifier que l'emplacement est libre
             for ($x = $StartX; $x < ($StartX + $object->getX()); $x++)
@@ -246,7 +255,7 @@ class Map implements MapInterface
 
     public function jetObject()
     {
-      $jetObject = rand(0, 7);
+      $jetObject = rand(0, 8);
       switch ($jetObject) {
         case 0:
           return new LittlePlate();
@@ -348,6 +357,7 @@ class Map implements MapInterface
         // on met en forme pour le JSON
         $temp = array('size' => array('x' => $this->_iBlocXY * $this->_iDimension, 'y' => $this->_iBlocXY * $this->_iDimension),
                       'map' => $this->_aMatrice);
+        
         return json_encode($temp);
     }
 
