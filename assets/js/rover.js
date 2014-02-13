@@ -119,7 +119,7 @@ Rover.prototype.choose = function() {
             }
         }
         // On s'occupe d'appeler la nature pour pondérer
-        this.makeChoiceWithNature(cellsTab[]);
+        return this.makeChoiceWithNature(cellsTab[]);
 
 
     } else {
@@ -173,16 +173,49 @@ Rover.prototype.isNear = function(cardinalOrigin, cardinalCompare) {
 };
 
 Rover.prototype.makeChoiceWithNature = function(tab) {
+    // variable
+    tabPonderation = [];
+
     // ETAPE 1 :
     // On récupère les natures des cases du tableau envoyé + poids
+    for(var card in tab) {
+        // on effectue la tâche de récupération de la nature avec la consommation d'énergie correpondante.
 
+
+        ///   A FAIRE  !!!!!!!!!!!!!!!!!
+
+
+        // on renvoit la pondération de la nature dans un tableau
+        tabPonderation[card] = this.getValueForNature();
+    }
+    
     // ETAPE 2 
     // On check les poids des natures
+    var choose = {"card" : '', "weight" : 0};
+    var count = 0;
+    for(var card1 in tabPonderation) {
+        if(choose.weight < tabPonderation[card1]) {
+            choose.card = card1;
+            choose.weight =  tabPonderation[card1];
+        }
+    }
+    for(var card2 in this.movement) {
+        if(choose.weight == tabPonderation[card2]) {
+            count += 1;
+        } 
+    }
 
     // ETAPE 3
     // SI une nature l'emporte on renvoi la case comme choix
+    if (count == 1) {
+        return this.compass(choose.card);
+    } else {
     // Sinon on tire au sort parmis les natures les plus élevées.
+        return tabPonderation[Math.round(Math.random() * count)];
+    }
 
+
+    // CODE A VERIFIER !!
 };
 
 Rover.prototype.setValuesAlt = function() {
@@ -310,6 +343,32 @@ switch(cardinal) {
     }
 
 };
+
+Rover.prototype.getValueForNature = function(nature) {
+    switch (nature) {
+        case 0 : // ROCK
+            return 2;
+            break;
+        case 1 : // SAND
+            return 0;
+            break;
+        case 2 : // IRON
+            return 4;
+            break;
+        case 3 ; // ORE
+            return 5;
+            break;
+        case 4 ; // ICE
+            return 10;
+            break;
+        case 5 ; // OTHER
+            return 9;
+            break;
+        default :
+            return 1;
+            break;
+    }
+}
 
 
 /**
