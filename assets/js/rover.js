@@ -119,7 +119,7 @@ Rover.prototype.choose = function() {
             }
         }
         // On s'occupe d'appeler la nature pour pondérer
-        return this.makeChoiceWithNature(cellsTab[]);
+        return this.makeChoiceWithNature(cellsTab/*[]*/);
 
 
     } else {
@@ -355,13 +355,13 @@ Rover.prototype.getValueForNature = function(nature) {
         case 2 : // IRON
             return 4;
             break;
-        case 3 ; // ORE
+        case 3 : // ORE
             return 5;
             break;
-        case 4 ; // ICE
+        case 4 : // ICE
             return 10;
             break;
-        case 5 ; // OTHER
+        case 5 : // OTHER
             return 9;
             break;
         default :
