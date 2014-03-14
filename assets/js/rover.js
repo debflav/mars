@@ -21,7 +21,7 @@ Rover = Rover = function(height, width, typeOfGame) {
     this.MAP_WIDTH = width - 1;
     this.TYPE_OF_GAME = typeOfGame;
     this.deplacementCases = [];
-    
+
 };
 
 
@@ -57,7 +57,7 @@ Rover.prototype.moveRover = function() {
 
     this.tempX = this.position.x;
     this.tempY = this.position.y;
-    
+
     this.movement = {"N" : 0, "NE" : 0, "E" : 0, "SE" : 0, "S" : 0, "SW" : 0, "W" : 0, "NW" : 0};
 
     this.map[this.position.y][this.position.x].visited += 1;
@@ -71,17 +71,15 @@ Rover.prototype.moveRover = function() {
         this.energy++;
         return;
     }
-/*<<<<<<< HEAD*/
-    var nextMovement;
-     nextMovement = this.defaultMovement();
+
+     //var nextMovement;
+     //nextMovement = this.defaultMovement();
      //console.log(nextMovement);
    // while (nextMovement.x === 0 && nextMovement.y === 0 ) {
-        this.count += 1;
-        this.recusirveSearch(this.nextMove, this.count);
+        //this.count += 1;
+        //this.recusirveSearch(this.nextMove, this.count);
     //}
-/*=======
 
-    
     this.makeWeightAround();
     choice = this.choose();
     console.log("choice.x, y : " + choice.x + ", " + choice.y);
@@ -92,9 +90,6 @@ Rover.prototype.moveRover = function() {
     // while (nextMovement.x === 0 && nextMovement.y === 0 ) {
     //     this.recusirveSearch(this.nextMove);
     // }
-
-
->>>>>>> f5fa51c9a3096e4d2778d81e6d3ca81155151194*/
 
     //this.recusirveSearch(this.nextMove);
     // console.log(this.nextMove.x);
@@ -200,8 +195,8 @@ Rover.prototype.makeChoiceWithNature = function(tab) {
         // on renvoit la pondération de la nature dans un tableau
         tabPonderation[card] = this.getValueForNature();
     }
-    
-    // ETAPE 2 
+
+    // ETAPE 2
     // On check les poids des natures
     var choose = {"card" : '', "weight" : 0};
     var count = 0;
@@ -214,7 +209,7 @@ Rover.prototype.makeChoiceWithNature = function(tab) {
     for(var card2 in this.movement) {
         if(choose.weight == tabPonderation[card2]) {
             count += 1;
-        } 
+        }
     }
 
     // ETAPE 3
@@ -433,16 +428,16 @@ Rover.prototype.defaultMovement = function() {
     // Déplacement temporaire horizontal
         var nextArea = this.getVector();
         var coordinate = this.compass(nextArea);
-    
+
         this.tempX += coordinate.x;
         this.tempY += coordinate.y;
         var slope = 0;
         slope = this.checkSlope(this.isDiagonal(this.tempX , this.tempY ), this.tempX , this.tempY );
         if(slope > 50) {
-            // 
+            //
             this.movement[nextArea] = 0;
         } else {
-            
+
             this.movement[nextArea] += 10;
             this.movement[nextArea] -= this.map[this.tempY][this.tempX].visited * 4;
         }
@@ -507,7 +502,7 @@ Rover.prototype.defaultMovement = function() {
     //             console.log("test");
     //             console.log();
     //             nextMove.y = this.position.y + nextCase.y;
-                
+
 
     //             nextMove.x = this.position.x + nextCase.x;
     //             nextMove.weight = this.deplacementCases[i][j].weight;
