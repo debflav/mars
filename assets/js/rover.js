@@ -44,6 +44,7 @@ Rover.prototype.init = function() {
 
     this.map = this.emptyMap();
     this.nextMove = { "x" : 0, "y" : 0, "weight" : 0};
+    this.count = 0;
 };
 
 
@@ -73,9 +74,10 @@ Rover.prototype.moveRover = function() {
     var nextMovement;
      nextMovement = this.defaultMovement();
      //console.log(nextMovement);
-    while (nextMovement.x === 0 && nextMovement.y === 0 ) {
-        this.recusirveSearch(this.nextMove);
-    }
+   // while (nextMovement.x === 0 && nextMovement.y === 0 ) {
+        this.count += 1;
+        this.recusirveSearch(this.nextMove, this.count);
+    //}
 
     //this.recusirveSearch(this.nextMove);
     // console.log(this.nextMove.x);
@@ -225,8 +227,28 @@ Rover.prototype.defaultMovement = function() {
     return next;
 };
 
-Rover.prototype.recusirveSearch = function(blockedTile) {
+Rover.prototype.recusirveSearch = function(blockedTile, count) {
     //console.log(blockedTile);
+    var nextArea = this.getVector();
+    cardinal = this.getTwoNearCadinals(nextArea);
+
+};
+
+Rover.prototype.getTwoNearCadinals = function(cardinal) {
+    var result = {"un" : "", "deux" : ""};
+    if(cardinal.length > 1) {
+        result.un = cardinal.substr(0,1);
+        result.deux = cardinal.substr(1,1);
+    } else {
+        if(cardinal == "S" || cardinal == "N") {
+            result.un = cardinal.concat("E");
+            result.deux = cardinal.concat("W");
+        } else {
+            result.un = "N".concat(cardinal);
+            result.deux = "S".concat(cardinal);
+        }
+    }
+    return result;
 };
 
 Rover.prototype.getVector = function() {
