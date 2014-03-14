@@ -637,6 +637,7 @@ Rover.prototype.compass = function(cardinal) {
     }
     return result;
 };
+
 /**
  * Energie consommée suivant le type de terrain rencontré
  *

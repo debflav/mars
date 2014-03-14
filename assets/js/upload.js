@@ -27,7 +27,7 @@ $(function () {
         xhr.onload = function() {
             if(this.response === 'errorJsonFormat') {
                 $("body").text("Le format du Json donné comporte des incohérences.");
-                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
                 return;
             }
             json = JSON.parse(this.response);
@@ -35,22 +35,22 @@ $(function () {
             if(startX > json.size.x || startY > json.size.y ||
                endX > json.size.x || endY > json.size.y) {
                 $("body").text("Vous avez donné des coordonnées hors de votre carte. Celle-ci a une dimension de: " + json.size.x);
-                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
                 
                 return false;
             }
             
-            $.getScript("assets/js/rover.js").fail(function( ) {
+            $.getScript("assets/js/rover.savejs").fail(function( ) {
                 $("body").text("Une erreur s'est produite et le script de déplacement du rover a rencontré une erreur.");
-                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
             $.getScript("assets/js/ai.js").fail(function( ) {
                  $("body").text("Une erreur s'est produite et l'AI rencontré une erreur.");
-                 $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                 $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
-            $.getScript("assets/js/canvas.js").fail(function( ) {
+            $.getScript("assets/js/canvas.old.js").fail(function( ) {
                 $("body").text("Une erreur s'est produite et le script de génération de la map a rencontré une erreur.");
-                $("body").append("<p><a href=\"\" >Cliquez pour rechargé la page</a></p>");
+                $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
 
             // Affichage des éléments
