@@ -48,7 +48,7 @@ $(function () {
                  $("body").text("Une erreur s'est produite et l'AI rencontré une erreur.");
                  $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
-            $.getScript("assets/js/canvas.old.js").fail(function( ) {
+            $.getScript("assets/js/canvas.js").fail(function( ) {
                 $("body").text("Une erreur s'est produite et le script de génération de la map a rencontré une erreur.");
                 $("body").append("<p><a href=\"\" >Cliquez pour recharger la page</a></p>");
             });
