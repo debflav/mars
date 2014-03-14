@@ -71,6 +71,7 @@ Rover.prototype.moveRover = function() {
         this.energy++;
         return;
     }
+/*<<<<<<< HEAD*/
     var nextMovement;
      nextMovement = this.defaultMovement();
      //console.log(nextMovement);
@@ -78,13 +79,309 @@ Rover.prototype.moveRover = function() {
         this.count += 1;
         this.recusirveSearch(this.nextMove, this.count);
     //}
+/*=======
+
+    
+    this.makeWeightAround();
+    choice = this.choose();
+    console.log("choice.x, y : " + choice.x + ", " + choice.y);
+
+    // var nextMovement;
+    // nextMovement = this.defaultMovement();
+    // //console.log(nextMovement);
+    // while (nextMovement.x === 0 && nextMovement.y === 0 ) {
+    //     this.recusirveSearch(this.nextMove);
+    // }
+
+
+>>>>>>> f5fa51c9a3096e4d2778d81e6d3ca81155151194*/
 
     //this.recusirveSearch(this.nextMove);
     // console.log(this.nextMove.x);
     // console.log(this.nextMove.y);
-    this.position.x += nextMovement.x;
-    this.position.y += nextMovement.y;
+    this.position.x += choice.x;
+    this.position.y += choice.y;
 };
+
+Rover.prototype.choose = function() {
+    var choose = {"card" : '', "weight" : 0};
+    var count = 0;
+    for(var card1 in this.movement) {
+        if(choose.weight < this.movement[card1]) {
+            choose.card = card1;
+            choose.weight =  this.movement[card1];
+        }
+    }
+    for(var card2 in this.movement) {
+        if(choose.weight == this.movement[card2]) {
+            count += 1;
+        }
+    }
+    if (count == 1) {
+        return this.compass(choose.card);
+    } else if (count > 1) {
+        // NATURES !
+        var cellsTab = [];
+        compteur = 0;
+
+        for(var card3 in this.movement) {
+            if(choose.weight == this.movement[card3]) {
+                cellsTab[compteur] = card3;
+                compteur++;
+            }
+        }
+        // On s'occupe d'appeler la nature pour pondérer
+        return this.makeChoiceWithNature(cellsTab/*[]*/);
+
+
+    } else {
+        console.log("IMPOSSIBLE BUGGGGGGG!!!");
+    }
+
+
+};
+
+Rover.prototype.makeWeightAround = function() {
+    var nextArea = this.getVector();
+    this.setValuesDirection(nextArea);
+    this.setValuesAlt();
+    //this.setValuesNatures();
+
+};
+
+Rover.prototype.getTwoNearCadinals = function(cardinal) {
+    var result = {"un" : "", "deux" : ""};
+    if(cardinal.length > 1) {
+        result.un = cardinal.substr(0,1);
+        result.deux = cardinal.substr(1,1);
+    } else {
+        if(cardinal == "S" || cardinal == "N") {
+            result.un = cardinal.concat("E");
+            result.deux = cardinal.concat("W");
+        } else {
+            result.un = "N".concat(cardinal);
+            result.deux = "S".concat(cardinal);
+        }
+    }
+    return result;
+};
+
+Rover.prototype.isNear = function(cardinalOrigin, cardinalCompare) {
+
+    if (cardinalOrigin.length > 1) {
+        if(cardinalOrigin.substr(0,1) == cardinalCompare ||  cardinalOrigin.substr(1,1) == cardinalCompare) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if(cardinalOrigin.concat(cardinalCompare.substr(1,1)) == cardinalCompare || cardinalCompare.substr(0,1).concat(cardinalOrigin) == cardinalCompare) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+};
+
+Rover.prototype.makeChoiceWithNature = function(tab) {
+    // variable
+    tabPonderation = [];
+
+    // ETAPE 1 :
+    // On récupère les natures des cases du tableau envoyé + poids
+    for(var card in tab) {
+        // on effectue la tâche de récupération de la nature avec la consommation d'énergie correpondante.
+
+
+        ///   A FAIRE  !!!!!!!!!!!!!!!!!
+
+
+        // on renvoit la pondération de la nature dans un tableau
+        tabPonderation[card] = this.getValueForNature();
+    }
+    
+    // ETAPE 2 
+    // On check les poids des natures
+    var choose = {"card" : '', "weight" : 0};
+    var count = 0;
+    for(var card1 in tabPonderation) {
+        if(choose.weight < tabPonderation[card1]) {
+            choose.card = card1;
+            choose.weight =  tabPonderation[card1];
+        }
+    }
+    for(var card2 in this.movement) {
+        if(choose.weight == tabPonderation[card2]) {
+            count += 1;
+        } 
+    }
+
+    // ETAPE 3
+    // SI une nature l'emporte on renvoi la case comme choix
+    if (count == 1) {
+        return this.compass(choose.card);
+    } else {
+    // Sinon on tire au sort parmis les natures les plus élevées.
+        return tabPonderation[Math.round(Math.random() * count)];
+    }
+
+
+    // CODE A VERIFIER !!
+};
+
+Rover.prototype.setValuesAlt = function() {
+
+    N = this.compass(this.movement["N"]);
+    NE = this.compass(this.movement["NE"]);
+    NW = this.compass(this.movement["NW"]);
+    E = this.compass(this.movement["E"]);
+    W = this.compass(this.movement["W"]);
+    SE = this.compass(this.movement["SE"]);
+    SW = this.compass(this.movement["SW"]);
+    S = this.compass(this.movement["S"]);
+
+    this.movement["N"] -= this.isPossibleSlope(N);
+    this.movement["NE"] -= this.isPossibleSlope(NE);
+    this.movement["NW"] -= this.isPossibleSlope(NW);
+    this.movement["E"] -= this.isPossibleSlope(E);
+    this.movement["W"] -= this.isPossibleSlope(W);
+    this.movement["SE"] -= this.isPossibleSlope(SE);
+    this.movement["SW"] -= this.isPossibleSlope(SW);
+    this.movement["S"] -= this.isPossibleSlope(S);
+
+};
+
+Rover.prototype.isPossibleSlope = function(tile) {
+    if(this.checkSlope(false, this.position.x + NE.x, this.position.y + NE.y) < 50) {
+        return Math.round(this.checkSlope(false, this.position.x + NE.x, this.position.y + NE.y) / 10);
+    } else {
+        return -100;
+    }
+};
+
+Rover.prototype.setValuesDirection = function(cardinal) {
+switch(cardinal) {
+    case 'N' :
+        this.movement["N"] += 10;
+        this.movement["NE"] += 5;
+        this.movement["NW"] += 5;
+        this.movement["E"] += 2;
+        this.movement["W"] += 2;
+        this.movement["SE"] += 1;
+        this.movement["SW"] += 1;
+        this.movement["S"] += 0;
+        break;
+    case 'NE' :
+        this.movement["N"] += 5;
+        this.movement["NE"] += 10;
+        this.movement["NW"] += 2;
+        this.movement["E"] += 5;
+        this.movement["W"] += 1;
+        this.movement["SE"] += 2;
+        this.movement["SW"] += 0;
+        this.movement["S"] += 1;
+        break;
+    case 'NW' :
+        this.movement["N"] += 5;
+        this.movement["NE"] += 2;
+        this.movement["NW"] += 10;
+        this.movement["E"] += 1;
+        this.movement["W"] += 5;
+        this.movement["SE"] += 0;
+        this.movement["SW"] += 2;
+        this.movement["S"] += 1;
+        break;
+    case 'E' :
+        this.movement["N"] += 2;
+        this.movement["NE"] += 5;
+        this.movement["NW"] += 1;
+        this.movement["E"] += 10;
+        this.movement["W"] += 0;
+        this.movement["SE"] += 5;
+        this.movement["SW"] += 1;
+        this.movement["S"] += 2;
+        break;
+    case 'W' :
+        this.movement["N"] += 2;
+        this.movement["NE"] += 1;
+        this.movement["NW"] += 5;
+        this.movement["E"] += 0;
+        this.movement["W"] += 10;
+        this.movement["SE"] += 1;
+        this.movement["SW"] += 5;
+        this.movement["S"] += 2;
+        break;
+    case 'SE' :
+        this.movement["N"] += 1;
+        this.movement["NE"] += 5;
+        this.movement["NW"] += 0;
+        this.movement["E"] += 5;
+        this.movement["W"] += 1;
+        this.movement["SE"] += 10;
+        this.movement["SW"] += 2;
+        this.movement["S"] += 5;
+        break;
+    case 'SW' :
+        this.movement["N"] += 1;
+        this.movement["NE"] += 0;
+        this.movement["NW"] += 2;
+        this.movement["E"] += 1;
+        this.movement["W"] += 5;
+        this.movement["SE"] += 2;
+        this.movement["SW"] += 10;
+        this.movement["S"] += 5;
+        break;
+    case 'S' :
+        this.movement["N"] += 0;
+        this.movement["NE"] += 1;
+        this.movement["NW"] += 1;
+        this.movement["E"] += 2;
+        this.movement["W"] += 2;
+        this.movement["SE"] += 5;
+        this.movement["SW"] += 5;
+        this.movement["S"] += 10;
+        break;
+    default :
+        this.movement["N"] += 0;
+        this.movement["NE"] += 0;
+        this.movement["NW"] += 0;
+        this.movement["E"] += 0;
+        this.movement["W"] += 0;
+        this.movement["SE"] += 0;
+        this.movement["SW"] += 0;
+        this.movement["S"] += 0;
+        break;
+    }
+
+};
+
+Rover.prototype.getValueForNature = function(nature) {
+    switch (nature) {
+        case 0 : // ROCK
+            return 2;
+            break;
+        case 1 : // SAND
+            return 0;
+            break;
+        case 2 : // IRON
+            return 4;
+            break;
+        case 3 : // ORE
+            return 5;
+            break;
+        case 4 : // ICE
+            return 10;
+            break;
+        case 5 : // OTHER
+            return 9;
+            break;
+        default :
+            return 1;
+            break;
+    }
+}
+
 
 /**
  *  On recupère les Z des cases adjacentes au rover
@@ -141,7 +438,7 @@ Rover.prototype.defaultMovement = function() {
         this.tempY += coordinate.y;
         var slope = 0;
         slope = this.checkSlope(this.isDiagonal(this.tempX , this.tempY ), this.tempX , this.tempY );
-        if(slope > 150) {
+        if(slope > 50) {
             // 
             this.movement[nextArea] = 0;
         } else {
@@ -187,10 +484,10 @@ Rover.prototype.defaultMovement = function() {
     // Incrémentation nombre de tours
     this.incrementRound();
 
+    var next = {"x" : 0, "y" : 0};
     //console.log("this.nextMove.x, y : " + this.movement[nextArea].x + ", " + this.movement[nextArea].y);
     if(this.movement[nextArea] !== 0) {
         //coordinate = this.compass(nextArea);
-        var next = {"x" : 0, "y" : 0};
         for(var value in this.movement){
 
             if(this.movement[value] > this.nextMove.weight){
@@ -229,26 +526,26 @@ Rover.prototype.defaultMovement = function() {
 
 Rover.prototype.recusirveSearch = function(blockedTile, count) {
     //console.log(blockedTile);
-    var nextArea = this.getVector();
-    cardinal = this.getTwoNearCadinals(nextArea);
+//     var nextArea = this.getVector();
+//     cardinal = this.getTwoNearCadinals(nextArea);
 
-};
+// };
 
-Rover.prototype.getTwoNearCadinals = function(cardinal) {
-    var result = {"un" : "", "deux" : ""};
-    if(cardinal.length > 1) {
-        result.un = cardinal.substr(0,1);
-        result.deux = cardinal.substr(1,1);
-    } else {
-        if(cardinal == "S" || cardinal == "N") {
-            result.un = cardinal.concat("E");
-            result.deux = cardinal.concat("W");
-        } else {
-            result.un = "N".concat(cardinal);
-            result.deux = "S".concat(cardinal);
-        }
-    }
-    return result;
+// Rover.prototype.getTwoNearCadinals = function(cardinal) {
+//     var result = {"un" : "", "deux" : ""};
+//     if(cardinal.length > 1) {
+//         result.un = cardinal.substr(0,1);
+//         result.deux = cardinal.substr(1,1);
+//     } else {
+//         if(cardinal == "S" || cardinal == "N") {
+//             result.un = cardinal.concat("E");
+//             result.deux = cardinal.concat("W");
+//         } else {
+//             result.un = "N".concat(cardinal);
+//             result.deux = "S".concat(cardinal);
+//         }
+//     }
+//     return result;
 };
 
 Rover.prototype.getVector = function() {
